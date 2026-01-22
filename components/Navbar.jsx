@@ -1,9 +1,22 @@
+"use client";
 import React from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 const Navbar = () => {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   return (
-    <nav className="flex items-center justify-between px-6 py-6 absolute w-full z-10 top-0 text-white">
+    <nav
+      className={`
+      flex items-center justify-between px-8 py-4 w-full z-50 transition-colors
+      ${
+        isHome
+          ? "absolute top-0 text-white bg-transparent"
+          : "relative text-slate-900 bg-white border-b border-gray-100"
+      }
+    `}
+    >
       {/* Logo */}
       <div className="flex items-center gap-2">
         <div className="font-bold text-2xl tracking-tight flex items-center gap-1">
