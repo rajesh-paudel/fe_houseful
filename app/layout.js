@@ -1,9 +1,7 @@
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import PreFooter from "@/components/PreFooter";
-import MainFooter from "@/components/MainFooter";
+import NextTopLoader from "nextjs-toploader";
 import Navbar from "@/components/Navbar";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,10 +28,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased bg-white text-slate-900`}
       >
+        <NextTopLoader
+          color="#29D"
+          height={3}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+        />
         <Navbar />
         {children}
-        <PreFooter />
-        <MainFooter />
       </body>
     </html>
   );

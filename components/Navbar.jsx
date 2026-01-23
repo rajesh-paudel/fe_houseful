@@ -9,11 +9,11 @@ const Navbar = () => {
   return (
     <nav
       className={`
-      flex items-center justify-between px-8 py-4 w-full z-50 transition-colors
+      flex items-center h-16 justify-between px-8 py-4 w-full z-50 transition-colors
       ${
         isHome
           ? "absolute top-0 text-white bg-transparent"
-          : "relative text-slate-900 bg-white border-b border-gray-100"
+          : "sticky top-0 text-slate-900 bg-white border-b border-gray-300"
       }
     `}
     >
@@ -190,12 +190,18 @@ const Navbar = () => {
           <span className="hidden lg:inline font-medium rounded-full py-1 px-3 hover:bg-emerald-50 hover:text-black  cursor-pointer ">
             1-833-709-1946
           </span>
-          <button className="px-4 py-1.5 rounded-full border border-white  transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer ">
+          <Link
+            href="/login"
+            className="px-4 py-1.5 rounded-full border border-white  transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer "
+          >
             Log in
-          </button>
-          <button className="px-4 py-1.5 rounded-full bg-white text-black font-semibold  transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer  ">
+          </Link>
+          <Link
+            href="/signup"
+            className="px-4 py-1.5 rounded-full bg-white text-black font-semibold  transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer  "
+          >
             Sign up
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
