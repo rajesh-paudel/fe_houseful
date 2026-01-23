@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
 import { Bed, Bath, Square, Home, Heart, Map } from "lucide-react";
-
+import nProgress from "nprogress";
+import { useRouter } from "next/navigation";
 export default function PropertyCard({ property }) {
+  const router = useRouter();
   // Format price to currency string (e.g., $1,194,900)
   const formattedPrice = new Intl.NumberFormat("en-CA", {
     style: "currency",
@@ -14,7 +16,7 @@ export default function PropertyCard({ property }) {
     <div
       onClick={() => {
         nProgress.start();
-        router.push(`/products/${product.id}`);
+        router.push(`/${property.city}/${property.id}`);
       }}
       className="max-w-72 w-full bg-white rounded-xl overflow-hidden  cursor-pointer "
     >

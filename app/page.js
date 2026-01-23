@@ -15,7 +15,6 @@ export default function Home() {
       <Features />
       <AgentContact />
       <PreFooter />
-      <MainFooter />
     </main>
   );
 }

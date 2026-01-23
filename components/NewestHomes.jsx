@@ -4,6 +4,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import PropertyCard from "./PropertyCard";
 import { PROPERTIES } from "@/utils/data";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 const NewestHomes = () => {
   const scrollRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -97,9 +98,12 @@ const NewestHomes = () => {
 
         {/* Bottom Action Button */}
         <div className="mt-4 flex justify-center">
-          <button className="px-8 py-3 rounded-full  bg-green-300 hover:bg-green-200 text-slate-700 font-bold cursor-pointer   transition-colors duration-300">
+          <Link
+            href={"/Calgary"}
+            className="px-8 py-3 rounded-full  bg-green-300 hover:bg-green-200 text-slate-700 font-bold cursor-pointer   transition-colors duration-300"
+          >
             Explore all homes
-          </button>
+          </Link>
         </div>
       </div>
     </section>

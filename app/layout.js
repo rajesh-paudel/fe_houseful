@@ -2,6 +2,8 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import Navbar from "@/components/Navbar";
+import MainFooter from "@/components/MainFooter";
+import CTAbanner from "@/components/CTAbanner";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -37,6 +39,8 @@ export default function RootLayout({ children }) {
         />
         <Navbar />
         {children}
+        <CTAbanner />
+        <MainFooter />
       </body>
     </html>
   );

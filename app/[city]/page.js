@@ -19,7 +19,7 @@ export default async function LocationPage({ params }) {
       {/* 1. Sticky Filter Bar */}
       <FilterBar />
 
-      <main className="max-w-8xl mx-auto px-12 py-8">
+      <main className="max-w-8xl mx-auto px-8 py-8">
         {/* 2. Header Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-800 capitalize">

@@ -19,9 +19,12 @@ const Navbar = () => {
     >
       {/* Logo */}
       <div className="flex items-center gap-2">
-        <div className="font-bold text-2xl tracking-tight flex items-center gap-1">
-          <span className="text-4xl font-serif font-medium">🏠 houseful</span>
-        </div>
+        <Link
+          href={"/"}
+          className="font-bold text-2xl tracking-tight flex items-center gap-1"
+        >
+          <span className="text-4xl font-serif font-medium"> houseful</span>
+        </Link>
       </div>
 
       <div className="flex items-center justify-center gap-4 ">
@@ -192,13 +195,17 @@ const Navbar = () => {
           </span>
           <Link
             href="/login"
-            className="px-4 py-1.5 rounded-full border border-white  transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer "
+            className={`px-4 py-1.5 rounded-full border   transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer  ${
+              isHome
+                ? "border-white"
+                : "sticky top-0 text-slate-900  bg-white border-b border-gray-700"
+            } `}
           >
             Log in
           </Link>
           <Link
             href="/signup"
-            className="px-4 py-1.5 rounded-full bg-white text-black font-semibold  transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer  "
+            className="px-4 py-1.5 rounded-full bg-white border border-gray-700  text-black font-semibold  transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer  "
           >
             Sign up
           </Link>

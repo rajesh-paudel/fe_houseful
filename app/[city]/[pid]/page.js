@@ -1,148 +1,339 @@
-"use client";
-import React from "react";
+import { PROPERTIES } from "@/utils/data";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import {
+  Bed,
+  Bath,
+  Square,
+  Car,
+  MapPin,
+  ChevronRight,
+  Share,
+  Heart,
+  Info,
+  Home as HomeIcon,
+  Wind,
+  Flame,
+  Ruler,
+  Grid,
+  CheckCircle2,
+  ChevronLeft,
+} from "lucide-react";
+import GoSeeThisHome from "@/components/GoSeeThisHome";
+import ScheduleViewing from "@/components/ScheduleViewing";
 
-import { Share, Heart, MapPin, Bed, Bath, Square, Car } from "lucide-react";
-import { ChevronLeft } from "lucide-react";
-const PropertyPage = () => {
+export default async function PropertyDetailPage({ params }) {
+  const { city, pid } = await params;
+
+  // Find property or use dummy fallback for the layout demo
+  const property = PROPERTIES.find((p) => p.id === pid) || {
+    price: 1299900,
+    address: "631 55 Ave Southwest, Calgary, AB T2V 0G2",
+    neighborhood: "Windsor Park",
+    beds: "5",
+    baths: "4",
+    sqft: "2,533",
+    parking: "2 parking spots",
+    description: `Welcome to this stunning three-storey single-family residence located in the highly sought-after community of Windsor Park, one of Calgary's most prestigious and centrally located neighbourhoods. Thoughtfully designed for modern professional families and multigenerational living, this exceptional home blends sophistication, comfort, and functionality. 
+
+The main living levels feature four spacious bedrooms above grade, including two luxurious primary suites, each complete with beautifully appointed ensuite bathrooms—ideal for growing families or live-in guests. In total, the home offers five bedrooms, four full bathrooms, and one half bath, providing exceptional space and flexibility.`,
+    images: [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9",
+      "https://images.unsplash.com/photo-1600607687940-4e2a09695d51",
+      "https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e",
+      "https://images.unsplash.com/photo-1600585154526-990dcea464dd",
+    ],
+  };
+
   return (
-    <main className="bg-white min-h-screen">
-      {/* Dark Navbar for details page */}
-      <nav className="border-b border-gray-200 py-2 px-8 flex items-center justify-between sticky top-0 bg-white z-40">
-        <div className="flex items-center gap-4">
-          <ChevronLeft className="w-8 h-8 rounded-full p-1 hover:bg-gray-200 cursor-pointer "></ChevronLeft>
-
-          <div className="hidden md:flex gap-2 text-base text-gray-900">
-            <span>Houseful</span> &gt; <span>AB</span> &gt; <span>Calgary</span>{" "}
-            &gt; <span>Ogden</span>
+    <div className="min-h-screen bg-white">
+      {/* Top Utility Nav */}
+      <div className="max-w-8xl mx-auto px-8 py-3 flex justify-between items-center text-sm border-b  border-gray-300 ">
+        <div className="flex items-center gap-2 text-gray-500">
+          <div className="pr-4 border-r border-gray-300">
+            <ChevronLeft className="w-8 h-8 rounded-full hover:bg-gray-200 cursor-pointer p-1"></ChevronLeft>
           </div>
+          <Link href="/" className="ml-3">
+            Houseful
+          </Link>
+          <ChevronRight size={14} />
+          <Link href={`/${city}`}>{city}</Link> <ChevronRight size={14} />
+          <span className="text-gray-900 font-medium truncate max-w-[150px] md:max-w-none">
+            {property.address}
+          </span>
         </div>
-        <div className="flex gap-4">
-          <button className="flex items-center gap-2  px-3 py-1.5 rounded-full text-sm font-bold hover:bg-gray-100 cursor-pointer ">
+        <div className="flex gap-6 ">
+          <button className="flex items-center gap-1 font-semibold text-gray-700 hover:text-black">
             <Share size={16} /> Share
           </button>
-          <button className="flex items-center gap-2  px-3 py-1.5 rounded-full text-sm font-bold hover:bg-gray-100 cursor-pointer">
+          <button className="flex items-center gap-1 font-semibold text-gray-700 hover:text-black">
             <Heart size={16} /> Save
           </button>
         </div>
-      </nav>
+      </div>
 
-      <section className="max-w-7xl mx-auto p-6">
-        {/* 2. Image Grid Layout */}
-        <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px] rounded-2xl overflow-hidden mb-8">
-          <div className="col-span-2 row-span-2 relative">
+      {/* Photo Gallery - Matching Houseful Layout */}
+      <div className="max-w-8xl mx-auto px-0 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-2 h-auto md:h-[500px] ">
+        <div className="md:col-span-2 relative h-[300px] md:h-full">
+          <img
+            src={property.images[0]}
+            alt="Property main"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="hidden md:grid col-span-1 grid-rows-2 gap-2">
+          <img
+            src={property.images[1]}
+            alt="Interior"
+            className="w-full h-full object-cover"
+          />
+          <img
+            src={property.images[2]}
+            alt="Interior"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="hidden md:grid col-span-1 grid-rows-2 gap-2 relative">
+          <img
+            src={property.images[3]}
+            alt="Interior"
+            className="w-full h-full object-cover"
+          />
+          <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
+              src={property.images[4]}
+              alt="Interior"
               className="w-full h-full object-cover"
             />
-            <span className="absolute bottom-4 left-4 bg-black/60 text-white text-[10px] px-2 py-1 rounded">
-              New 27 mins
-            </span>
-          </div>
-          <div className="col-span-1 row-span-1">
-            <img
-              src="https://images.unsplash.com/photo-1580587771525-78b9bed3b928?w=400"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="col-span-1 row-span-1">
-            <img
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="col-span-1 row-span-1">
-            <img
-              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="col-span-1 row-span-1 relative">
-            <img
-              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400"
-              className="w-full h-full object-cover"
-            />
-            <button className="absolute bottom-4 right-4 bg-white/90 px-4 py-2 rounded-lg text-sm font-bold shadow-md">
-              View 48 images
+            <button className="absolute bottom-4 right-4 bg-white px-4 py-2 rounded-full text-xs font-bold border border-gray-300 flex items-center gap-2">
+              <Grid size={14} /> View all 50 images
             </button>
           </div>
         </div>
+      </div>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Left Column: Details */}
-          <div className="lg:w-2/3">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h1 className="text-4xl font-bold text-slate-900">$449,900</h1>
-                <p className="text-gray-600 font-medium">
-                  7340 20a St SE, Calgary, AB T2C 0Y3
-                </p>
+      <main className="max-w-8xl mx-auto px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="lg:col-span-2">
+          {/* Header Info */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">
+              ${property.price.toLocaleString()}
+            </h1>
+            <p className="text-lg text-gray-600 mb-4">{property.address}</p>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <div className="bg-gray-50 px-5 py-4 rounded-md flex justify-start gap-3 items-center">
+                <Bed className="text-gray-400 mb-1" size={24} />
+                <span className="text-sm font-bold">
+                  {property.beds} Bedrooms
+                </span>
               </div>
-              <div className="bg-gray-100 p-2 rounded-full cursor-pointer">
-                <MapPin className="text-pink-700" />
+              <div className="bg-gray-50 px-5  rounded-md flex justify-start gap-3 items-center">
+                <Bath className="text-gray-400 mb-1" size={24} />
+                <span className="text-sm font-bold">
+                  {property.baths} Bathrooms
+                </span>
+              </div>
+              <div className="bg-gray-50 px-5  rounded-md flex justify-start gap-3 items-center">
+                <Square className="text-gray-400 mb-1" size={24} />
+                <span className="text-sm font-bold">
+                  {property.sqft} sq. ft.
+                </span>
+              </div>
+              <div className="bg-gray-50 px-5  rounded-md flex justify-start gap-3 items-center">
+                <Car className="text-gray-400 mb-1" size={20} />
+                <span className="text-sm font-bold">4 Parking spots</span>
               </div>
             </div>
-
-            {/* Icon Bar */}
-            <div className="flex gap-8 border-y border-gray-100 py-6 mb-8 overflow-x-auto">
-              <div className="flex items-center gap-2">
-                <Bed size={20} /> <b>3+1</b> bedrooms
-              </div>
-              <div className="flex items-center gap-2">
-                <Bath size={20} /> <b>2</b> bathrooms
-              </div>
-              <div className="flex items-center gap-2">
-                <Square size={20} /> <b>911</b> sq.ft.
-              </div>
-              <div className="flex items-center gap-2">
-                <Car size={20} /> <b>2</b> parking spots
-              </div>
-            </div>
-
-            <h2 className="text-2xl font-bold mb-4">Description</h2>
-            <p className="text-gray-700 leading-relaxed text-sm">
-              Open House This Saturday... Welcome to a beautifully refreshed
-              home in Ogden. This renovated 2+1 bedroom residence combines
-              modern convenience with comfortable, move-in ready finishes...
-            </p>
           </div>
 
-          <div className="lg:w-1/3">
-            <div className="sticky top-24 border border-gray-200 rounded-2xl p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-center mb-6">
-                Go see this home <br />
-                <span className="text-sm font-normal text-gray-500">
-                  with a Calgary Buyer's agent
-                </span>
+          {/* Navigation Tabs */}
+          <div className="flex sticky top-16 z-40 bg-white gap-8 border-b text-sm font-bold text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide pt-3">
+            <span className="text-teal-700 border-b-2 border-teal-700 pb-3 cursor-pointer">
+              Overview
+            </span>
+            <span className="pb-3 cursor-pointer hover:text-gray-600">
+              Monthly payment
+            </span>
+            <span className="pb-3 cursor-pointer hover:text-gray-600">
+              Neighbourhood
+            </span>
+            <span className="pb-3 cursor-pointer hover:text-gray-600">
+              Schools
+            </span>
+          </div>
+
+          {/* Description Section */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-4">Description</h2>
+            <div className="text-gray-700 leading-relaxed space-y-4">
+              {property.description.split("\n\n").map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+            </div>
+          </section>
+
+          {/* Home Details Section - Matching image_bec4ea.png */}
+          <section className="bg-white mb-20">
+            <h2 className="text-2xl font-bold mb-6">Home details</h2>
+
+            {/* Overview Box */}
+            <div className="border rounded-lg p-6 mb-8">
+              <h3 className="flex items-center gap-2 font-bold mb-4">
+                <CheckCircle2 size={18} className="text-teal-700" /> Overview
               </h3>
-              <form className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Full name"
-                  className="w-full p-3 border rounded-lg outline-none focus:border-teal-600"
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full p-3 border rounded-lg outline-none focus:border-teal-600"
-                />
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  className="w-full p-3 border rounded-lg outline-none focus:border-teal-600"
-                />
-                <button className="w-full bg-[#004d4a] text-white py-4 rounded-full font-bold hover:opacity-90 transition-all">
-                  Contact agent
+              <div className="grid grid-cols-2 gap-y-4 text-xs">
+                <div className="flex flex-col">
+                  <span className="text-gray-400 uppercase font-bold">
+                    MLS®#
+                  </span>{" "}
+                  <span className="font-bold">A2081003</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 uppercase font-bold">
+                    Lot Size (acres)
+                  </span>{" "}
+                  <span className="font-bold">0.08895864</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 uppercase font-bold">
+                    Property Sub Type
+                  </span>{" "}
+                  <span className="font-bold">Single Family Residence</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 uppercase font-bold">
+                    Year Built
+                  </span>{" "}
+                  <span className="font-bold">2021</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Icon Sections Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+              {/* Interior */}
+              <div>
+                <h3 className="flex items-center gap-2 font-bold mb-4 border-b pb-2">
+                  <HomeIcon size={18} className="text-gray-500" /> Interior
+                </h3>
+                <div className="space-y-3 text-xs">
+                  <div className="flex justify-between">
+                    <span>Total Bathrooms</span>{" "}
+                    <span className="font-bold">5</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Full Baths</span> <span className="font-bold">4</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Half Baths</span> <span className="font-bold">1</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Flooring</span>{" "}
+                    <span className="font-bold">Carpeted, Hardwood, Tile</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Amenities */}
+              <div>
+                <h3 className="flex items-center gap-2 font-bold mb-4 border-b pb-2">
+                  <Wind size={18} className="text-gray-500" /> Amenities &
+                  utilities
+                </h3>
+                <div className="space-y-3 text-xs">
+                  <div className="flex justify-between">
+                    <span>Cooling</span>{" "}
+                    <span className="font-bold">Central air conditioning</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Heat source</span>{" "}
+                    <span className="font-bold">Natural gas</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Rooms - This is the long list from the screenshot */}
+              <div className="md:col-span-1">
+                <h3 className="flex items-center gap-2 font-bold mb-4 border-b pb-2">
+                  <Grid size={18} className="text-gray-500" /> Rooms information
+                </h3>
+                <div className="space-y-2 text-xs text-gray-500">
+                  <div className="flex justify-between pb-1 border-b border-gray-50 italic">
+                    Bedroom (# of Pieces: 1):{" "}
+                    <span className="text-black font-bold">2.74M X 3.82M</span>
+                  </div>
+                  <div className="flex justify-between pb-1 border-b border-gray-50 italic">
+                    Bedroom:{" "}
+                    <span className="text-black font-bold">3.03M X 3.17M</span>
+                  </div>
+                  <div className="flex justify-between pb-1 border-b border-gray-50 italic">
+                    Office:{" "}
+                    <span className="text-black font-bold">3.33M X 3.24M</span>
+                  </div>
+                  <div className="flex justify-between pb-1 border-b border-gray-50 italic">
+                    Bedroom:{" "}
+                    <span className="text-black font-bold">3.40M X 11.00M</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* schedule viewing  */}
+          <ScheduleViewing property={property} />
+        </div>
+
+        {/* Sticky Sidebar */}
+        {/* <div className="lg:col-span-1">
+          <div className="sticky top-10 border border-gray-200 rounded-2xl p-6 shadow-sm bg-gray-50/50">
+            <h3 className="text-xl font-bold mb-1">Go see this home</h3>
+            <p className="text-xs text-gray-500 mb-6">
+              with a Calgary <span className="font-bold">Buyer's agent</span>
+            </p>
+
+            <form className="space-y-3">
+              <input
+                className="w-full p-3 border rounded-md bg-white text-sm"
+                placeholder="Full name"
+              />
+              <input
+                className="w-full p-3 border rounded-md bg-white text-sm"
+                placeholder="Email"
+              />
+              <input
+                className="w-full p-3 border rounded-md bg-white text-sm"
+                placeholder="Phone"
+              />
+              <div className="flex items-start gap-2">
+                <input type="checkbox" className="mt-1" />
+                <span className="text-[10px] text-gray-500">
+                  I would like to receive marketing messages from Houseful...{" "}
+                  <button className="underline font-bold">Show more</button>
+                </span>
+              </div>
+              <button className="w-full bg-[#004d4d] text-white py-3 rounded-md font-bold text-sm shadow-md hover:bg-[#003d3d] transition-all">
+                Contact agent
+              </button>
+            </form>
+
+            <div className="mt-4 text-center">
+              <p className="text-[10px] text-gray-400">
+                Not a good time?{" "}
+                <button className="text-black font-bold underline">
+                  Schedule a call
                 </button>
-              </form>
-              <p className="text-[10px] text-gray-400 mt-4 text-center italic">
-                By clicking, you agree to the Terms of Use.
               </p>
             </div>
           </div>
+        </div> */}
+        <div className="py-5">
+          <div className="sticky x-40 top-22">
+            <GoSeeThisHome cityName={property.city} />
+          </div>
         </div>
-      </section>
-    </main>
+      </main>
+    </div>
   );
-};
-
-export default PropertyPage;
+}

@@ -6,7 +6,7 @@ const FilterBar = () => {
   const filterOptions = ["Price", "Home type", "Beds", "Baths"];
 
   return (
-    <div className="  sticky top-16 z-30 bg-white border-b border-gray-200 w-full py-3 px-12 ">
+    <div className="  sticky top-16 z-30 bg-white border-b border-gray-200 w-full py-3 px-8 ">
       <div className="max-w-8xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           {/* Main Filters Button */}
