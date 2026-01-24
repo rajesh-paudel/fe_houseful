@@ -2,7 +2,7 @@ import React from "react";
 import { Search, Calculator, UserCheck } from "lucide-react";
 
 const FeatureCard = ({ title, description, buttonText, icon: Icon }) => (
-  <div className="flex flex-col p-8 bg-white border border-blue-200 rounded-xl h-full">
+  <div className="flex flex-col p-4 md:p-8 bg-white border border-blue-200 rounded-xl h-full">
     {/* Illustration Placeholder */}
     <div className="mb-6 w-16 h-16 flex items-center justify-center bg-blue-50 rounded-lg text-blue-600">
       <Icon size={32} />
@@ -47,7 +47,7 @@ const Features = () => {
 
   return (
     <section className="py-8 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {featureData.map((feature, index) => (
             <FeatureCard key={index} {...feature} />

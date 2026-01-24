@@ -2,7 +2,7 @@ import React from "react";
 
 export default function GoSeeThisHome({ cityName = "Calgary" }) {
   return (
-    <div className="w-full max-w-[400px] bg-[#f7f7f7] rounded-xl p-6 border border-gray-100 shadow-sm font-sans">
+    <div className="w-full  bg-[#f7f7f7] rounded-xl p-1 md:p-6 border border-gray-100 shadow-sm font-sans">
       {/* Header */}
       <div className="text-center mb-8">
         <h2 className="text-[32px] font-serif font-semibold text-[#1a1a1a] leading-tight">

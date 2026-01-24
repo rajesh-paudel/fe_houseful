@@ -23,7 +23,7 @@ const PreFooter = () => {
   return (
     <section className="w-full bg-gray-100 pt-16">
       {/* Neighborhood Links */}
-      <div className="max-w-7xl mx-auto px-6 pb-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pb-16">
         <p className="text-center text-[10px] uppercase font-bold tracking-widest text-gray-400 mb-2">
           Houseful Real Estate Listings
         </p>

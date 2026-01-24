@@ -18,7 +18,7 @@ const FloatingInput = ({ label, placeholder, type = "text" }) => {
 
 const AgentContact = () => {
   return (
-    <section className="max-w-7xl px-8 mx-auto my-20 overflow-hidden rounded-xl  flex flex-col md:flex-row min-h-[600px]">
+    <section className="max-w-7xl px-4  md:px-8 mx-auto my-20 overflow-hidden rounded-xl  flex flex-col md:flex-row min-h-[600px]">
       {/* Left side: Image */}
       <div className="md:w-5/12 relative min-h-[300px]">
         <img
@@ -29,7 +29,7 @@ const AgentContact = () => {
       </div>
 
       {/* Right side: Form Container */}
-      <div className="md:w-7/12 bg-[#004d4a] p-10 md:p-16 flex flex-col">
+      <div className="md:w-7/12 bg-[#004d4a] p-4 md:p-16  flex flex-col">
         <h2 className="text-4xl md:text-5xl font-serif-elegant text-white mb-4 font-serif text-center">
           Make your next move
         </h2>

@@ -20,9 +20,12 @@ export default function LoginComponent() {
       <div className="w-full max-w-md bg-white rounded-lg border border-gray-200 p-8 shadow-sm">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <h1 className="text-3xl font-bold font-serif text-[#004d4d] flex items-center gap-2">
+          <Link
+            href={"/"}
+            className="text-3xl font-bold font-serif text-[#004d4d] flex items-center gap-2"
+          >
             houseful
-          </h1>
+          </Link>
         </div>
 
         <h2 className="text-2xl font-serif text-center text-gray-800 mb-8">

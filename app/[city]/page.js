@@ -19,7 +19,7 @@ export default async function LocationPage({ params }) {
       {/* 1. Sticky Filter Bar */}
       <FilterBar />
 
-      <main className="max-w-8xl mx-auto px-8 py-8">
+      <main className="max-w-8xl mx-auto px-4 md:px-8 py-8">
         {/* 2. Header Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-800 capitalize">
@@ -31,7 +31,7 @@ export default async function LocationPage({ params }) {
         </div>
 
         {/* 3. Property Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2 md:gap-x-6 gap-y-10">
           {cityProperties?.map((property, index) => (
             <PropertyCard key={property.id} property={property} index={index} />
           ))}

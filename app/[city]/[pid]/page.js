@@ -49,12 +49,12 @@ The main living levels feature four spacious bedrooms above grade, including two
   return (
     <div className="min-h-screen bg-white">
       {/* Top Utility Nav */}
-      <div className="max-w-8xl mx-auto px-8 py-3 flex justify-between items-center text-sm border-b  border-gray-300 ">
+      <div className="max-w-8xl mx-auto px-4 md:px-8 py-3 flex justify-between items-center text-sm  ">
         <div className="flex items-center gap-2 text-gray-500">
-          <div className="pr-4 border-r border-gray-300">
+          <div className="pr-1 md:pr-4 border-r border-gray-300">
             <ChevronLeft className="w-8 h-8 rounded-full hover:bg-gray-200 cursor-pointer p-1"></ChevronLeft>
           </div>
-          <Link href="/" className="ml-3">
+          <Link href="/" className="ml-1 md:ml-3">
             Houseful
           </Link>
           <ChevronRight size={14} />
@@ -63,18 +63,18 @@ The main living levels feature four spacious bedrooms above grade, including two
             {property.address}
           </span>
         </div>
-        <div className="flex gap-6 ">
+        <div className="flex gap-2 md:gap-6 ">
           <button className="flex items-center gap-1 font-semibold text-gray-700 hover:text-black">
             <Share size={16} /> Share
           </button>
-          <button className="flex items-center gap-1 font-semibold text-gray-700 hover:text-black">
+          <button className=" hidden md:flex items-center gap-1 font-semibold text-gray-700 hover:text-black">
             <Heart size={16} /> Save
           </button>
         </div>
       </div>
 
       {/* Photo Gallery - Matching Houseful Layout */}
-      <div className="max-w-8xl mx-auto px-0 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-2 h-auto md:h-[500px] ">
+      <div className="max-w-8xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-2 h-auto md:h-[500px] ">
         <div className="md:col-span-2 relative h-[300px] md:h-full">
           <img
             src={property.images[0]}
@@ -113,7 +113,7 @@ The main living levels feature four spacious bedrooms above grade, including two
         </div>
       </div>
 
-      <main className="max-w-8xl mx-auto px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <main className="max-w-8xl mx-auto px-4 md:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2">
           {/* Header Info */}
           <div className="mb-6">

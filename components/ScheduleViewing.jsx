@@ -28,7 +28,7 @@ export default function ScheduleViewing({ property }) {
   return (
     <div className="flex w-full max-w-6xl mx-auto rounded-2xl overflow-hidden bg-[#f4f3f1]">
       {/* LEFT IMAGE */}
-      <div className="w-1/2">
+      <div className="w-1/2 hidden md:block">
         <img
           src={property?.thumbnail}
           alt={property?.name}

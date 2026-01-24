@@ -47,7 +47,7 @@ const NewestHomes = () => {
 
   return (
     <section className="py-20 bg-white w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-2 md:px-6">
         {/* Title Section */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-slate-800">
@@ -78,7 +78,14 @@ const NewestHomes = () => {
             {filteredProperies?.map((property) => (
               <div
                 key={property.id}
-                className="min-w-[85%] md:min-w-[calc(25%-15px)] snap-start"
+                className="
+    
+    w-[85%]
+    sm:w-[70%]
+    md:w-[320px]
+    lg:w-[360px]
+    snap-start
+  "
               >
                 <PropertyCard property={property} />
               </div>
