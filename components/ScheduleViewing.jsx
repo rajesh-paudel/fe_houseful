@@ -37,7 +37,7 @@ export default function ScheduleViewing({ property }) {
       </div>
 
       {/* RIGHT PANEL */}
-      <div className="w-1/2 p-10 flex flex-col justify-center">
+      <div className="w-full md:w-1/2 p-4 md:p-10 flex flex-col justify-center">
         <h2 className="text-3xl font-semibold mb-6">Schedule a viewing</h2>
 
         {/* DATE SELECTOR */}

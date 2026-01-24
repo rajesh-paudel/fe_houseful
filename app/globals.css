@@ -24,3 +24,15 @@ body {
   color: rgb(var(--foreground-rgb));
   background: white;
 }
+
+/* Scrollbar Management */
+.scrollbar-hide,
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
