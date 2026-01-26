@@ -250,12 +250,12 @@ const Navbar = () => {
             >
               Agents
             </a>
-            <a
-              href="#"
+            <Link
+              href="/blog"
               className=" rounded-full  py-1.5 px-4 hover:bg-emerald-50 hover:text-black  transition-all  "
             >
               Resources
-            </a>
+            </Link>
           </div>
 
           {/* action buttons */}
