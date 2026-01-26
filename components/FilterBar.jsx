@@ -7,6 +7,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
+import { useRef, useEffect } from "react";
 
 const FilterBar = ({ properties, filters, setFilters, sortBy, setSortBy }) => {
   const [panelOpen, setPanelOpen] = useState(false);
@@ -36,13 +37,97 @@ const FilterBar = ({ properties, filters, setFilters, sortBy, setSortBy }) => {
       <div className="sticky top-16 z-46 bg-white border-b border-gray-200 w-full py-3 px-4 md:px-8">
         <div className="max-w-8xl mx-auto flex items-center justify-between gap-2">
           {/* Filters Button */}
-          <button
-            onClick={() => setPanelOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-full text-sm font-semibold hover:bg-gray-50"
-          >
-            <SlidersHorizontal size={16} /> Filters
-          </button>
+          <div className="flex items-center gap-3">
+            {/* Desktop inline filters */}
+            <div className="hidden md:flex items-center gap-3">
+              {/* Beds dropdown */}
+              <DesktopDropdown
+                label="Beds"
+                value={filters.beds ? `${filters.beds}+` : "Any"}
+              >
+                {(close) =>
+                  bedOptions.map((b) => (
+                    <button
+                      key={b}
+                      onClick={() => {
+                        setFilters((f) => ({ ...f, beds: b }));
+                        close(); // ✅ closes dropdown
+                      }}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
+                        filters.beds === b
+                          ? "bg-[#38003c] text-white"
+                          : "hover:bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {b}+
+                    </button>
+                  ))
+                }
+              </DesktopDropdown>
 
+              {/* Baths dropdown */}
+              <DesktopDropdown
+                label="Baths"
+                value={filters.baths ? `${filters.baths}+` : "Any"}
+              >
+                {(close) =>
+                  bathOptions.map((b) => (
+                    <button
+                      key={b}
+                      onClick={() => {
+                        setFilters((f) => ({ ...f, baths: b }));
+                        close();
+                      }}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
+                        filters.baths === b
+                          ? "bg-[#38003c] text-white"
+                          : "hover:bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {b}+
+                    </button>
+                  ))
+                }
+              </DesktopDropdown>
+              {/* Home type dropdown */}
+              <DesktopDropdown label="Home" value={filters.homeType || "Any"}>
+                {(close) =>
+                  homeTypes.map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => {
+                        setFilters((f) => ({ ...f, homeType: type }));
+                        close();
+                      }}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
+                        filters.homeType === type
+                          ? "bg-[#38003c] text-white"
+                          : "hover:bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {type}
+                    </button>
+                  ))
+                }
+              </DesktopDropdown>
+
+              <button
+                onClick={clearAll}
+                className=" px-4 py-2 w-full  rounded-lg text-sm font-medium cursor-pointer underline"
+              >
+                Clear All
+              </button>
+            </div>
+
+            {/* Mobile filters button */}
+            <button
+              onClick={() => setPanelOpen(true)}
+              className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-semibold"
+            >
+              <SlidersHorizontal size={16} />
+              Filters
+            </button>
+          </div>
           {/* Sort */}
           <div className="relative inline-block">
             <button
@@ -198,3 +283,50 @@ const FilterBar = ({ properties, filters, setFilters, sortBy, setSortBy }) => {
 };
 
 export default FilterBar;
+
+const DesktopDropdown = ({ label, value, children }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((p) => !p)}
+        className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-medium hover:bg-gray-50"
+      >
+        <span className="text-gray-600">{label}:</span>
+        <span className="font-semibold">{value}</span>
+        <ChevronDown size={14} />
+      </button>
+
+      {open && (
+        <div className="absolute left-0 mt-2 min-w-[160px] bg-white border rounded-xl shadow-lg z-50 p-2">
+          {typeof children === "function"
+            ? children(() => setOpen(false))
+            : children}
+        </div>
+      )}
+    </div>
+  );
+};
+const DropdownItem = ({ children, active, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
+      active ? "bg-[#38003c] text-white" : "hover:bg-gray-100 text-gray-700"
+    }`}
+  >
+    {children}
+  </button>
+);
