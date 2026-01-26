@@ -190,7 +190,7 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className="relative  group">
+            {/* <div className="relative  group">
               <div className=" cursor-pointer  flex items-end justify-center rounded-full  py-1.5 px-4 hover:bg-emerald-50 hover:text-black  transition-all  ">
                 <span> Mortgage</span>
 
@@ -198,7 +198,7 @@ const Navbar = () => {
               </div>
               <div className="absolute left-1/2 -translate-x-1/2  top-full pt-2 hidden group-hover:block  w-lg z-50">
                 <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 grid grid-cols-2 gap-3 ">
-                  {/* Column 1 */}
+                 
                   <div className="flex flex-col gap-2">
                     <h3 className="font-semibold text-gray-800 text-lg  pl-2">
                       Mortgage
@@ -223,7 +223,7 @@ const Navbar = () => {
                     </Link>
                   </div>
 
-                  {/* Column 2 */}
+                
                   <div className="flex flex-col gap-2">
                     <h3 className="font-semibold text-gray-800 text-lg  pl-2">
                       Mortgage resources
@@ -243,7 +243,7 @@ const Navbar = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <a
               href="#"
               className=" rounded-full  py-1.5 px-4 hover:bg-emerald-50 hover:text-black  transition-all  "
@@ -263,7 +263,7 @@ const Navbar = () => {
             <span className="hidden lg:inline font-medium rounded-full py-1 px-3 hover:bg-emerald-50 hover:text-black  cursor-pointer ">
               1-833-709-1946
             </span>
-            <Link
+            {/* <Link
               href="/login"
               className={`px-4 py-1.5 rounded-full border   transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer  ${
                 isHome
@@ -278,7 +278,7 @@ const Navbar = () => {
               className="px-4 py-1.5 rounded-full bg-white border border-gray-700  text-black font-semibold  transition-all  hover:bg-emerald-50 hover:text-black cursor-pointer  "
             >
               Sign up
-            </Link>
+            </Link> */}
           </div>
         </div>
       )}

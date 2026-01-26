@@ -41,7 +41,7 @@ export default function ScheduleViewing({ property }) {
         <h2 className="text-3xl font-semibold mb-6">Schedule a viewing</h2>
 
         {/* DATE SELECTOR */}
-        <div className="flex gap-4 mb-6">
+        <div className="flex justify-center gap-2 mb-6">
           {dates.map((date) => {
             const active = selectedDate.day === date.day;
 
@@ -65,7 +65,7 @@ export default function ScheduleViewing({ property }) {
         </div>
 
         {/* TIME SELECTOR */}
-        <div className="flex gap-4 mb-6">
+        <div className="flex justify-center items-center gap-2 mb-6">
           {times.map((slot) => {
             const active = selectedTime.label === slot.label;
 
@@ -73,7 +73,7 @@ export default function ScheduleViewing({ property }) {
               <button
                 key={slot.label}
                 onClick={() => setSelectedTime(slot)}
-                className={`px-6 py-4 rounded-xl border-2 text-left
+                className={`px-4 py-3 rounded-xl border-2 text-left
                   ${
                     active
                       ? "border-black"

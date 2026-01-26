@@ -43,7 +43,7 @@ const NewestHomes = () => {
     }
   };
 
-  const filteredProperies = PROPERTIES.filter((prop) => prop.city == "Calgary");
+  const filteredProperies = PROPERTIES.filter((prop) => prop.city == "Toronto");
 
   return (
     <section className="py-20 bg-white w-full overflow-hidden">
@@ -54,7 +54,7 @@ const NewestHomes = () => {
             Newest homes for sale in
           </h2>
           <h2 className="text-4xl md:text-5xl font-serif font-semibold text-[#b52d5d] mt-2">
-            Calgary
+            Toronto
           </h2>
         </div>
 
@@ -106,7 +106,7 @@ const NewestHomes = () => {
         {/* Bottom Action Button */}
         <div className="mt-4 flex justify-center">
           <Link
-            href={"/Calgary"}
+            href={"/Toronto"}
             className="px-8 py-3 rounded-full  bg-green-300 hover:bg-green-200 text-slate-700 font-bold cursor-pointer   transition-colors duration-300"
           >
             Explore all homes

@@ -11,14 +11,27 @@ export default function PropertyCard({ property }) {
     currency: "CAD",
     maximumFractionDigits: 0,
   }).format(property.price);
+  const getTimeAgo = (dateString) => {
+    const now = new Date();
+    const listed = new Date(dateString);
+    const diff = now - listed; // difference in milliseconds
 
+    const minutes = Math.floor(diff / 1000 / 60);
+    if (minutes < 60) return `New ${minutes} min${minutes > 1 ? "s" : ""} ago`;
+
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `New ${hours} hour${hours > 1 ? "s" : ""} ago`;
+
+    const days = Math.floor(hours / 24);
+    return ` ${days} day${days > 1 ? "s" : ""} ago`;
+  };
   return (
     <div
       onClick={() => {
         nProgress.start();
         router.push(`/${property.city}/${property.id}`);
       }}
-      className="max-w-72 w-full bg-white rounded-xl overflow-hidden  cursor-pointer "
+      className="w-full min-w-0 bg-white rounded-xl overflow-hidden cursor-pointer sm:max-w-72 sm:mx-auto"
     >
       {/* Image Container */}
       <div className="relative h-48 w-full">
@@ -36,7 +49,7 @@ export default function PropertyCard({ property }) {
         )}
         {/* Status Badge */}
         <div className="absolute top-3 left-3 bg-[#38003c] text-white text-xs font-bold px-3 py-1.5 rounded-md">
-          New 49 mins
+          {getTimeAgo(property.listedDate)}
         </div>
         {/* Wishlist Icon */}
         <button className="absolute top-3 right-3 p-2 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full transition-colors">

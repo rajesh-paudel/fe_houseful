@@ -58,8 +58,8 @@ const MenuSidebar = ({ isOpen, onClose }) => {
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 pl-6 sticky top-0 bg-white z-10 border-b border-gray-300">
-          <div className="flex gap-3">
+        <div className="flex items-center justify-end p-4 pl-6 sticky top-0 bg-white z-10 ">
+          {/* <div className="flex gap-3">
             <Link
               href={"/login"}
               onClick={onClose}
@@ -74,17 +74,17 @@ const MenuSidebar = ({ isOpen, onClose }) => {
             >
               Sign up
             </Link>
-          </div>
+          </div> */}
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-100 rounded-full"
+            className="p-1 hover:bg-gray-100 rounded-full "
           >
             <X size={24} className="text-gray-600" />
           </button>
         </div>
 
         {/* Navigation Content */}
-        <nav className="p-6 flex flex-col space-y-2 ml-2">
+        <nav className="px-6 flex flex-col space-y-2 ml-2">
           <Link
             href={"/"}
             onClick={onClose}
@@ -149,7 +149,7 @@ const MenuSidebar = ({ isOpen, onClose }) => {
           </NavItem>
 
           {/* Mortgage Section */}
-          <NavItem title="Mortgage">
+          {/* <NavItem title="Mortgage">
             <li className="font-bold">Mortgage</li>
             <li className="hover:text-teal-700 cursor-pointer">
               Get pre-qualified
@@ -167,7 +167,7 @@ const MenuSidebar = ({ isOpen, onClose }) => {
             <li className="hover:text-teal-700 cursor-pointer">
               Mortgage tips
             </li>
-          </NavItem>
+          </NavItem> */}
 
           <div className="font-semibold text-gray-800 py-2  border-gray-100">
             Agents

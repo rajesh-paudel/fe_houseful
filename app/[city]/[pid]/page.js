@@ -49,27 +49,22 @@ The main living levels feature four spacious bedrooms above grade, including two
   return (
     <div className="min-h-screen bg-white">
       {/* Top Utility Nav */}
-      <div className="max-w-8xl mx-auto px-4 md:px-8 py-3 flex justify-between items-center text-sm  ">
-        <div className="flex items-center gap-2 text-gray-500">
+      <div className="max-w-8xl mx-auto px-2 md:px-8 py-3 flex justify-between items-center text-sm  ">
+        <div className="flex items-center  text-gray-500">
           <div className="pr-1 md:pr-4 border-r border-gray-300">
-            <ChevronLeft className="w-8 h-8 rounded-full hover:bg-gray-200 cursor-pointer p-1"></ChevronLeft>
+            <ChevronLeft className=" w-6 h-6  md:w-8 md:h-8 rounded-full hover:bg-gray-200 cursor-pointer p-1"></ChevronLeft>
           </div>
-          <Link href="/" className="ml-1 md:ml-3">
+          <Link href="/" className="ml-1 text-sm md:ml-3">
             Houseful
           </Link>
           <ChevronRight size={14} />
-          <Link href={`/${city}`}>{city}</Link> <ChevronRight size={14} />
-          <span className="text-gray-900 font-medium truncate max-w-[150px] md:max-w-none">
+          <Link className="text-sm" href={`/${city}`}>
+            {city}
+          </Link>
+          <ChevronRight size={14} />
+          <span className="text-gray-900 font-medium text-sm truncate max-w-[150px] md:max-w-none">
             {property.address}
           </span>
-        </div>
-        <div className="flex gap-2 md:gap-6 ">
-          <button className="flex items-center gap-1 font-semibold text-gray-700 hover:text-black">
-            <Share size={16} /> Share
-          </button>
-          <button className=" hidden md:flex items-center gap-1 font-semibold text-gray-700 hover:text-black">
-            <Heart size={16} /> Save
-          </button>
         </div>
       </div>
 
