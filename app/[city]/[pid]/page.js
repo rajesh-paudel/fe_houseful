@@ -49,7 +49,7 @@ The main living levels feature four spacious bedrooms above grade, including two
   return (
     <div className="min-h-screen bg-white">
       {/* Top Utility Nav */}
-      <div className="max-w-8xl mx-auto px-2 md:px-8 py-3 flex justify-between items-center text-sm  ">
+      <div className="max-w-7xl mx-auto px-2 md:px-8 py-3 flex justify-between items-center text-sm  ">
         <div className="flex items-center  text-gray-500">
           <div className="pr-1 md:pr-4 border-r border-gray-300">
             <ChevronLeft className=" w-6 h-6  md:w-8 md:h-8 rounded-full hover:bg-gray-200 cursor-pointer p-1"></ChevronLeft>
@@ -69,7 +69,7 @@ The main living levels feature four spacious bedrooms above grade, including two
       </div>
 
       {/* Photo Gallery - Matching Houseful Layout */}
-      <div className="max-w-8xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-2 h-auto md:h-[500px] ">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-2 h-auto md:h-[500px] ">
         <div className="md:col-span-2 relative h-[300px] md:h-full">
           <img
             src={property.images[0]}
@@ -108,7 +108,7 @@ The main living levels feature four spacious bedrooms above grade, including two
         </div>
       </div>
 
-      <main className="max-w-8xl mx-auto px-4 md:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2">
           {/* Header Info */}
           <div className="mb-6">

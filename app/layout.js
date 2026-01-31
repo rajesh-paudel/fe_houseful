@@ -4,6 +4,8 @@ import NextTopLoader from "nextjs-toploader";
 import Navbar from "@/components/Navbar";
 import MainFooter from "@/components/MainFooter";
 import CTAbanner from "@/components/CTAbanner";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -37,10 +39,9 @@ export default function RootLayout({ children }) {
           easing="ease"
           speed={200}
         />
-        <Navbar />
+        <Header />
         {children}
-        <CTAbanner />
-        <MainFooter />
+        <Footer />
       </body>
     </html>
   );

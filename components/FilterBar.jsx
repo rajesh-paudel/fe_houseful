@@ -35,7 +35,7 @@ const FilterBar = ({ properties, filters, setFilters, sortBy, setSortBy }) => {
     <>
       {/* Top Bar */}
       <div className="sticky top-16 z-46 bg-white border-b border-gray-200 w-full py-3 px-4 md:px-8">
-        <div className="max-w-8xl mx-auto flex items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           {/* Filters Button */}
           <div className="flex items-center gap-3">
             {/* Desktop inline filters */}

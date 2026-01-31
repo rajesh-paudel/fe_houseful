@@ -47,14 +47,11 @@ const NewestHomes = () => {
 
   return (
     <section className="py-20 bg-white w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto px-2 md:px-6">
+      <div className="max-w-6xl mx-auto px-2 md:px-6">
         {/* Title Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-semibold text-slate-800">
-            Newest homes for sale in
-          </h2>
-          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-[#b52d5d] mt-2">
-            Toronto
+        <div className=" mb-10">
+          <h2 className="text-3xl md:text-4xl font-semibold text-slate-800">
+            Featured Properties
           </h2>
         </div>
 
