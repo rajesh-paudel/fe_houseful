@@ -23,22 +23,16 @@ const Header = () => {
   return (
     <>
       {/* HEADER */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur border-b border-gray-200">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white backdrop-blur border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">
-                <span className="font-semibold text-gray-900">JB</span>
-              </div>
-              <div className="leading-tight">
-                <p className="text-gray-900 font-semibold text-base">
-                  Jason Byun
-                </p>
-                <p className="text-gray-500 text-xs tracking-wider uppercase">
-                  Real Estate
-                </p>
-              </div>
+            <Link href="/" className="flex items-center gap-3 w-32">
+              <img
+                src="/homeReality.svg"
+                className="object-contain w-full "
+                alt="home reality"
+              ></img>
             </Link>
 
             {/* Desktop Nav */}

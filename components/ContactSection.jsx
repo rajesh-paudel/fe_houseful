@@ -19,20 +19,14 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-20 bg-gray-100">
+    <section id="contact" className="py-16 sm:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="font-serif text-2xl sm:text-3xl text-gray-900 mb-3">
+          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900 mb-3 font-bold">
             Let's Connect
           </h2>
           <div className="w-12 h-0.5 bg-yellow-500 mx-auto mb-4" />
-          <p className="text-gray-600 text-lg">
-            Whatever your real estate ambitions are, my deep connections with
-            our local community, residents, and real estate market are always
-            available to those who value service at the highest level. Get in
-            touch with me today to tell me about your real estate dreams.
-          </p>
         </div>
 
         {/* Contact Info */}

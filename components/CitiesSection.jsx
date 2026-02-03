@@ -1,5 +1,5 @@
 import React from "react";
-
+import Link from "next/link";
 const CommunitySection = () => {
   const communities = [
     {
@@ -69,9 +69,9 @@ const CommunitySection = () => {
         {/* Minimalist Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           {communities.map((city, i) => (
-            <a key={i} className="block group">
+            <Link href={`/${city.name}`} key={i} className="block group">
               {/* Card Container */}
-              <div className="relative aspect-[4/5] overflow-hidden bg-white shadow-sm border border-slate-200">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-md bg-white shadow-sm border border-slate-200">
                 {/* Normal Image Tag */}
                 <img
                   src={city.img}
@@ -91,7 +91,7 @@ const CommunitySection = () => {
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

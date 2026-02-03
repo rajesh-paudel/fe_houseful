@@ -31,10 +31,6 @@ const TestimonialsSection = () => {
           <h2 className="text-3xl md:text-4xl font-serif text-slate-900 mb-2 uppercase">
             What out clients are saying
           </h2>
-          <p className="text-xl md:text-2xl text-slate-700 mb-2">
-            Read from our Clients how we successfully helped them navigate the
-            real estate market and worked with them to achieve their goals.
-          </p>
         </div>
 
         {/* Testimonial Cards */}
@@ -42,7 +38,7 @@ const TestimonialsSection = () => {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="bg-[#f8f9fa] p-8 rounded-none border border-slate-100 flex flex-col h-full shadow-sm"
+              className="bg-[#f8f9fa] p-8 rounded-xl border border-slate-100 flex flex-col h-full shadow-sm "
             >
               {/* Profile Row */}
               <div className="flex items-center justify-between mb-6">
@@ -57,7 +53,7 @@ const TestimonialsSection = () => {
                     <p className="text-[11px] text-slate-400">{t.date}</p>
                   </div>
                 </div>
-                <div className="w-5 h-5 opacity-20">
+                <div className="w-5 h-5 opacity-100">
                   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

@@ -57,6 +57,7 @@ const AgentFooter = () => {
                 Broker
               </p>
               <div className="h-px w-12 bg-slate-200 mx-auto md:mx-0 mb-6" />
+
               <p className="text-slate-900 font-bold text-sm tracking-wide uppercase">
                 Right At Home Realty
               </p>

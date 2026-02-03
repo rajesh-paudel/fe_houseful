@@ -70,7 +70,7 @@ const CityComponent = ({ city, PROPERTIES }) => {
         setSortBy={setSortBy}
       />
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-18">
+      <main className="max-w-7xl mx-auto px-4 md:px-8 pb-18 pt-22">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-800 capitalize">

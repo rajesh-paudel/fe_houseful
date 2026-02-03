@@ -6,6 +6,7 @@ import Features from "@/components/Features";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import InstagramFeed from "@/components/InstagramFeed";
 import ListingsSection from "@/components/ListingSection";
 import MainFooter from "@/components/MainFooter";
 import Navbar from "@/components/Navbar";
@@ -23,6 +24,7 @@ export default function Home() {
         <Hero />
         <NewestHomes />
         <AboutSection />
+        <InstagramFeed />
         <CitiesSection />
 
         <TestimonialsSection />
