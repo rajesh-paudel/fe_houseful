@@ -1,90 +1,82 @@
-import { Award, Users, TrendingUp, Shield } from "lucide-react";
+import React from "react";
+import { Home, ShieldCheck, HeartHandshake } from "lucide-react";
 
 const AboutSection = () => {
-  const features = [
-    { icon: Award, title: "Award Winning", desc: "Top 1% in Ontario" },
-    { icon: Users, title: "Client Focused", desc: "Personalized service" },
-    { icon: TrendingUp, title: "Market Expert", desc: "Deep local knowledge" },
-    { icon: Shield, title: "Trusted Advisor", desc: "Honest guidance" },
+  const values = [
+    {
+      title: "Local Knowledge, Real Insight",
+      description:
+        "I don’t just list homes — I help you understand neighborhoods, pricing, timing, and what truly makes a property a good decision.",
+      icon: <Home className="w-5 h-5 text-amber-600" />,
+    },
+    {
+      title: "Trust Over Transactions",
+      description:
+        "No pressure, no shortcuts. Every recommendation I make is based on what’s right for you — not what closes fastest.",
+      icon: <ShieldCheck className="w-5 h-5 text-amber-600" />,
+    },
+    {
+      title: "With You From First Visit to Final Key",
+      description:
+        "Buying or selling can feel overwhelming. I stay by your side through every step, question, and negotiation.",
+      icon: <HeartHandshake className="w-5 h-5 text-amber-600" />,
+    },
   ];
 
   return (
-    <section id="about" className="py-16 sm:py-20 bg-gray-50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="grid lg:grid-cols-5 gap-10 lg:gap-16 items-start">
-          {/* Left - Text */}
-          <div className="lg:col-span-3">
-            <p className="text-yellow-500 font-medium tracking-widest uppercase text-[10px] mb-3">
-              About
-            </p>
-            <h2 className="font-serif text-2xl sm:text-3xl text-gray-900 mb-4 leading-tight">
-              Commitment to Excellence
+    <section id="about" className="bg-white py-16 px-4">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+        {/* Text Content */}
+        <div className="flex-[1.3] order-2 md:order-1">
+          <header className="mb-8">
+            <span className="text-amber-600 font-semibold tracking-widest text-[11px] uppercase block mb-2">
+              About — Jason Byun
+            </span>
+            <h2 className="text-3xl md:text-4xl font-serif font-medium text-slate-900 leading-tight">
+              Real Estate, <br />
+              <span className="italic text-slate-700">Handled With Care</span>
             </h2>
-            <div className="w-12 h-0.5 bg-yellow-500 mb-5" />
+          </header>
 
-            <p className="text-gray-700 text-sm leading-relaxed mb-4">
-              With a passion for real estate and dedication to exceptional
-              service, I've built my career on trust, integrity, and results. My
-              approach combines market expertise with genuine care for each
-              client's goals.
-            </p>
-            <p className="text-gray-700 text-sm leading-relaxed mb-6">
-              Whether buying your first home, selling luxury property, or
-              investing—I provide strategic guidance and hands-on support
-              throughout.
-            </p>
+          <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-8 max-w-xl">
+            For me, real estate isn’t just about buying or selling property —
+            it’s about people, life changes, and making confident decisions.
+            Whether it’s your first home, an upgrade, or an investment, my goal
+            is simple: help you move forward with clarity and peace of mind.
+          </p>
 
-            {/* Features */}
-            <div className="grid grid-cols-2 gap-4">
-              {features.map((f, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-gray-200 rounded flex items-center justify-center flex-shrink-0">
-                    <f.icon className="w-4 h-4 text-yellow-500" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-xs">
-                      {f.title}
-                    </p>
-                    <p className="text-gray-600 text-[11px]">{f.desc}</p>
+          <div className="grid gap-6">
+            {values.map((item, index) => (
+              <div key={index} className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-11 h-11 rounded-md bg-amber-50 border border-amber-100 flex items-center justify-center">
+                    {item.icon}
                   </div>
                 </div>
-              ))}
-            </div>
+
+                <div>
+                  <h3 className="text-slate-800 font-semibold text-base">
+                    {item.title}
+                  </h3>
+                  <p className="text-slate-500 text-sm leading-relaxed mt-1">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* Right - Card */}
-          <div className="lg:col-span-2">
-            <div className="bg-gray-800 rounded-lg p-6 text-white">
-              <div className="text-center mb-6">
-                {/* Initials Circle */}
-                <div className="w-20 h-20 mx-auto mb-4 bg-yellow-500 rounded-full flex items-center justify-center">
-                  <span className="font-serif text-2xl font-semibold text-gray-800">
-                    JB
-                  </span>
-                </div>
-                <h3 className="font-serif text-lg text-white">Jason Byun</h3>
-                <p className="text-yellow-500 text-xs">Licensed Broker</p>
-              </div>
-
-              {/* Info Cards */}
-              <div className="space-y-3">
-                <div className="bg-white/10 rounded p-3">
-                  <p className="text-white/50 text-[10px] mb-0.5">
-                    Designation
-                  </p>
-                  <p className="text-white text-xs">Luxury Home Specialist</p>
-                </div>
-                <div className="bg-white/10 rounded p-3">
-                  <p className="text-white/50 text-[10px] mb-0.5">Brokerage</p>
-                  <p className="text-white text-xs">RE/MAX Premier Inc.</p>
-                </div>
-                <div className="bg-white/10 rounded p-3">
-                  <p className="text-white/50 text-[10px] mb-0.5">Expertise</p>
-                  <p className="text-white text-xs">
-                    Luxury, Investment, New Build
-                  </p>
-                </div>
-              </div>
+        {/* Image */}
+        <div className="flex-1 order-1 md:order-2 w-full flex justify-center md:justify-end">
+          <div className="relative w-full max-w-[340px]">
+            <div className="absolute -bottom-4 -right-4 w-full h-full border border-amber-200 -z-10" />
+            <div className="overflow-hidden shadow-xl border-4 border-white">
+              <img
+                src="/profile.png"
+                alt="Jason Byun"
+                className="w-full h-auto object-cover"
+              />
             </div>
           </div>
         </div>

@@ -21,11 +21,10 @@ export default function Home() {
     <div className="min-h-screen">
       <main>
         <Hero />
-        <AboutSection />
-        <StatsSection />
-        <ServicesSection />
         <NewestHomes />
+        <AboutSection />
         <CitiesSection />
+
         <TestimonialsSection />
         <ContactSection />
       </main>

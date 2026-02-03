@@ -20,18 +20,18 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="py-16 sm:py-20 bg-gray-100">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center max-w-md mx-auto mb-10">
-          <p className="text-yellow-500 font-medium tracking-widest uppercase text-[10px] mb-3">
-            Contact
-          </p>
+        <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="font-serif text-2xl sm:text-3xl text-gray-900 mb-3">
             Let's Connect
           </h2>
           <div className="w-12 h-0.5 bg-yellow-500 mx-auto mb-4" />
-          <p className="text-gray-600 text-sm">
-            Ready to start? Contact me for a free consultation.
+          <p className="text-gray-600 text-lg">
+            Whatever your real estate ambitions are, my deep connections with
+            our local community, residents, and real estate market are always
+            available to those who value service at the highest level. Get in
+            touch with me today to tell me about your real estate dreams.
           </p>
         </div>
 
@@ -58,7 +58,7 @@ const ContactSection = () => {
         </div>
 
         {/* Form */}
-        <div className="max-w-lg mx-auto">
+        <div className="max-w-2xl mx-auto">
           <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-300">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">

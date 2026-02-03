@@ -46,13 +46,24 @@ const NewestHomes = () => {
   const filteredProperies = PROPERTIES.filter((prop) => prop.city == "Toronto");
 
   return (
-    <section className="py-20 bg-white w-full overflow-hidden">
+    <section id="listings" className="py-20 bg-white w-full overflow-hidden">
       <div className="max-w-6xl mx-auto px-2 md:px-6">
         {/* Title Section */}
-        <div className=" mb-10">
-          <h2 className="text-3xl md:text-4xl font-semibold text-slate-800">
-            Featured Properties
+        <div className="mb-14 space-y-2">
+          <div className="flex items-center justify-center gap-3 mb-1">
+            <span className="h-[1px] w-8 bg-amber-600/40"></span>
+            <p className="text-center text-amber-600 font-bold tracking-[0.3em] text-[11px] uppercase">
+              Discover Our
+            </p>
+            <span className="h-[1px] w-8 bg-amber-600/40"></span>
+          </div>
+
+          <h2 className="text-center text-4xl md:text-5xl font-serif text-slate-900 tracking-tight">
+            Featured{" "}
+            <span className="italic font-light text-slate-700">Listings</span>
           </h2>
+
+          <div className="w-12 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
         </div>
 
         <div className="relative">
@@ -104,7 +115,7 @@ const NewestHomes = () => {
         <div className="mt-4 flex justify-center">
           <Link
             href={"/Toronto"}
-            className="px-8 py-3 rounded-full  bg-green-300 hover:bg-green-200 text-slate-700 font-bold cursor-pointer   transition-colors duration-300"
+            className="px-8 py-3 rounded-full  bg-yellow-500 hover:bg-yellow-300 text-white font-bold cursor-pointer   transition-colors duration-300"
           >
             Explore all homes
           </Link>

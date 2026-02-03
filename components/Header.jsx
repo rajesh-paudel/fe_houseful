@@ -1,8 +1,10 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Phone, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,89 +12,112 @@ const Header = () => {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
+    { name: "Buying", href: "#" },
+    { name: "Selling", href: "#" },
     { name: "Listings", href: "#listings" },
     { name: "Contact", href: "#contact" },
   ];
 
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
-              <span className="font-semibold text-gray-900 text-sm">JB</span>
-            </div>
-            <div>
-              <p className="text-gray-900 font-medium text-sm">Jason Byun</p>
-              <p className="text-gray-500 text-[10px] tracking-wider uppercase">
-                Real Estate
-              </p>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-xs font-medium text-gray-500 hover:text-gray-900 transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-
-          {/* CTA */}
-          <div className="hidden sm:flex items-center gap-3">
-            <Link
-              href="tel:+16475551234"
-              className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900"
-            >
-              <Phone className="w-3 h-3" />
-              <span>(647) 555-1234</span>
+    <>
+      {/* HEADER */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-yellow-500 rounded-md flex items-center justify-center">
+                <span className="font-semibold text-gray-900">JB</span>
+              </div>
+              <div className="leading-tight">
+                <p className="text-gray-900 font-semibold text-base">
+                  Jason Byun
+                </p>
+                <p className="text-gray-500 text-xs tracking-wider uppercase">
+                  Real Estate
+                </p>
+              </div>
             </Link>
-            <Button variant="default" size="sm">
-              Book Call
-            </Button>
-          </div>
 
-          {/* Mobile Menu */}
-          <button
-            className="md:hidden p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="relative text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors
+                  after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-yellow-500
+                  after:transition-all hover:after:w-full"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </nav>
+
+            {/* CTA */}
+            <div className="hidden sm:flex items-center gap-4">
+              <Link
+                href="tel:+16475551234"
+                className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900"
+              >
+                <Phone className="w-4 h-4" />
+                <span>(647) 555-1234</span>
+              </Link>
+              <Button size="sm">Book Call</Button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2"
+              onClick={() => setIsMenuOpen(true)}
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* BACKDROP */}
+      <div
+        className={cn(
+          "fixed inset-0 z-40 bg-black/40 transition-opacity",
+          isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible",
+        )}
+        onClick={closeMenu}
+      />
+
+      {/* MOBILE SIDEBAR */}
+      <aside
+        className={cn(
+          "fixed top-0 right-0 z-50 h-full w-72 bg-white shadow-xl transform transition-transform duration-300",
+          isMenuOpen ? "translate-x-0" : "translate-x-full",
+        )}
+      >
+        <div className="flex items-center justify-between px-5 h-20 border-b">
+          <span className="font-semibold text-gray-900">Menu</span>
+          <button onClick={closeMenu}>
+            <X className="w-6 h-6" />
           </button>
         </div>
 
-        {isMenuOpen && (
-          <div className="md:hidden py-3 border-t border-gray-200">
-            <nav className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-xs font-medium text-gray-500 hover:text-gray-900 py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
-                </a>
-              ))}
-              <Button variant="default" size="sm" className="mt-2 w-full">
-                Book Call
-              </Button>
-            </nav>
-          </div>
-        )}
-      </div>
-    </header>
+        <nav className="flex flex-col px-5 py-6 gap-4">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={closeMenu}
+              className="text-base font-medium text-gray-700 hover:text-gray-900"
+            >
+              {link.name}
+            </a>
+          ))}
+
+          <Button className="mt-6 w-full">Book Call</Button>
+        </nav>
+      </aside>
+    </>
   );
 };
 
