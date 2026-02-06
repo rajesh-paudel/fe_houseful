@@ -23,9 +23,8 @@ export default function Home() {
       <main>
         <Hero />
         <NewestHomes />
-        <AboutSection />
-        <InstagramFeed />
         <CitiesSection />
+        <InstagramFeed />
 
         <TestimonialsSection />
         <ContactSection />

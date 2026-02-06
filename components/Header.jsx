@@ -1,116 +1,233 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Phone, Menu, X } from "lucide-react";
+import {
+  Menu,
+  X,
+  Mail,
+  Facebook,
+  Instagram,
+  Linkedin,
+  User,
+  ChevronDown,
+} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileCommunitiesOpen, setIsMobileCommunitiesOpen] = useState(false);
 
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "#about" },
-    { name: "Buying", href: "#" },
-    { name: "Selling", href: "#" },
-    { name: "Listings", href: "#listings" },
-    { name: "Contact", href: "#contact" },
+  const communities = [
+    { name: "Toronto", href: "/toronto" },
+    { name: "Richmond Hill", href: "/richmond-hill" },
+    { name: "Markham", href: "/markham" },
+    { name: "Etobicoke", href: "/etobicoke" },
+    { name: "Aurora", href: "/aurora" },
+    { name: "New Market", href: "/new-market" },
   ];
 
-  const closeMenu = () => setIsMenuOpen(false);
+  const navLinks = [
+    { name: "HOME", href: "/" },
+    { name: "SELLERS", href: "#selling" },
+    { name: "BUYERS", href: "#buying" },
+    { name: "SEARCH", href: "#listings" },
+    { name: "ABOUT", href: "/about" },
+    { name: "CONTACT", href: "#contact" },
+    { name: "OPEN HOUSES", href: "#open-houses" },
+  ];
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    setIsMobileCommunitiesOpen(false);
+  };
 
   return (
     <>
-      {/* HEADER */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white backdrop-blur border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 w-32">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white text-black border-b border-gray-200 ">
+        <div className="max-w-7xl mx-auto px-4 lg:px-6 py-3 lg:py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex shrink-0">
               <img
                 src="/homeReality.svg"
-                className="object-contain w-full "
-                alt="home reality"
-              ></img>
+                className="h-9 w-auto md:h-11 lg:h-12 object-contain"
+                alt="Jasin Buyn Realtor"
+              />
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
+            <div className="hidden lg:flex flex-col items-end gap-2 ml-4">
+              {/* Top Row */}
+              <div className="flex items-center gap-3 xl:gap-4 text-sm font-bold tracking-wider text-gray-900">
                 <Link
-                  key={link.name}
-                  href={link.href}
-                  className="relative text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors
-                  after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-yellow-500
-                  after:transition-all hover:after:w-full"
+                  href="tel:647-409-4848"
+                  className="hover:text-blue-600 transition-colors"
                 >
-                  {link.name}
+                  647-471-9000
                 </Link>
-              ))}
-            </nav>
+                <span className="text-gray-300">|</span>
+                <Link
+                  href="mailto:jasin.buyn@gmail.com"
+                  className="flex items-center gap-2 hover:text-blue-600"
+                >
+                  <Mail className="w-5 h-5" /> jason@jasonbyun.com
+                </Link>
+                <span className="text-gray-300">|</span>
+                <div className="flex items-center gap-3">
+                  <Facebook className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+                  <Instagram className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+                  <Linkedin className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+                </div>
+                <span className="text-gray-300">|</span>
+                <User className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+              </div>
 
-            {/* CTA */}
-            <div className="hidden sm:flex items-center gap-4">
-              <Link
-                href="tel:+16475551234"
-                className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900"
-              >
-                <Phone className="w-4 h-4" />
-                <span>(647) 555-1234</span>
-              </Link>
-              <Button size="sm">Book Call</Button>
+              <div className="w-full h-[1px] bg-gray-300" />
+
+              {/* Bottom Row Navigation */}
+              <nav className="flex items-center gap-4 xl:gap-6 pl-3">
+                <Link
+                  href="/"
+                  className="text-sm font-bold tracking-widest text-gray-800 hover:text-blue-600"
+                >
+                  HOME
+                </Link>
+
+                {/* COMMUNITIES DROPDOWN */}
+                <div className="relative group py-2">
+                  <button className="flex items-center gap-1 text-sm font-bold tracking-widest text-gray-800 group-hover:text-blue-600 transition-colors">
+                    COMMUNITIES{" "}
+                    <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  </button>
+
+                  {/* Dropdown Menu  */}
+                  <div className="absolute top-full left-0 w-40 bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
+                    <div className="flex flex-col py-2">
+                      {communities.map((city) => (
+                        <Link
+                          key={city.name}
+                          href={city.href}
+                          className="px-6 py-3 text-[15px] font-medium text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors border-b last:border-0 border-gray-50"
+                        >
+                          {city.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {navLinks.slice(1).map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className="text-sm font-bold tracking-widest text-gray-800 hover:text-blue-600 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </nav>
             </div>
 
-            {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2"
+              className="lg:hidden p-2 text-black"
               onClick={() => setIsMenuOpen(true)}
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-7 h-7" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* BACKDROP */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 bg-black/40 transition-opacity",
-          isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible",
-        )}
-        onClick={closeMenu}
-      />
-
       {/* MOBILE SIDEBAR */}
       <aside
         className={cn(
-          "fixed top-0 right-0 z-50 h-full w-72 bg-white shadow-xl transform transition-transform duration-300",
+          "fixed top-0 right-0 z-[60] h-full w-72 md:w-80 bg-white text-black shadow-2xl transform transition-transform duration-300",
           isMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <div className="flex items-center justify-between px-5 h-20 border-b">
-          <span className="font-semibold text-gray-900">Menu</span>
-          <button onClick={closeMenu}>
+        <div className="flex items-center justify-between px-6 h-20 border-b">
+          <span className="font-bold tracking-widest text-lg">MENU</span>
+          <button onClick={closeMenu} className="p-2">
             <X className="w-6 h-6" />
           </button>
         </div>
 
-        <nav className="flex flex-col px-5 py-6 gap-4">
-          {navLinks.map((link) => (
-            <a
+        <nav className="flex flex-col px-6 py-8 gap-4 overflow-y-auto h-[calc(100%-80px)]">
+          <Link
+            href="/"
+            onClick={closeMenu}
+            className="text-sm font-bold tracking-widest"
+          >
+            HOME
+          </Link>
+
+          {/* Mobile Communities Accordion */}
+          <div>
+            <button
+              onClick={() =>
+                setIsMobileCommunitiesOpen(!isMobileCommunitiesOpen)
+              }
+              className="flex items-center justify-between w-full text-sm font-bold tracking-widest py-2"
+            >
+              COMMUNITIES{" "}
+              <ChevronDown
+                className={cn(
+                  "w-4 h-4 transition-transform",
+                  isMobileCommunitiesOpen && "rotate-180",
+                )}
+              />
+            </button>
+            {isMobileCommunitiesOpen && (
+              <div className="flex flex-col pl-4 mt-2 gap-3 border-l-2 border-gray-100">
+                {communities.map((city) => (
+                  <Link
+                    key={city.name}
+                    href={city.href}
+                    onClick={closeMenu}
+                    className="text-sm text-gray-600 py-1"
+                  >
+                    {city.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {navLinks.slice(1).map((link) => (
+            <Link
               key={link.name}
               href={link.href}
               onClick={closeMenu}
-              className="text-base font-medium text-gray-700 hover:text-gray-900"
+              className="text-sm font-bold tracking-widest border-b border-gray-50 pb-2"
             >
               {link.name}
-            </a>
+            </Link>
           ))}
 
-          <Button className="mt-6 w-full">Book Call</Button>
+          <div className="mt-auto pt-6 flex flex-col gap-4">
+            <Link
+              href="tel:647-409-4848"
+              className="text-md font-bold text-blue-600"
+            >
+              647-409-4848
+            </Link>
+            <Link
+              href="mailto:jasin.buyn@gmail.com"
+              className="text-xs text-gray-500"
+            >
+              jasin.buyn@gmail.com
+            </Link>
+          </div>
         </nav>
       </aside>
+
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-[55] backdrop-blur-sm"
+          onClick={closeMenu}
+        />
+      )}
+
+      <div className=" h-16 lg:h-26 "></div>
     </>
   );
 };

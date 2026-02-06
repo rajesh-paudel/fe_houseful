@@ -9,7 +9,7 @@ const CommunitySection = () => {
       img: "https://plus.unsplash.com/premium_photo-1694475481348-7cbe417be129?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dG9yb250b3xlbnwwfHwwfHx8MA%3D%3D",
     },
     {
-      name: "Mississauga",
+      name: "Richmond hill",
       count: 128,
       slug: "mississauga",
       img: "https://images.unsplash.com/photo-1467806757054-808649965a76?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWlzc2lzc2F1Z2F8ZW58MHx8MHx8fDA%3D",
@@ -27,19 +27,19 @@ const CommunitySection = () => {
       img: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800&q=80",
     },
     {
-      name: "Oakville",
+      name: "Aurora",
       count: 92,
       slug: "oakville",
       img: "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=800&q=80",
     },
     {
-      name: "Burlington",
+      name: "New Market",
       count: 56,
       slug: "burlington",
       img: "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80",
     },
     {
-      name: "Vaughan",
+      name: "Etobicoke",
       count: 78,
       slug: "vaughan",
       img: "https://images.unsplash.com/photo-1755316388093-faff473ffdfb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHZhdWdoYW58ZW58MHx8MHx8fDA%3D",
@@ -53,7 +53,7 @@ const CommunitySection = () => {
   ];
 
   return (
-    <section className="bg-[#f8f9fa] py-20 px-6">
+    <section id="communities" className="bg-[#f8f9fa] py-20 px-6">
       <div className="max-w-5xl mx-auto">
         {/* Centered Minimal Header */}
         <div className="text-center mb-16">
