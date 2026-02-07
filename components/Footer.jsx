@@ -11,7 +11,7 @@ import {
 
 const AgentFooter = () => {
   return (
-    <footer className="bg-white pt-20 pb-10 px-6 border-t border-slate-100">
+    <footer className="bg-white pt-20 pb-10 px-6 border-t border-slate-300">
       <div className="max-w-6xl mx-auto flex flex-col items-center">
         {/* Main Footer Content */}
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-12 mb-16">

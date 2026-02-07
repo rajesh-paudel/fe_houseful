@@ -19,12 +19,15 @@ const Header = () => {
   const [isMobileCommunitiesOpen, setIsMobileCommunitiesOpen] = useState(false);
 
   const communities = [
-    { name: "Toronto", href: "/toronto" },
-    { name: "Richmond Hill", href: "/richmond-hill" },
-    { name: "Markham", href: "/markham" },
-    { name: "Etobicoke", href: "/etobicoke" },
-    { name: "Aurora", href: "/aurora" },
-    { name: "New Market", href: "/new-market" },
+    "Toronto",
+    "Richmond Hill",
+    "Markham",
+    "Bradford",
+    "Vaughan",
+    "Aurora",
+    "Oakville",
+    "Barrie",
+    "Whitby",
   ];
 
   const navLinks = [
@@ -104,11 +107,11 @@ const Header = () => {
                     <div className="flex flex-col py-2">
                       {communities.map((city) => (
                         <Link
-                          key={city.name}
-                          href={city.href}
+                          key={city}
+                          href={`${city}`}
                           className="px-6 py-3 text-[15px] font-medium text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors border-b last:border-0 border-gray-50"
                         >
-                          {city.name}
+                          {city}
                         </Link>
                       ))}
                     </div>

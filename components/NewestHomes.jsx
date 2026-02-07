@@ -1,12 +1,13 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import PropertyCard from "./PropertyCard";
 import { PROPERTIES } from "@/utils/data";
-import { useState, useEffect } from "react";
+
 import Link from "next/link";
-const NewestHomes = () => {
+const NewestHomes = ({ properties }) => {
   const scrollRef = useRef(null);
+
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
 
@@ -42,8 +43,6 @@ const NewestHomes = () => {
       scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
     }
   };
-
-  const filteredProperies = PROPERTIES.filter((prop) => prop.city == "Toronto");
 
   return (
     <section id="listings" className="py-20 bg-white w-full overflow-hidden">
@@ -83,12 +82,12 @@ const NewestHomes = () => {
             className="flex overflow-x-auto gap-5 scrollbar-hide snap-x snap-proximity pb-4"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {filteredProperies?.map((property) => (
+            {properties?.map((property) => (
               <div
-                key={property.id}
+                key={property.ListingKey || property.id}
                 className="
     
-    w-[85%]
+    w-[80%]
     sm:w-[70%]
     md:w-[320px]
     lg:w-[360px]

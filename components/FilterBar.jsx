@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect, useRef } from "react";
 import {
   Check,
   SlidersHorizontal,
@@ -7,119 +8,151 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { useRef, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const FilterBar = ({ properties, filters, setFilters, sortBy, setSortBy }) => {
+const BED_OPTIONS = [1, 2, 3, 4, 5];
+const BATH_OPTIONS = [1, 2, 3, 4, 5];
+
+const SORT_MAP = {
+  newest: "Newest",
+  oldest: "Oldest",
+  price_asc: "Lowest Price",
+  price_desc: "Highest Price",
+};
+
+const HOME_TYPES = [
+  "Detached",
+  "Office",
+  "Condo Townhouse",
+  "Condo Apartment",
+  "Multiplex",
+];
+
+function useUrlFilters() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const sortKey = searchParams.get("sort") || "newest";
+  const sortLabel = SORT_MAP[sortKey];
+  const get = (key) => searchParams.get(key);
+
+  const set = (key, value) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (!value) params.delete(key);
+    else params.set(key, String(value));
+
+    params.set("page", "1"); // reset pagination
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  const clearAll = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    ["beds", "baths", "homeType"].forEach((k) => params.delete(k));
+    params.set("page", "1");
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  return {
+    beds: Number(get("beds")) || null,
+    baths: Number(get("baths")) || null,
+    homeType: get("homeType"),
+    sortKey,
+    sortLabel: SORT_MAP[sortKey],
+    set,
+    clearAll,
+  };
+}
+
+export default function FilterBar() {
   const [panelOpen, setPanelOpen] = useState(false);
-  const [homeTypeDropdown, setHomeTypeDropdown] = useState(false);
   const [openSort, setOpenSort] = useState(false);
+  const [homeTypeDropdown, setHomeTypeDropdown] = useState(false);
+  const sortRef = useRef(null);
 
-  const homeTypes = Array.from(
-    new Set(properties.map((p) => p.propertyType)),
-  ).sort();
-  const bedOptions = [1, 2, 3, 4, 5];
-  const bathOptions = [1, 2, 3, 4, 5];
-  const sortOptions = [
-    "Newest",
-    "Oldest",
-    "Highest Price",
-    "Lowest Price",
-    "Highest price / sq. ft.",
-    "Lowest price / sq. ft.",
-  ];
-
-  const clearAll = () =>
-    setFilters({ beds: null, baths: null, homeType: null });
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (sortRef.current && !sortRef.current.contains(e.target)) {
+        setOpenSort(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  const { beds, baths, homeType, sortKey, sortLabel, set, clearAll } =
+    useUrlFilters();
 
   return (
     <>
       {/* Top Bar */}
-      <div className="sticky top-16 lg:top-26 z-46 bg-white border-b border-gray-200 w-full py-3 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          {/* Filters Button */}
+      <div className="sticky top-16 lg:top-26 z-40 bg-white border-b w-full py-3 ">
+        <div className="max-w-7xl px-4 md:px-8 mx-auto flex items-center justify-between gap-2">
+          {/* Filters */}
           <div className="flex items-center gap-3">
-            {/* Desktop inline filters */}
+            {/* Desktop */}
             <div className="hidden md:flex items-center gap-3">
-              {/* Beds dropdown */}
-              <DesktopDropdown
-                label="Beds"
-                value={filters.beds ? `${filters.beds}+` : "Any"}
-              >
+              <DesktopDropdown label="Beds" value={beds ? `${beds}+` : "Any"}>
                 {(close) =>
-                  bedOptions.map((b) => (
-                    <button
+                  BED_OPTIONS.map((b) => (
+                    <DropdownItem
                       key={b}
+                      active={beds === b}
                       onClick={() => {
-                        setFilters((f) => ({ ...f, beds: b }));
-                        close(); // ✅ closes dropdown
+                        set("beds", b);
+                        close();
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
-                        filters.beds === b
-                          ? "bg-[#38003c] text-white"
-                          : "hover:bg-gray-100 text-gray-700"
-                      }`}
                     >
                       {b}+
-                    </button>
+                    </DropdownItem>
                   ))
                 }
               </DesktopDropdown>
 
-              {/* Baths dropdown */}
               <DesktopDropdown
                 label="Baths"
-                value={filters.baths ? `${filters.baths}+` : "Any"}
+                value={baths ? `${baths}+` : "Any"}
               >
                 {(close) =>
-                  bathOptions.map((b) => (
-                    <button
+                  BATH_OPTIONS.map((b) => (
+                    <DropdownItem
                       key={b}
+                      active={baths === b}
                       onClick={() => {
-                        setFilters((f) => ({ ...f, baths: b }));
+                        set("baths", b);
                         close();
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
-                        filters.baths === b
-                          ? "bg-[#38003c] text-white"
-                          : "hover:bg-gray-100 text-gray-700"
-                      }`}
                     >
                       {b}+
-                    </button>
+                    </DropdownItem>
                   ))
                 }
               </DesktopDropdown>
-              {/* Home type dropdown */}
-              <DesktopDropdown label="Home" value={filters.homeType || "Any"}>
+
+              <DesktopDropdown label="Home" value={homeType || "Any"}>
                 {(close) =>
-                  homeTypes.map((type) => (
-                    <button
+                  HOME_TYPES.map((type) => (
+                    <DropdownItem
                       key={type}
+                      active={homeType === type}
                       onClick={() => {
-                        setFilters((f) => ({ ...f, homeType: type }));
+                        set("homeType", type);
                         close();
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
-                        filters.homeType === type
-                          ? "bg-[#38003c] text-white"
-                          : "hover:bg-gray-100 text-gray-700"
-                      }`}
                     >
                       {type}
-                    </button>
+                    </DropdownItem>
                   ))
                 }
               </DesktopDropdown>
 
               <button
                 onClick={clearAll}
-                className=" px-4 py-2 w-full  rounded-lg text-sm font-medium cursor-pointer underline"
+                className="text-sm underline font-medium"
               >
                 Clear All
               </button>
             </div>
 
-            {/* Mobile filters button */}
+            {/* Mobile */}
             <button
               onClick={() => setPanelOpen(true)}
               className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-semibold"
@@ -128,32 +161,34 @@ const FilterBar = ({ properties, filters, setFilters, sortBy, setSortBy }) => {
               Filters
             </button>
           </div>
+
           {/* Sort */}
-          <div className="relative inline-block">
+          <div className="relative" ref={sortRef}>
             <button
-              onClick={() => setOpenSort((prev) => !prev)}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white hover:bg-gray-50 transition text-sm font-medium"
+              onClick={() => setOpenSort((p) => !p)}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50"
             >
-              {sortBy}{" "}
+              {sortLabel}
               {openSort ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
 
             {openSort && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-xl shadow-lg z-50 p-2">
-                {sortOptions.map((option) => (
+              <div className="absolute right-0 mt-2 w-56 bg-white border rounded-xl shadow-lg p-2 z-50">
+                {Object.entries(SORT_MAP).map(([key, label]) => (
                   <button
-                    key={option}
+                    key={key}
                     onClick={() => {
-                      setSortBy(option);
+                      set("sort", key);
                       setOpenSort(false);
                     }}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition ${
-                      sortBy === option
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm ${
+                      sortKey === key
                         ? "bg-[#38003c] text-white"
-                        : "hover:bg-gray-100 text-gray-700"
+                        : "hover:bg-gray-100"
                     }`}
                   >
-                    {option} {sortBy === option && <Check size={14} />}
+                    {label}
+                    {sortKey === key && <Check size={14} />}
                   </button>
                 ))}
               </div>
@@ -162,148 +197,96 @@ const FilterBar = ({ properties, filters, setFilters, sortBy, setSortBy }) => {
         </div>
       </div>
 
-      {/* Slide-over Panel */}
+      {/* Mobile Slide-over */}
       <div
-        className="fixed inset-0 z-48"
-        aria-hidden={!panelOpen}
+        className="fixed inset-0 z-50"
         style={{ pointerEvents: panelOpen ? "auto" : "none" }}
       >
-        {/* Overlay */}
         <div
-          className={`fixed inset-0 bg-black transition-opacity duration-300 ${
+          className={`fixed inset-0 bg-black transition-opacity ${
             panelOpen ? "opacity-30" : "opacity-0"
           }`}
           onClick={() => setPanelOpen(false)}
-        ></div>
+        />
 
-        {/* Panel */}
         <div
-          className={`relative bg-white w-72 p-6 overflow-y-auto transform transition-transform duration-300 ease-in-out
-            ${panelOpen ? "translate-x-0" : "-translate-x-full"}
-          `}
-          style={{ top: 64, height: "100vh" }}
+          className={`relative bg-white w-72 p-6 h-full transform transition-transform ${
+            panelOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
-          {/* Close Button */}
           <button
             onClick={() => setPanelOpen(false)}
-            className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 z-50"
+            className="absolute top-4 right-4"
           >
             <X size={20} />
           </button>
 
           <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
-          {/* Beds */}
-          <div className="mb-4">
-            <h3 className="font-medium mb-2">Beds</h3>
-            <div className="flex flex-wrap gap-2">
-              {bedOptions.map((b) => (
-                <button
-                  key={b}
-                  onClick={() => setFilters((f) => ({ ...f, beds: b }))}
-                  className={`px-3 py-2 rounded-lg text-sm border ${
-                    filters.beds === b
-                      ? "bg-[#38003c] text-white border-[#38003c]"
-                      : "hover:bg-gray-100 text-gray-700 border-gray-300"
-                  }`}
-                >
-                  {b}+
-                </button>
-              ))}
-            </div>
-          </div>
+          <FilterGroup
+            title="Beds"
+            options={BED_OPTIONS}
+            value={beds}
+            onChange={(v) => set("beds", v)}
+          />
 
-          {/* Baths */}
-          <div className="mb-4">
-            <h3 className="font-medium mb-2">Baths</h3>
-            <div className="flex flex-wrap gap-2">
-              {bathOptions.map((b) => (
-                <button
-                  key={b}
-                  onClick={() => setFilters((f) => ({ ...f, baths: b }))}
-                  className={`px-3 py-2 rounded-lg text-sm border ${
-                    filters.baths === b
-                      ? "bg-[#38003c] text-white border-[#38003c]"
-                      : "hover:bg-gray-100 text-gray-700 border-gray-300"
-                  }`}
-                >
-                  {b}+
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Home Type Dropdown */}
-          <div className="mb-4 relative">
-            <h3 className="font-medium mb-2">Home Type</h3>
-            <button
-              onClick={() => setHomeTypeDropdown((prev) => !prev)}
-              className="flex justify-between items-center w-full px-4 py-2 border rounded-lg text-sm font-medium hover:bg-gray-50"
-            >
-              {filters.homeType || "Select Home Type"}
-              {homeTypeDropdown ? (
-                <ChevronUp size={16} />
-              ) : (
-                <ChevronDown size={16} />
-              )}
-            </button>
-
-            {homeTypeDropdown && (
-              <div className="absolute mt-1 w-full bg-white border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                {homeTypes.map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => {
-                      setFilters((f) => ({ ...f, homeType: type }));
-                      setHomeTypeDropdown(false);
-                    }}
-                    className={`w-full text-left px-4 py-2 text-sm rounded-lg ${
-                      filters.homeType === type
-                        ? "bg-[#38003c] text-white"
-                        : "hover:bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={clearAll}
-            className="mt-4 px-4 py-2 w-full bg-gray-100 rounded-lg text-sm font-medium hover:bg-gray-200"
+          <FilterGroup
+            title="Baths"
+            options={BATH_OPTIONS}
+            value={baths}
+            onChange={(v) => set("baths", v)}
+          />
+          <h3 className="font-medium mb-2">Home</h3>
+          <DesktopDropdown
+            label="Home"
+            value={homeType || "Any"}
+            isMobile={true}
           >
-            Clear All
-          </button>
+            {(close) =>
+              HOME_TYPES.map((type) => (
+                <DropdownItem
+                  key={type}
+                  active={homeType === type}
+                  onClick={() => {
+                    set("homeType", type);
+                    close();
+                  }}
+                >
+                  {type}
+                </DropdownItem>
+              ))
+            }
+          </DesktopDropdown>
+          <div className="mt-6">
+            <button
+              onClick={clearAll}
+              className="w-full py-2 rounded-lg bg-gray-100 font-medium"
+            >
+              Clear All
+            </button>
+          </div>
         </div>
       </div>
     </>
   );
-};
+}
 
-export default FilterBar;
-
-const DesktopDropdown = ({ label, value, children }) => {
+function DesktopDropdown({ label, value, children }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    const handler = (e) =>
+      ref.current && !ref.current.contains(e.target) && setOpen(false);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   return (
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((p) => !p)}
-        className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-medium hover:bg-gray-50"
+        className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm"
       >
         <span className="text-gray-600">{label}:</span>
         <span className="font-semibold">{value}</span>
@@ -311,22 +294,44 @@ const DesktopDropdown = ({ label, value, children }) => {
       </button>
 
       {open && (
-        <div className="absolute left-0 mt-2 min-w-[160px] bg-white border rounded-xl shadow-lg z-50 p-2">
-          {typeof children === "function"
-            ? children(() => setOpen(false))
-            : children}
+        <div className="absolute mt-2 bg-white border rounded-xl shadow-lg p-2 z-50">
+          {children(() => setOpen(false))}
         </div>
       )}
     </div>
   );
-};
-const DropdownItem = ({ children, active, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
-      active ? "bg-[#38003c] text-white" : "hover:bg-gray-100 text-gray-700"
-    }`}
-  >
-    {children}
-  </button>
-);
+}
+
+function DropdownItem({ children, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
+        active ? "bg-[#38003c] text-white" : "hover:bg-gray-100"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function FilterGroup({ title, options, value, onChange }) {
+  return (
+    <div className="mb-5">
+      <h3 className="font-medium mb-2">{title}</h3>
+      <div className="flex flex-wrap gap-2">
+        {options.map((o) => (
+          <button
+            key={o}
+            onClick={() => onChange(o)}
+            className={`px-3 py-2 rounded-lg border text-sm ${
+              value === o ? "bg-[#38003c] text-white" : "hover:bg-gray-100"
+            }`}
+          >
+            {o}+
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}

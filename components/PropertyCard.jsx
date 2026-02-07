@@ -1,107 +1,134 @@
 "use client";
+
 import React from "react";
 import { Bed, Bath, Square, Home, Heart, Map } from "lucide-react";
 import nProgress from "nprogress";
 import { useRouter } from "next/navigation";
+
 export default function PropertyCard({ property }) {
   const router = useRouter();
-  // Format price to currency string (e.g., $1,194,900)
+
+  // Price Formatting
   const formattedPrice = new Intl.NumberFormat("en-CA", {
     style: "currency",
     currency: "CAD",
     maximumFractionDigits: 0,
-  }).format(property.price);
+  }).format(property.ListPrice || 0);
+
+  //map and handle the fields
+
+  const beds = property.BedroomsTotal || 0;
+  const baths = property.BathroomsTotalInteger || 0;
+  const sqft = property.BuildingAreaTotal || property.LivingAreaRange || null;
+  const propertyType = property.PropertySubType || "Property";
+  const fullAddress =
+    property.UnparsedAddress ||
+    `${property.StreetNumber} ${property.StreetName}`;
+  const city = property.City || "";
+  const mls = property.ListingKey;
+  const thumbnail = property.Media?.[0]?.MediaURL || null;
+  const listedDate = property.OriginalEntryTimestamp;
+  const agency = property.ListOfficeName || "Real Estate Professionals Inc.";
+
+  //function to show how long ago property was listed
   const getTimeAgo = (dateString) => {
+    if (!dateString) return "New";
     const now = new Date();
     const listed = new Date(dateString);
-    const diff = now - listed; // difference in milliseconds
+    const diff = now - listed;
 
+    // Calculate time units
     const minutes = Math.floor(diff / 1000 / 60);
-    if (minutes < 60) return `New ${minutes} min${minutes > 1 ? "s" : ""} ago`;
+    if (minutes < 60) return `${minutes}m ago`;
 
     const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `New ${hours} hour${hours > 1 ? "s" : ""} ago`;
+    if (hours < 24) return `${hours}h ago`;
 
     const days = Math.floor(hours / 24);
-    return ` ${days} day${days > 1 ? "s" : ""} ago`;
+    if (days < 30) return `${days}d ago`;
+
+    const months = Math.floor(days / 30.44);
+    if (months < 12) return `${months}mo ago`;
+
+    const years = Math.floor(days / 365.25);
+    return `${years}y ago`;
   };
+
   return (
     <div
       onClick={() => {
         nProgress.start();
-        router.push(`/${property.city}/${property.id}`);
+        router.push(`/${city.toLowerCase()}/${mls}`);
       }}
-      className="w-full min-w-0 bg-white rounded-xl overflow-hidden cursor-pointer sm:max-w-72 sm:mx-auto"
+      className="w-full bg-white rounded-xl overflow-hidden cursor-pointer  border border-gray-100"
     >
-      {/* Image Container */}
-      <div className="relative h-48 w-full">
-        {property.thumbnail ? (
+      {/* Image Section */}
+      <div className="relative h-48 w-full bg-gray-100">
+        {thumbnail ? (
           <img
-            src={property.thumbnail}
-            alt={property.title}
+            src={thumbnail}
+            alt={fullAddress}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 gap-2">
-            <Home size={48} strokeWidth={1} />
-            <span className="text-xs font-medium">Image not available</span>
+            <Home size={40} strokeWidth={1} />
+            <span className="text-[10px] uppercase font-bold tracking-wider">
+              No Photo
+            </span>
           </div>
         )}
+
         {/* Status Badge */}
-        <div className="absolute top-3 left-3 bg-[#38003c] text-white text-xs font-bold px-3 py-1.5 rounded-md">
-          {getTimeAgo(property.listedDate)}
+        <div className="absolute top-3 left-3 bg-[#38003c] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
+          {getTimeAgo(listedDate)}
         </div>
-        {/* Wishlist Icon */}
-        <button className="absolute top-3 right-3 p-2 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full transition-colors">
-          <Heart size={20} className="text-white" />
+
+        <button className="absolute top-3 right-3 p-2 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full transition-colors">
+          <Heart size={18} className="text-white" />
         </button>
       </div>
 
-      {/* Content Area */}
-      <div className="p-2 space-y-2">
-        {/* Price and Map Icon */}
-        <div className="flex justify-between items-center">
-          <h3 className="text-2xl font-bold text-gray-900">{formattedPrice}</h3>
-          <button className="p-2 border border-gray-200 rounded-full hover:bg-gray-50">
-            <Map size={18} className="text-gray-700" />
-          </button>
+      {/* Content Section */}
+      <div className="p-3 space-y-2">
+        <div>
+          <h3 className="text-xl font-bold text-gray-900">{formattedPrice}</h3>
+          <p className="text-sm text-gray-600 truncate font-medium">
+            {fullAddress}
+          </p>
         </div>
 
-        {/* High-Level Stats */}
-        <div className="flex items-center gap-3 text-gray-700 py-1">
-          <div className="flex items-center gap-1">
-            <Bed size={12} strokeWidth={2.5} />
-            <span className="text-xs font-bold">{property.beds}</span>
+        {/* Property Specs */}
+        <div className="flex flex-col gap-2  text-gray-700 border-y border-gray-50 py-2">
+          <div className="flex  gap-1">
+            <div className="flex items-center gap-2">
+              <Bed size={14} className="text-gray-400" />
+              <span className="text-xs font-bold">{beds}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Bath size={14} className="text-gray-400" />
+              <span className="text-xs font-bold">{baths}</span>
+            </div>
+            <div className="flex items-center gap-1 max-w-[80px]">
+              <Square size={14} className="text-gray-400" />
+              <span className="text-xs font-bold truncate">{sqft}</span>
+            </div>
           </div>
           <div className="flex items-center gap-1">
-            <Bath size={12} strokeWidth={2.5} />
-            <span className="text-xs font-bold">{property.baths}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Square size={12} strokeWidth={2.5} />
-            <span className="text-xs font-bold truncate">
-              {property.sqft.toLocaleString()} Sqft
-            </span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Home size={12} strokeWidth={2.5} />
-            <span className="text-xs font-bold truncate">
-              {property.propertyType}
-            </span>
+            <Home size={14} className="text-gray-400" />
+            <span className="text-xs font-bold truncate">{propertyType}</span>
           </div>
         </div>
 
-        {/* Address & MLS Info */}
-        <div className="space-y-0.5">
-          <p className="text-gray-800 font-medium truncate">
-            {property.address}, {property.city}, {property.postalCode}
-          </p>
-          <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide">
-            MLS®{property.id.replace("prop-", "A")}
-          </p>
-          <p className="text-xs text-gray-500">
-            Listed by Real Estate Professionals Inc.
-          </p>
+        {/* Footer info */}
+        <div className="flex flex-col gap-0.5">
+          <div className="flex justify-between items-center">
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
+              MLS® {mls}
+            </p>
+          </div>
+          <p className="text-[10px] text-gray-400 truncate italic">{agency}</p>
         </div>
       </div>
     </div>

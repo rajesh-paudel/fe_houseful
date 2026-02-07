@@ -3,7 +3,6 @@
 import { Search, MapPin } from "lucide-react";
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { PROPERTIES } from "@/utils/data";
 import nProgress from "nprogress";
 
 const Hero = () => {
@@ -12,7 +11,17 @@ const Hero = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef(null);
 
-  const cities = Array.from(new Set(PROPERTIES?.map((p) => p.city))).sort();
+  const cities = [
+    "Toronto",
+    "Richmond Hill",
+    "Markham",
+    "Bradford",
+    "Vaughan",
+    "Aurora",
+    "Oakville",
+    "Barrie",
+    "Whitby",
+  ];
 
   const suggestions =
     query.trim() === ""
@@ -38,10 +47,10 @@ const Hero = () => {
     setQuery(city);
     setIsExpanded(false);
     nProgress.start();
-    router.push(`/${city.toLowerCase().replace(/\s+/g, "-")}`);
+    router.push(`/${city}`);
   };
 
-  const quickCities = ["Toronto", "Richmond Hill", "Markham", "Etobicoke"];
+  const quickCities = ["Toronto", "Richmond Hill", "Markham", "Bradford"];
 
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center px-4 ">
@@ -53,7 +62,7 @@ const Hero = () => {
           muted
           playsInline
           preload="metadata"
-          poster="/hero-poster.jpg"
+          poster="/hero-poster.png"
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/heroVideo.mp4" type="video/mp4" />

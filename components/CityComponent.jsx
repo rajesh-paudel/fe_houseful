@@ -1,74 +1,23 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React from "react";
+import Link from "next/link";
 import PropertyCard from "./PropertyCard";
 import FilterBar from "./FilterBar";
+import { useSearchParams } from "next/navigation";
+const CityComponent = ({ city, properties, pagination }) => {
+  const { currentPage, totalPages, totalCount } = pagination;
+  const searchParams = useSearchParams();
 
-const CityComponent = ({ city, PROPERTIES }) => {
-  const [sortBy, setSortBy] = useState("Newest"); // Sorting
-  const [filters, setFilters] = useState({
-    beds: null,
-    baths: null,
-    homeType: null,
-  });
+  const buildPageLink = (page) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page);
+    return `/${city}?${params.toString()}`;
+  };
 
-  // Clean city name for display
-  const cityName =
-    city?.split("-")[0].charAt(0).toUpperCase() + city?.split("-")[0].slice(1);
-
-  // Filter properties by city first
-  const cityProperties = useMemo(
-    () =>
-      PROPERTIES.filter(
-        (p) => p.city.toLowerCase() === city?.split("-")[0].toLowerCase(),
-      ),
-    [city, PROPERTIES],
-  );
-
-  // Apply filters + sorting
-  const displayedProperties = useMemo(() => {
-    let data = [...cityProperties];
-
-    // Apply filters
-    if (filters.beds) data = data.filter((p) => p.beds >= filters.beds);
-    if (filters.baths) data = data.filter((p) => p.baths >= filters.baths);
-    if (filters.homeType)
-      data = data.filter((p) => p.propertyType === filters.homeType);
-
-    // Apply sorting
-    switch (sortBy) {
-      case "Newest":
-        data.sort((a, b) => new Date(b.listedDate) - new Date(a.listedDate));
-        break;
-      case "Oldest":
-        data.sort((a, b) => new Date(a.listedDate) - new Date(b.listedDate));
-        break;
-      case "Highest Price":
-        data.sort((a, b) => b.price - a.price);
-        break;
-      case "Lowest Price":
-        data.sort((a, b) => a.price - b.price);
-        break;
-      case "Highest price / sq. ft.":
-        data.sort((a, b) => b.price / b.sqft - a.price / a.sqft);
-        break;
-      case "Lowest price / sq. ft.":
-        data.sort((a, b) => a.price / a.sqft - b.price / b.sqft);
-        break;
-    }
-
-    return data;
-  }, [cityProperties, filters, sortBy]);
-
+  const cityName = decodeURIComponent(city);
   return (
     <div className="min-h-screen bg-white">
-      {/* Sticky Filter Bar */}
-      <FilterBar
-        properties={cityProperties}
-        filters={filters}
-        setFilters={setFilters}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-      />
+      <FilterBar />
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 pb-18 pt-5">
         {/* Header */}
@@ -77,17 +26,99 @@ const CityComponent = ({ city, PROPERTIES }) => {
             {cityName}, homes for sale
           </h1>
           <p className="text-gray-500 text-sm mt-1">
-            Showing 1 - {displayedProperties.length} of {cityProperties.length}{" "}
-            homes
+            Total {totalCount} homes found • Page {currentPage} of {totalPages}
           </p>
         </div>
 
         {/* Property Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-          {displayedProperties.map((property, index) => (
-            <PropertyCard key={property.id} property={property} index={index} />
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 md:gap-6">
+          {properties.length > 0 ? (
+            properties.map((property, index) => (
+              <PropertyCard
+                key={property.ListingKey || property.id}
+                property={property}
+                index={index}
+              />
+            ))
+          ) : (
+            <div className="col-span-full py-20 text-center text-gray-400">
+              No properties found in this area.
+            </div>
+          )}
         </div>
+
+        {/* Numbered Pagination UI */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-1 sm:gap-2 mt-12 mb-20 w-full px-2">
+            {/* Prev Button */}
+            <Link
+              href={buildPageLink(currentPage - 1)}
+              className={`px-2 py-2 sm:px-4 text-xs sm:text-sm border rounded transition-colors ${
+                currentPage === 1
+                  ? "pointer-events-none opacity-30"
+                  : "hover:bg-gray-50"
+              }`}
+            >
+              Prev
+            </Link>
+
+            {/* Page Numbers */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {[...Array(totalPages)].map((_, i) => {
+                const pageNum = i + 1;
+
+                // Show 1 neighbor on each side.
+
+                const isNeighbor = Math.abs(currentPage - pageNum) <= 1;
+
+                if (pageNum === 1 || pageNum === totalPages || isNeighbor) {
+                  return (
+                    <Link
+                      key={pageNum}
+                      href={buildPageLink(pageNum)}
+                      className={`w-8 h-8 sm:w-10 sm:h-10 text-xs sm:text-sm flex items-center justify-center rounded border transition-colors ${
+                        currentPage === pageNum
+                          ? "bg-slate-800 text-white border-slate-800"
+                          : "hover:bg-gray-50 text-slate-600"
+                      }`}
+                    >
+                      {pageNum}
+                    </Link>
+                  );
+                }
+
+                // Ellipses logic - only show if we are exactly 2 pages away
+                if (
+                  pageNum === currentPage - 2 ||
+                  pageNum === currentPage + 2
+                ) {
+                  return (
+                    <span
+                      key={pageNum}
+                      className="text-gray-400 text-xs sm:text-sm px-1"
+                    >
+                      ...
+                    </span>
+                  );
+                }
+
+                return null;
+              })}
+            </div>
+
+            {/* Next Button */}
+            <Link
+              href={buildPageLink(currentPage + 1)}
+              className={`px-2 py-2 sm:px-4 text-xs sm:text-sm border rounded transition-colors ${
+                currentPage === totalPages
+                  ? "pointer-events-none opacity-30"
+                  : "hover:bg-gray-50"
+              }`}
+            >
+              Next
+            </Link>
+          </div>
+        )}
       </main>
     </div>
   );

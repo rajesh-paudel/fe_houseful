@@ -15,37 +15,45 @@ const CommunitySection = () => {
       img: "https://images.unsplash.com/photo-1467806757054-808649965a76?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWlzc2lzc2F1Z2F8ZW58MHx8MHx8fDA%3D",
     },
     {
-      name: "Brampton",
+      name: "Markham",
       count: 87,
       slug: "brampton",
       img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
     },
+
     {
-      name: "Hamilton",
-      count: 64,
-      slug: "hamilton",
-      img: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      name: "Aurora",
+      name: "Vaughan",
       count: 92,
       slug: "oakville",
       img: "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=800&q=80",
     },
+
     {
-      name: "New Market",
-      count: 56,
-      slug: "burlington",
-      img: "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      name: "Etobicoke",
+      name: "Aurora",
       count: 78,
       slug: "vaughan",
       img: "https://images.unsplash.com/photo-1755316388093-faff473ffdfb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHZhdWdoYW58ZW58MHx8MHx8fDA%3D",
     },
     {
-      name: "Markham",
+      name: "Oakville",
+      count: 103,
+      slug: "markham",
+      img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      name: "Barrie",
+      count: 103,
+      slug: "markham",
+      img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      name: "Whitby",
+      count: 103,
+      slug: "markham",
+      img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      name: "Bradford",
       count: 103,
       slug: "markham",
       img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80",
