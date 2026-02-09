@@ -1,5 +1,15 @@
 import CityComponent from "@/components/CityComponent";
-import { fetchProperties } from "@/lib/api";
+import { fetchProperties, fetchMedia } from "@/lib/api";
+import { slugToCity } from "@/lib/slug";
+
+export async function generateMetadata({ params }) {
+  const { city } = await params;
+  const cityName = slugToCity(city);
+  return {
+    title: `${cityName} Real Estate | Houseful`,
+    description: `Browse homes for sale and lease in ${cityName} with local market insights.`,
+  };
+}
 
 export default async function CityPage({ params, searchParams }) {
   const { city } = await params;
@@ -16,7 +26,7 @@ export default async function CityPage({ params, searchParams }) {
   const priceMax = sParams.priceMax ? Number(sParams.priceMax) : undefined;
   const listingType = sParams.listingType || "sale";
   const sort = sParams.sort || "newest";
-  const cityToPass = decodeURIComponent(city);
+  const cityToPass = slugToCity(city);
   const data = await fetchProperties({
     cityToPass,
     top: limit,
@@ -28,11 +38,18 @@ export default async function CityPage({ params, searchParams }) {
     listingType,
     sort,
   });
+  const itemsWithMedia = await Promise.all(
+    (data.items || []).map(async (property) => {
+      const media = await fetchMedia(property.ListingKey, 1);
+
+      return { ...property, Media: media };
+    }),
+  );
 
   return (
     <CityComponent
       city={city}
-      properties={data.items}
+      properties={itemsWithMedia}
       pagination={{
         currentPage: data.currentPage,
         totalPages: data.totalPages,

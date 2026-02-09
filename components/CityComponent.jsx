@@ -4,6 +4,7 @@ import Link from "next/link";
 import PropertyCard from "./PropertyCard";
 import FilterBar from "./FilterBar";
 import { useSearchParams } from "next/navigation";
+import { slugToCity } from "@/lib/slug";
 const CityComponent = ({ city, properties, pagination }) => {
   const { currentPage, totalPages, totalCount } = pagination;
   const searchParams = useSearchParams();
@@ -14,7 +15,7 @@ const CityComponent = ({ city, properties, pagination }) => {
     return `/${city}?${params.toString()}`;
   };
 
-  const cityName = decodeURIComponent(city);
+  const cityName = slugToCity(city);
   const listingType = searchParams.get("listingType") || "sale";
   const listingLabel = listingType === "lease" ? "homes for lease" : "homes for sale";
   return (

@@ -4,6 +4,7 @@ import React from "react";
 import { Bed, Bath, Square, Home, Heart, Map } from "lucide-react";
 import nProgress from "nprogress";
 import { useRouter } from "next/navigation";
+import { cityToSlug } from "@/lib/slug";
 
 export default function PropertyCard({ property }) {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function PropertyCard({ property }) {
     <div
       onClick={() => {
         nProgress.start();
-        router.push(`/${city.toLowerCase()}/${mls}`);
+        router.push(`/${cityToSlug(city)}/${mls}`);
       }}
       className="w-full bg-white rounded-xl overflow-hidden cursor-pointer  border border-gray-100"
     >

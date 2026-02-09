@@ -7,17 +7,18 @@ import {
   Car,
   MapPin,
   ChevronRight,
+  ChevronLeft,
   Info,
   Home as HomeIcon,
-  Home,
   Wind,
   Grid,
   CheckCircle2,
-  ChevronLeft,
 } from "lucide-react";
 import GoSeeThisHome from "@/components/GoSeeThisHome";
 import ScheduleViewing from "@/components/ScheduleViewing";
-import { fetchProperty } from "@/lib/api";
+import { fetchMedia, fetchProperty } from "@/lib/api";
+import { slugToCity } from "@/lib/slug";
+import PropertyMediaGallery from "@/components/PropertyMediaGallery";
 
 const formatMoney = (value) => {
   if (value === null || value === undefined || value === "") return "-";
@@ -45,9 +46,30 @@ const formatList = (arr) =>
 const fallbackText = (value, fallback = "-") =>
   value === null || value === undefined || value === "" ? fallback : value;
 
+export async function generateMetadata({ params }) {
+  const { city, pid } = await params;
+  const data = await fetchProperty(pid);
+  if (!data) {
+    return {
+      title: "Property Not Found | Houseful",
+      description: "The property you are looking for is no longer available.",
+    };
+  }
+  const cityName = slugToCity(city);
+  const address = formatAddress(data);
+  const price = data.ListPrice
+    ? `$${Number(data.ListPrice).toLocaleString()}`
+    : "Property";
+  return {
+    title: `${price} · ${address} | Houseful`,
+    description: `View details, photos, and amenities for this ${data.PropertySubType || "home"} in ${cityName}.`,
+  };
+}
+
 export default async function PropertyDetailPage({ params }) {
   const { city, pid } = await params;
   const data = await fetchProperty(pid);
+  const media = await fetchMedia(pid, 10);
 
   if (!data) return notFound();
 
@@ -61,11 +83,14 @@ export default async function PropertyDetailPage({ params }) {
     sqft: data.LivingAreaRange || data.BuildingAreaTotal,
     parking: data.ParkingTotal ?? data.ParkingSpaces,
     description: data.PublicRemarks,
-    images: [],
+    images: media.map((item) => item.MediaURL).filter(Boolean),
   };
 
   const highlights = [
-    { label: "Status", value: fallbackText(data.StandardStatus || data.MlsStatus) },
+    {
+      label: "Status",
+      value: fallbackText(data.StandardStatus || data.MlsStatus),
+    },
     { label: "Type", value: fallbackText(data.PropertyType) },
     { label: "Sub Type", value: fallbackText(data.PropertySubType) },
     { label: "Style", value: formatList(data.ArchitecturalStyle) },
@@ -117,17 +142,15 @@ export default async function PropertyDetailPage({ params }) {
     data.PublicRemarks,
     data.Directions ? `Directions: ${data.Directions}` : null,
     data.CrossStreet ? `Cross Street: ${data.CrossStreet}` : null,
-    data.VirtualTourURLUnbranded
-      ? `Virtual Tour: ${data.VirtualTourURLUnbranded}`
-      : null,
   ].filter(Boolean);
+  const virtualTourUrl = data.VirtualTourURLUnbranded;
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
         <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-500">
           <Link
-            href="/"
+            href={`/${city}`}
             className="flex items-center gap-2 px-2 py-1 rounded-full bg-gray-50 border border-gray-200 hover:bg-gray-100"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -139,7 +162,7 @@ export default async function PropertyDetailPage({ params }) {
             </Link>
             <ChevronRight size={12} />
             <Link className="hover:text-gray-700" href={`/${city}`}>
-              {decodeURIComponent(city)}
+              {slugToCity(city)}
             </Link>
             <ChevronRight size={12} />
             <span className="text-gray-900 font-medium truncate max-w-[200px] md:max-w-none">
@@ -150,52 +173,7 @@ export default async function PropertyDetailPage({ params }) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 h-auto md:h-[500px]">
-          <div className="md:col-span-2 relative h-[300px] md:h-full border border-gray-200 bg-gray-50">
-            <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 gap-2">
-              <Home size={40} strokeWidth={1} />
-              <span className="text-[10px] uppercase font-bold tracking-wider">
-                No Photo
-              </span>
-            </div>
-          </div>
-          <div className="hidden md:grid col-span-1 grid-rows-2 gap-2">
-            <div className="border border-gray-200 bg-gray-50 flex items-center justify-center text-gray-400">
-              <div className="flex flex-col items-center justify-center gap-2">
-                <Home size={28} strokeWidth={1} />
-                <span className="text-[10px] uppercase font-bold tracking-wider">
-                  No Photo
-                </span>
-              </div>
-            </div>
-            <div className="border border-gray-200 bg-gray-50 flex items-center justify-center text-gray-400">
-              <div className="flex flex-col items-center justify-center gap-2">
-                <Home size={28} strokeWidth={1} />
-                <span className="text-[10px] uppercase font-bold tracking-wider">
-                  No Photo
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="hidden md:grid col-span-1 grid-rows-2 gap-2">
-            <div className="border border-gray-200 bg-gray-50 flex items-center justify-center text-gray-400">
-              <div className="flex flex-col items-center justify-center gap-2">
-                <Home size={28} strokeWidth={1} />
-                <span className="text-[10px] uppercase font-bold tracking-wider">
-                  No Photo
-                </span>
-              </div>
-            </div>
-            <div className="border border-gray-200 bg-gray-50 flex items-center justify-center text-gray-400">
-              <div className="flex flex-col items-center justify-center gap-2">
-                <Home size={28} strokeWidth={1} />
-                <span className="text-[10px] uppercase font-bold tracking-wider">
-                  No Photo
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <PropertyMediaGallery images={property.images} />
       </div>
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -254,6 +232,16 @@ export default async function PropertyDetailPage({ params }) {
               {descriptionSections.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
+              {virtualTourUrl ? (
+                <a
+                  href={virtualTourUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-teal-600 px-4 py-2 text-sm font-semibold text-teal-700 hover:bg-teal-50"
+                >
+                  Virtual Tour
+                </a>
+              ) : null}
             </div>
           </section>
 

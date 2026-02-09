@@ -12,6 +12,13 @@ import {
   Globe,
 } from "lucide-react";
 import Link from "next/link";
+import { cityToSlug } from "@/lib/slug";
+
+export const metadata = {
+  title: "About Jason Byun | Houseful",
+  description:
+    "Meet Jason Byun, a Toronto-area real estate broker specializing in strategic guidance across GTA communities.",
+};
 
 const AboutPage = () => {
   const contactInfo = {
@@ -125,7 +132,7 @@ const AboutPage = () => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {contactInfo.regions.map((city) => (
                   <Link
-                    href={`/${city}`}
+                    href={`/${cityToSlug(city)}`}
                     key={city}
                     className="bg-white border border-gray-200 px-4 py-3 rounded-xl flex items-center justify-between group hover:border-blue-600 transition-colors"
                   >

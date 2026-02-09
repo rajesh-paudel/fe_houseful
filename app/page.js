@@ -5,6 +5,13 @@ import InstagramFeed from "@/components/InstagramFeed";
 import NewestHomes from "@/components/NewestHomes";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { fetchProperties } from "@/lib/api";
+
+export const metadata = {
+  title: "Houseful | GTA Real Estate Listings",
+  description:
+    "Explore homes for sale and lease across the Greater Toronto Area with local expertise.",
+};
+
 export default async function Home() {
   const data = await fetchProperties({
     cityToPass: "Toronto",

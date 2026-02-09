@@ -4,6 +4,7 @@ import { Search, MapPin } from "lucide-react";
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
+import { cityToSlug } from "@/lib/slug";
 
 const Hero = () => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const Hero = () => {
     setQuery(city);
     setIsExpanded(false);
     nProgress.start();
-    router.push(`/${city}`);
+    router.push(`/${cityToSlug(city)}`);
   };
 
   const quickCities = ["Toronto", "Richmond Hill", "Markham", "Bradford"];
