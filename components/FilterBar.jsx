@@ -28,11 +28,27 @@ const HOME_TYPES = [
   "Multiplex",
 ];
 
+const LISTING_TYPE_MAP = {
+  sale: "For Sale",
+  lease: "For Lease",
+};
+
+const PRICE_OPTIONS = [
+  { value: "500000", label: "0-500k" },
+  { value: "600000", label: "Under 600k" },
+  { value: "700000", label: "Under 700k" },
+  { value: "800000", label: "Under 800k" },
+  { value: "900000", label: "Under 900k" },
+  { value: "1000000", label: "Under 1M" },
+  { value: "1500000", label: "Under 1.5M" },
+];
+
 function useUrlFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sortKey = searchParams.get("sort") || "newest";
   const sortLabel = SORT_MAP[sortKey];
+  const listingType = searchParams.get("listingType") || "sale";
   const get = (key) => searchParams.get(key);
 
   const set = (key, value) => {
@@ -47,7 +63,8 @@ function useUrlFilters() {
 
   const clearAll = () => {
     const params = new URLSearchParams(searchParams.toString());
-    ["beds", "baths", "homeType"].forEach((k) => params.delete(k));
+    ["beds", "baths", "homeType", "priceMax"].forEach((k) => params.delete(k));
+    params.set("listingType", "sale");
     params.set("page", "1");
     router.push(`?${params.toString()}`, { scroll: false });
   };
@@ -56,6 +73,8 @@ function useUrlFilters() {
     beds: Number(get("beds")) || null,
     baths: Number(get("baths")) || null,
     homeType: get("homeType"),
+    priceMax: get("priceMax"),
+    listingType,
     sortKey,
     sortLabel: SORT_MAP[sortKey],
     set,
@@ -78,8 +97,17 @@ export default function FilterBar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  const { beds, baths, homeType, sortKey, sortLabel, set, clearAll } =
-    useUrlFilters();
+  const {
+    beds,
+    baths,
+    homeType,
+    priceMax,
+    listingType,
+    sortKey,
+    sortLabel,
+    set,
+    clearAll,
+  } = useUrlFilters();
 
   return (
     <>
@@ -89,7 +117,50 @@ export default function FilterBar() {
           {/* Filters */}
           <div className="flex items-center gap-3">
             {/* Desktop */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-3">
+              <DesktopDropdown
+                label="Listing"
+                value={LISTING_TYPE_MAP[listingType] || "For Sale"}
+              >
+                {(close) =>
+                  Object.entries(LISTING_TYPE_MAP).map(([key, label]) => (
+                    <DropdownItem
+                      key={key}
+                      active={listingType === key}
+                      onClick={() => {
+                        set("listingType", key);
+                        close();
+                      }}
+                    >
+                      {label}
+                    </DropdownItem>
+                  ))
+                }
+              </DesktopDropdown>
+
+              <DesktopDropdown
+                label="Price"
+                value={
+                  PRICE_OPTIONS.find((o) => o.value === priceMax)?.label ||
+                  "Any"
+                }
+              >
+                {(close) =>
+                  PRICE_OPTIONS.map((opt) => (
+                    <DropdownItem
+                      key={opt.value}
+                      active={priceMax === opt.value}
+                      onClick={() => {
+                        set("priceMax", opt.value);
+                        close();
+                      }}
+                    >
+                      {opt.label}
+                    </DropdownItem>
+                  ))
+                }
+              </DesktopDropdown>
+
               <DesktopDropdown label="Beds" value={beds ? `${beds}+` : "Any"}>
                 {(close) =>
                   BED_OPTIONS.map((b) => (
@@ -155,7 +226,7 @@ export default function FilterBar() {
             {/* Mobile */}
             <button
               onClick={() => setPanelOpen(true)}
-              className="md:hidden flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-semibold"
+              className="lg:hidden flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-semibold"
             >
               <SlidersHorizontal size={16} />
               Filters
@@ -222,6 +293,52 @@ export default function FilterBar() {
           </button>
 
           <h2 className="text-lg font-semibold mb-4">Filters</h2>
+
+          <h3 className="font-medium mb-2">Listing</h3>
+          <DesktopDropdown
+            label="Listing"
+            value={LISTING_TYPE_MAP[listingType] || "For Sale"}
+            isMobile={true}
+          >
+            {(close) =>
+              Object.entries(LISTING_TYPE_MAP).map(([key, label]) => (
+                <DropdownItem
+                  key={key}
+                  active={listingType === key}
+                  onClick={() => {
+                    set("listingType", key);
+                    close();
+                  }}
+                >
+                  {label}
+                </DropdownItem>
+              ))
+            }
+          </DesktopDropdown>
+
+          <h3 className="font-medium mt-4 mb-2">Price</h3>
+          <DesktopDropdown
+            label="Price"
+            value={
+              PRICE_OPTIONS.find((o) => o.value === priceMax)?.label || "Any"
+            }
+            isMobile={true}
+          >
+            {(close) =>
+              PRICE_OPTIONS.map((opt) => (
+                <DropdownItem
+                  key={opt.value}
+                  active={priceMax === opt.value}
+                  onClick={() => {
+                    set("priceMax", opt.value);
+                    close();
+                  }}
+                >
+                  {opt.label}
+                </DropdownItem>
+              ))
+            }
+          </DesktopDropdown>
 
           <FilterGroup
             title="Beds"

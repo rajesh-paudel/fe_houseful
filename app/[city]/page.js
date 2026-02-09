@@ -13,6 +13,8 @@ export default async function CityPage({ params, searchParams }) {
   const beds = sParams.beds ? Number(sParams.beds) : undefined;
   const baths = sParams.baths ? Number(sParams.baths) : undefined;
   const homeType = sParams.homeType || undefined;
+  const priceMax = sParams.priceMax ? Number(sParams.priceMax) : undefined;
+  const listingType = sParams.listingType || "sale";
   const sort = sParams.sort || "newest";
   const cityToPass = decodeURIComponent(city);
   const data = await fetchProperties({
@@ -22,6 +24,8 @@ export default async function CityPage({ params, searchParams }) {
     beds,
     baths,
     homeType,
+    priceMax,
+    listingType,
     sort,
   });
 

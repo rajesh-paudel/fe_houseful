@@ -15,6 +15,8 @@ const CityComponent = ({ city, properties, pagination }) => {
   };
 
   const cityName = decodeURIComponent(city);
+  const listingType = searchParams.get("listingType") || "sale";
+  const listingLabel = listingType === "lease" ? "homes for lease" : "homes for sale";
   return (
     <div className="min-h-screen bg-white">
       <FilterBar />
@@ -23,7 +25,7 @@ const CityComponent = ({ city, properties, pagination }) => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-800 capitalize">
-            {cityName}, homes for sale
+            {cityName}, {listingLabel}
           </h1>
           <p className="text-gray-500 text-sm mt-1">
             Total {totalCount} homes found • Page {currentPage} of {totalPages}
