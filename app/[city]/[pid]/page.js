@@ -19,6 +19,7 @@ import ScheduleViewing from "@/components/ScheduleViewing";
 import { fetchMedia, fetchProperty } from "@/lib/api";
 import { slugToCity } from "@/lib/slug";
 import PropertyMediaGallery from "@/components/PropertyMediaGallery";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const formatMoney = (value) => {
   if (value === null || value === undefined || value === "") return "-";
@@ -69,7 +70,7 @@ export async function generateMetadata({ params }) {
 export default async function PropertyDetailPage({ params }) {
   const { city, pid } = await params;
   const data = await fetchProperty(pid);
-  const media = await fetchMedia(pid, 10);
+  const media = await fetchMedia(pid, 25);
 
   if (!data) return notFound();
 
@@ -147,6 +148,7 @@ export default async function PropertyDetailPage({ params }) {
 
   return (
     <div className="min-h-screen bg-white">
+      <ScrollToTop />
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
         <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-500">
           <Link

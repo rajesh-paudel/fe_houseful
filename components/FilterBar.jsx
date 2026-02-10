@@ -43,46 +43,82 @@ const PRICE_OPTIONS = [
   { value: "1500000", label: "Under 1.5M" },
 ];
 
-function useUrlFilters() {
+function useUrlFilters(onNavigate) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const sortKey = searchParams.get("sort") || "newest";
-  const sortLabel = SORT_MAP[sortKey];
-  const listingType = searchParams.get("listingType") || "sale";
   const get = (key) => searchParams.get(key);
+  const initial = {
+    sortKey: get("sort") || "newest",
+    listingType: get("listingType") || "sale",
+    beds: Number(get("beds")) || null,
+    baths: Number(get("baths")) || null,
+    homeType: get("homeType"),
+    priceMax: get("priceMax"),
+  };
+  const [local, setLocal] = useState(initial);
+
+  useEffect(() => {
+    setLocal({
+      sortKey: get("sort") || "newest",
+      listingType: get("listingType") || "sale",
+      beds: Number(get("beds")) || null,
+      baths: Number(get("baths")) || null,
+      homeType: get("homeType"),
+      priceMax: get("priceMax"),
+    });
+  }, [searchParams.toString()]);
+  const push = (url, options) => {
+    if (onNavigate) onNavigate(url, options);
+    else router.push(url, options);
+  };
 
   const set = (key, value) => {
+    setLocal((prev) => ({ ...prev, [key]: value }));
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
     const params = new URLSearchParams(searchParams.toString());
 
     if (!value) params.delete(key);
     else params.set(key, String(value));
 
     params.set("page", "1"); // reset pagination
-    router.push(`?${params.toString()}`, { scroll: false });
+    push(`?${params.toString()}`, { scroll: false });
   };
 
   const clearAll = () => {
+    setLocal((prev) => ({
+      ...prev,
+      beds: null,
+      baths: null,
+      homeType: null,
+      priceMax: null,
+      listingType: "sale",
+    }));
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
     const params = new URLSearchParams(searchParams.toString());
     ["beds", "baths", "homeType", "priceMax"].forEach((k) => params.delete(k));
     params.set("listingType", "sale");
     params.set("page", "1");
-    router.push(`?${params.toString()}`, { scroll: false });
+    push(`?${params.toString()}`, { scroll: false });
   };
 
   return {
-    beds: Number(get("beds")) || null,
-    baths: Number(get("baths")) || null,
-    homeType: get("homeType"),
-    priceMax: get("priceMax"),
-    listingType,
-    sortKey,
-    sortLabel: SORT_MAP[sortKey],
+    beds: local.beds,
+    baths: local.baths,
+    homeType: local.homeType,
+    priceMax: local.priceMax,
+    listingType: local.listingType,
+    sortKey: local.sortKey,
+    sortLabel: SORT_MAP[local.sortKey],
     set,
     clearAll,
   };
 }
 
-export default function FilterBar() {
+export default function FilterBar({ onNavigate }) {
   const [panelOpen, setPanelOpen] = useState(false);
   const [openSort, setOpenSort] = useState(false);
   const [homeTypeDropdown, setHomeTypeDropdown] = useState(false);
@@ -107,7 +143,7 @@ export default function FilterBar() {
     sortLabel,
     set,
     clearAll,
-  } = useUrlFilters();
+  } = useUrlFilters(onNavigate);
 
   return (
     <>

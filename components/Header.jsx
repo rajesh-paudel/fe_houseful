@@ -20,7 +20,7 @@ const Header = () => {
 
   const communities = [
     "Toronto",
-    "Richmond Hill",
+    "Richmond-Hill",
     "Markham",
     "Bradford",
     "Vaughan",

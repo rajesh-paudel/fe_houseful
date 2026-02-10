@@ -59,7 +59,10 @@ export default function PropertyCard({ property }) {
     <div
       onClick={() => {
         nProgress.start();
-        router.push(`/${cityToSlug(city)}/${mls}`);
+        if (typeof window !== "undefined") {
+          window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        }
+        router.push(`/${cityToSlug(city)}/${mls}`, { scroll: true });
       }}
       className="w-full bg-white rounded-xl overflow-hidden cursor-pointer  border border-gray-100"
     >
