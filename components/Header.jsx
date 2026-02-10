@@ -108,7 +108,7 @@ const Header = () => {
                       {communities.map((city) => (
                         <Link
                           key={city}
-                          href={`${city}`}
+                          href={`/${city}`}
                           className="px-6 py-3 text-[15px] font-medium text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors border-b last:border-0 border-gray-50"
                         >
                           {city}
@@ -180,15 +180,15 @@ const Header = () => {
               />
             </button>
             {isMobileCommunitiesOpen && (
-              <div className="flex flex-col pl-4 mt-2 gap-3 border-l-2 border-gray-100">
-                {communities.map((city) => (
+              <div className="flex flex-col pl-4 mt-2 gap-3 border-l-2 text-gray-700 border-gray-100">
+                {communities?.map((city, index) => (
                   <Link
-                    key={city.name}
-                    href={city.href}
+                    key={index}
+                    href={`/${city}`}
                     onClick={closeMenu}
-                    className="text-sm text-gray-600 py-1"
+                    className="text-sm text-gray-700 py-1"
                   >
-                    {city.name}
+                    {city}
                   </Link>
                 ))}
               </div>
