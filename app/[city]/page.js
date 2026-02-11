@@ -6,7 +6,7 @@ export async function generateMetadata({ params }) {
   const { city } = await params;
   const cityName = slugToCity(city);
   return {
-    title: `${cityName} Real Estate | Houseful`,
+    title: `${cityName} Real Estate | Jason Byun `,
     description: `Browse homes for sale and lease in ${cityName} with local market insights.`,
   };
 }

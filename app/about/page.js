@@ -13,7 +13,7 @@ import Link from "next/link";
 import { cityToSlug } from "@/lib/slug";
 
 export const metadata = {
-  title: "About Jason Byun | Houseful",
+  title: "About Jason Byun ",
   description:
     "Meet Jason Byun, a Toronto-area real estate broker specializing in strategic guidance across GTA communities.",
 };

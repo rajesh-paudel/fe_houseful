@@ -52,7 +52,7 @@ export async function generateMetadata({ params }) {
   const data = await fetchProperty(pid);
   if (!data) {
     return {
-      title: "Property Not Found | Houseful",
+      title: "Property Not Found | Jason Byun ",
       description: "The property you are looking for is no longer available.",
     };
   }
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }) {
     ? `$${Number(data.ListPrice).toLocaleString()}`
     : "Property";
   return {
-    title: `${price} · ${address} | Houseful`,
+    title: `${price} · ${address} | Jason Byun `,
     description: `View details, photos, and amenities for this ${data.PropertySubType || "home"} in ${cityName}.`,
   };
 }
@@ -160,7 +160,7 @@ export default async function PropertyDetailPage({ params }) {
           </Link>
           <div className="flex items-center gap-2 flex-wrap">
             <Link href="/" className="font-medium hover:text-gray-700">
-              Houseful
+              Home
             </Link>
             <ChevronRight size={12} />
             <Link className="hover:text-gray-700" href={`/${city}`}>
