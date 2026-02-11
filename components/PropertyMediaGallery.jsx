@@ -275,8 +275,11 @@ export default function PropertyMediaGallery({ images = [] }) {
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
-            <div className="absolute inset-0 w-full h-full flex items-center justify-center text-gray-300">
+            <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-gray-300 gap-2">
               <Home size={36} />
+              <p className="text-[10px] uppercase font-semibold tracking-wider">
+                Image not found
+              </p>
             </div>
           )}
         </button>
@@ -299,8 +302,11 @@ export default function PropertyMediaGallery({ images = [] }) {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="absolute inset-0 w-full h-full flex items-center justify-center text-gray-300">
+                  <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-gray-300 gap-1.5">
                     <Home size={28} />
+                    <p className="text-[9px] uppercase font-semibold tracking-wider">
+                      Image not found
+                    </p>
                   </div>
                 )}
               </button>
@@ -326,8 +332,11 @@ export default function PropertyMediaGallery({ images = [] }) {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="absolute inset-0 w-full h-full flex items-center justify-center text-gray-300">
+                  <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-gray-300 gap-1.5">
                     <Home size={28} />
+                    <p className="text-[9px] uppercase font-semibold tracking-wider">
+                      Image not found
+                    </p>
                   </div>
                 )}
               </button>
@@ -406,8 +415,11 @@ export default function PropertyMediaGallery({ images = [] }) {
                   />
                 </div>
               ) : (
-                <div className="h-[65vh] w-full flex items-center justify-center rounded-xl bg-white/5 text-white/70">
+                <div className="h-[65vh] w-full flex flex-col items-center justify-center rounded-xl bg-white/5 text-white/70 gap-2">
                   <Home size={52} />
+                  <p className="text-xs uppercase font-semibold tracking-wider">
+                    Image not found
+                  </p>
                 </div>
               )}
 
@@ -462,8 +474,11 @@ export default function PropertyMediaGallery({ images = [] }) {
                         className="absolute inset-0 w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="absolute inset-0 w-full h-full flex items-center justify-center text-white/60">
+                      <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-white/60 gap-1">
                         <Home size={20} />
+                        <p className="text-[8px] uppercase font-semibold tracking-wider">
+                          Image not found
+                        </p>
                       </div>
                     )}
                   </button>

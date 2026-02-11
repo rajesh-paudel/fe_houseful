@@ -28,8 +28,13 @@ export default function PropertyCard({ property }) {
   const city = property.City || "";
   const mls = property.ListingKey;
   const thumbnail = property.Media?.[0]?.MediaURL || null;
+  const [imageLoadError, setImageLoadError] = React.useState(false);
   const listedDate = property.OriginalEntryTimestamp;
   const agency = property.ListOfficeName || "Real Estate Professionals Inc.";
+
+  React.useEffect(() => {
+    setImageLoadError(false);
+  }, [thumbnail]);
 
   //function to show how long ago property was listed
   const getTimeAgo = (dateString) => {
@@ -68,18 +73,19 @@ export default function PropertyCard({ property }) {
     >
       {/* Image Section */}
       <div className="relative h-48 w-full bg-gray-100">
-        {thumbnail ? (
+        {thumbnail && !imageLoadError ? (
           <img
             src={thumbnail}
             alt={fullAddress}
             className="w-full h-full object-cover"
             loading="lazy"
+            onError={() => setImageLoadError(true)}
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 gap-2">
             <Home size={40} strokeWidth={1} />
             <span className="text-[10px] uppercase font-bold tracking-wider">
-              No Photo
+              {thumbnail ? "Image not found" : "No Photo"}
             </span>
           </div>
         )}
