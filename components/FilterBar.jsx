@@ -21,11 +21,12 @@ const SORT_MAP = {
 };
 
 const HOME_TYPES = [
-  "Detached",
-  "Office",
-  "Condo Townhouse",
   "Condo Apartment",
-  "Multiplex",
+  "Condo Townhouse",
+  "Att/Row/Townhouse",
+  "Detached",
+  "Semi-Detached ",
+  "Link",
 ];
 
 const LISTING_TYPE_MAP = {
@@ -33,27 +34,34 @@ const LISTING_TYPE_MAP = {
   lease: "For Lease",
 };
 
-const PRICE_OPTIONS = [
-  { value: "500000", label: "0-500k" },
-  { value: "600000", label: "Under 600k" },
-  { value: "700000", label: "Under 700k" },
-  { value: "800000", label: "Under 800k" },
-  { value: "900000", label: "Under 900k" },
-  { value: "1000000", label: "Under 1M" },
-  { value: "1500000", label: "Under 1.5M" },
+const PRICE_VALUES = [
+  25000, 50000, 75000, 100000, 125000, 150000, 200000, 250000, 300000, 400000,
+  500000, 600000, 700000, 800000, 900000, 1000000, 1250000, 1500000, 1750000,
+  2000000, 2500000, 3000000, 3500000, 4000000, 4500000, 5000000,
 ];
+const moneyFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
+const PRICE_OPTIONS = PRICE_VALUES.map((value) => ({
+  value: String(value),
+  label: moneyFormatter.format(value),
+}));
 
 function useUrlFilters(onNavigate) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const get = (key) => searchParams.get(key);
+  const legacyPriceMax = get("priceMax");
   const initial = {
     sortKey: get("sort") || "newest",
     listingType: get("listingType") || "sale",
     beds: Number(get("beds")) || null,
     baths: Number(get("baths")) || null,
     homeType: get("homeType"),
-    priceMax: get("priceMax"),
+    minPrice: get("minPrice"),
+    maxPrice: get("maxPrice") || legacyPriceMax,
   };
   const [local, setLocal] = useState(initial);
 
@@ -64,7 +72,8 @@ function useUrlFilters(onNavigate) {
       beds: Number(get("beds")) || null,
       baths: Number(get("baths")) || null,
       homeType: get("homeType"),
-      priceMax: get("priceMax"),
+      minPrice: get("minPrice"),
+      maxPrice: get("maxPrice") || get("priceMax"),
     });
   }, [searchParams.toString()]);
   const push = (url, options) => {
@@ -72,18 +81,51 @@ function useUrlFilters(onNavigate) {
     else router.push(url, options);
   };
 
-  const set = (key, value) => {
-    setLocal((prev) => ({ ...prev, [key]: value }));
+  const setMany = (updates) => {
+    setLocal((prev) => ({ ...prev, ...updates }));
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
     const params = new URLSearchParams(searchParams.toString());
+    params.delete("priceMax");
 
-    if (!value) params.delete(key);
-    else params.set(key, String(value));
+    Object.entries(updates).forEach(([key, value]) => {
+      if (!value) params.delete(key);
+      else params.set(key, String(value));
+    });
 
     params.set("page", "1"); // reset pagination
     push(`?${params.toString()}`, { scroll: false });
+  };
+  const set = (key, value) => setMany({ [key]: value });
+
+  const setPrice = (key, value) => {
+    const currentMin = get("minPrice");
+    const currentMax = get("maxPrice") || get("priceMax");
+    const nextValue = value ? String(value) : null;
+    const nextMin =
+      key === "minPrice"
+        ? nextValue
+          ? Number(nextValue)
+          : null
+        : currentMin
+          ? Number(currentMin)
+          : null;
+    const nextMax =
+      key === "maxPrice"
+        ? nextValue
+          ? Number(nextValue)
+          : null
+        : currentMax
+          ? Number(currentMax)
+          : null;
+
+    const updates = { [key]: nextValue };
+    if (nextMin && nextMax && nextMin > nextMax) {
+      if (key === "minPrice") updates.maxPrice = null;
+      if (key === "maxPrice") updates.minPrice = null;
+    }
+    setMany(updates);
   };
 
   const clearAll = () => {
@@ -92,14 +134,17 @@ function useUrlFilters(onNavigate) {
       beds: null,
       baths: null,
       homeType: null,
-      priceMax: null,
+      minPrice: null,
+      maxPrice: null,
       listingType: "sale",
     }));
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
     const params = new URLSearchParams(searchParams.toString());
-    ["beds", "baths", "homeType", "priceMax"].forEach((k) => params.delete(k));
+    ["beds", "baths", "homeType", "minPrice", "maxPrice", "priceMax"].forEach(
+      (k) => params.delete(k),
+    );
     params.set("listingType", "sale");
     params.set("page", "1");
     push(`?${params.toString()}`, { scroll: false });
@@ -109,11 +154,13 @@ function useUrlFilters(onNavigate) {
     beds: local.beds,
     baths: local.baths,
     homeType: local.homeType,
-    priceMax: local.priceMax,
+    minPrice: local.minPrice,
+    maxPrice: local.maxPrice,
     listingType: local.listingType,
     sortKey: local.sortKey,
     sortLabel: SORT_MAP[local.sortKey],
     set,
+    setPrice,
     clearAll,
   };
 }
@@ -121,7 +168,6 @@ function useUrlFilters(onNavigate) {
 export default function FilterBar({ onNavigate }) {
   const [panelOpen, setPanelOpen] = useState(false);
   const [openSort, setOpenSort] = useState(false);
-  const [homeTypeDropdown, setHomeTypeDropdown] = useState(false);
   const sortRef = useRef(null);
 
   useEffect(() => {
@@ -137,13 +183,23 @@ export default function FilterBar({ onNavigate }) {
     beds,
     baths,
     homeType,
-    priceMax,
+    minPrice,
+    maxPrice,
     listingType,
     sortKey,
     sortLabel,
     set,
+    setPrice,
     clearAll,
   } = useUrlFilters(onNavigate);
+  const minPriceNum = minPrice ? Number(minPrice) : null;
+  const maxPriceNum = maxPrice ? Number(maxPrice) : null;
+  const minPriceOptions = PRICE_OPTIONS.filter(
+    (opt) => !maxPriceNum || Number(opt.value) <= maxPriceNum,
+  );
+  const maxPriceOptions = PRICE_OPTIONS.filter(
+    (opt) => !minPriceNum || Number(opt.value) >= minPriceNum,
+  );
 
   return (
     <>
@@ -174,28 +230,13 @@ export default function FilterBar({ onNavigate }) {
                 }
               </DesktopDropdown>
 
-              <DesktopDropdown
-                label="Price"
-                value={
-                  PRICE_OPTIONS.find((o) => o.value === priceMax)?.label ||
-                  "Any"
-                }
-              >
-                {(close) =>
-                  PRICE_OPTIONS.map((opt) => (
-                    <DropdownItem
-                      key={opt.value}
-                      active={priceMax === opt.value}
-                      onClick={() => {
-                        set("priceMax", opt.value);
-                        close();
-                      }}
-                    >
-                      {opt.label}
-                    </DropdownItem>
-                  ))
-                }
-              </DesktopDropdown>
+              <PricePopover
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+                minPriceOptions={minPriceOptions}
+                maxPriceOptions={maxPriceOptions}
+                setPrice={setPrice}
+              />
 
               <DesktopDropdown label="Beds" value={beds ? `${beds}+` : "Any"}>
                 {(close) =>
@@ -353,28 +394,26 @@ export default function FilterBar({ onNavigate }) {
           </DesktopDropdown>
 
           <h3 className="font-medium mt-4 mb-2">Price</h3>
-          <DesktopDropdown
-            label="Price"
+          <PriceValueDropdown
+            label="Min Price"
             value={
-              PRICE_OPTIONS.find((o) => o.value === priceMax)?.label || "Any"
+              PRICE_OPTIONS.find((o) => o.value === minPrice)?.label || "No Min"
             }
-            isMobile={true}
-          >
-            {(close) =>
-              PRICE_OPTIONS.map((opt) => (
-                <DropdownItem
-                  key={opt.value}
-                  active={priceMax === opt.value}
-                  onClick={() => {
-                    set("priceMax", opt.value);
-                    close();
-                  }}
-                >
-                  {opt.label}
-                </DropdownItem>
-              ))
+            noneLabel="No Min"
+            options={minPriceOptions}
+            onSelect={(value) => setPrice("minPrice", value)}
+          />
+
+          <h3 className="font-medium mt-4 mb-2">Max Price</h3>
+          <PriceValueDropdown
+            label="Max Price"
+            value={
+              PRICE_OPTIONS.find((o) => o.value === maxPrice)?.label || "No Max"
             }
-          </DesktopDropdown>
+            noneLabel="No Max"
+            options={maxPriceOptions}
+            onSelect={(value) => setPrice("maxPrice", value)}
+          />
 
           <FilterGroup
             title="Beds"
@@ -449,6 +488,114 @@ function DesktopDropdown({ label, value, children }) {
       {open && (
         <div className="absolute mt-2 bg-white border rounded-xl shadow-lg p-2 z-50">
           {children(() => setOpen(false))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PricePopover({
+  minPrice,
+  maxPrice,
+  minPriceOptions,
+  maxPriceOptions,
+  setPrice,
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const minLabel =
+    PRICE_OPTIONS.find((opt) => opt.value === minPrice)?.label || "No Min";
+  const maxLabel =
+    PRICE_OPTIONS.find((opt) => opt.value === maxPrice)?.label || "No Max";
+
+  useEffect(() => {
+    const handler = (e) =>
+      ref.current && !ref.current.contains(e.target) && setOpen(false);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm"
+      >
+        <span className="text-gray-600">Price:</span>
+        <span className="font-semibold">
+          {minLabel} - {maxLabel}
+        </span>
+        <ChevronDown size={14} />
+      </button>
+
+      {open && (
+        <div className="absolute left-0 mt-2 w-[360px] bg-white border rounded-xl shadow-lg p-4 z-50">
+          <div className="grid grid-cols-2 gap-3">
+            <PriceValueDropdown
+              label="Min Price"
+              value={minLabel}
+              noneLabel="No Min"
+              options={minPriceOptions}
+              onSelect={(value) => setPrice("minPrice", value)}
+            />
+            <PriceValueDropdown
+              label="Max Price"
+              value={maxLabel}
+              noneLabel="No Max"
+              options={maxPriceOptions}
+              onSelect={(value) => setPrice("maxPrice", value)}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PriceValueDropdown({ label, value, noneLabel, options, onSelect }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) =>
+      ref.current && !ref.current.contains(e.target) && setOpen(false);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <p className="text-xs text-gray-600 mb-1">{label}</p>
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className="w-full border rounded-lg px-2 py-2 text-sm bg-white flex items-center justify-between"
+      >
+        <span className="truncate">{value}</span>
+        <ChevronDown size={14} />
+      </button>
+      {open && (
+        <div className="absolute left-0 mt-1 w-full bg-white border rounded-lg shadow-lg p-1 z-50 max-h-56 overflow-auto">
+          <DropdownItem
+            active={value === noneLabel}
+            onClick={() => {
+              onSelect(null);
+              setOpen(false);
+            }}
+          >
+            {noneLabel}
+          </DropdownItem>
+          {options.map((opt) => (
+            <DropdownItem
+              key={opt.value}
+              active={value === opt.label}
+              onClick={() => {
+                onSelect(opt.value);
+                setOpen(false);
+              }}
+            >
+              {opt.label}
+            </DropdownItem>
+          ))}
         </div>
       )}
     </div>
