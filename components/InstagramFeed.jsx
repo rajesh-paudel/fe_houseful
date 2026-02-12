@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const InstagramFeed = () => {
@@ -150,12 +151,12 @@ const InstagramFeed = () => {
 
         {/* CTA Button */}
         <div className="mt-12 text-center">
-          <a
-            href="#"
+          <Link
+            href="https://www.instagram.com/jasonbyunrealestate/"
             className="inline-block bg-white border border-gray-300 px-8 py-3 rounded-full font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm"
           >
             View More on Instagram
-          </a>
+          </Link>
         </div>
       </div>
     </section>

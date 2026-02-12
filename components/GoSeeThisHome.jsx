@@ -14,7 +14,7 @@ export default function GoSeeThisHome() {
         </div>
         <div className="min-w-0">
           <h2 className="text-xl md:text-2xl font-serif font-semibold text-[#1a1a1a] leading-tight">
-            Json Byun
+            Jason Byun
           </h2>
           <p className="text-sm md:text-base text-gray-700 font-medium">
             647-471-9000

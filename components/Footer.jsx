@@ -14,7 +14,7 @@ const AgentFooter = () => {
     <footer className="bg-white pt-20 pb-10 px-6 border-t border-slate-300">
       <div className="max-w-6xl mx-auto flex flex-col items-center">
         {/* Main Footer Content */}
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-12 mb-16">
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-12 mb-8">
           {/* Left Side: Professional Portrait */}
           <div className="w-full md:w-1/3 flex justify-center md:justify-start">
             <div className="relative w-64 aspect-[3/4] overflow-hidden grayscale-[0.2]">
@@ -91,15 +91,25 @@ const AgentFooter = () => {
         </div>
 
         {/* Legal Disclaimer Section - Matches RE/MAX bottom text */}
-        <div className="pt-10 border-t border-slate-100 text-[10px] text-slate-400 leading-relaxed text-center">
+        <div className="pt-6 border-t border-slate-200 text-[10px] text-slate-500 leading-relaxed text-center">
           <p className="max-w-4xl text-sm mx-auto mb-6">
-            The trademarks REALTOR®, REALTORS®, and the REALTOR® logo are
-            controlled by The Canadian Real Estate Association (CREA) and
-            identify real estate professionals who are members of CREA. The
-            trademarks MLS®, Multiple Listing Service® and the associated logos
-            are owned by CREA and identify the quality of services provided by
-            real estate professionals who are members of CREA. Used under
-            license.
+            Copyright 2026 All rights reserved. Toronto Regional Real Estate
+            Board (TRREB) assumes no responsibility for the accuracy of any
+            information shown. The information provided herein must only be used
+            by consumers that have a bona fide interest in the purchase, sale or
+            lease of real estate and may not be used for any commercial purpose
+            or any other purpose.
+          </p>
+          <p className="max-w-4xl text-sm mx-auto mb-6">
+            The REALTOR® trademark is controlled by The Canadian Real Estate
+            Association (CREA) and identifies real estate professionals who are
+            members of CREA. The trademarks MLS®, Multiple Listing Service® and
+            the associated logos identify professional services rendered by
+            REALTOR® members of CREA to effect the purchase, sale and lease of
+            real estate as part of a cooperative selling system.
+          </p>
+          <p className="max-w-4xl text-sm mx-auto font-semibold text-slate-600">
+            &copy; 2026 Power Of Sale. All rights reserved.
           </p>
         </div>
       </div>

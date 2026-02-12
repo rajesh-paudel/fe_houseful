@@ -34,10 +34,8 @@ const Header = () => {
     { name: "HOME", href: "/" },
     { name: "SELLERS", href: "#selling" },
     { name: "BUYERS", href: "#buying" },
-    { name: "SEARCH", href: "#listings" },
     { name: "ABOUT", href: "/about" },
     { name: "CONTACT", href: "#contact" },
-    { name: "OPEN HOUSES", href: "#open-houses" },
   ];
 
   const closeMenu = () => {
@@ -76,9 +74,9 @@ const Header = () => {
                 </Link>
                 <span className="text-gray-300">|</span>
                 <div className="flex items-center gap-3">
-                  <Facebook className="w-5 h-5 cursor-pointer hover:text-blue-600" />
-                  <Instagram className="w-5 h-5 cursor-pointer hover:text-blue-600" />
-                  <Linkedin className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+                  <Link href="https://www.instagram.com/jasonbyunrealestate/">
+                    <Instagram className="w-5 h-5 cursor-pointer hover:text-blue-600" />
+                  </Link>
                 </div>
                 <span className="text-gray-300">|</span>
                 <User className="w-5 h-5 cursor-pointer hover:text-blue-600" />

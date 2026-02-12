@@ -98,9 +98,6 @@ const CommunitySection = () => {
                     <p className="text-lg font-medium leading-tight">
                       {city.name}
                     </p>
-                    <p className="text-[11px] uppercase tracking-wider opacity-80 mt-1">
-                      {city.count} Properties
-                    </p>
                   </div>
                 </div>
               </div>
