@@ -2,10 +2,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import PropertyCard from "./PropertyCard";
-import { PROPERTIES } from "@/utils/data";
-
 import Link from "next/link";
-const NewestHomes = ({ properties }) => {
+const FeaturedPropertiesSection = ({ properties }) => {
   const scrollRef = useRef(null);
 
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -33,7 +31,7 @@ const NewestHomes = ({ properties }) => {
     // Re-check on window resize
     window.addEventListener("resize", checkScroll);
     return () => window.removeEventListener("resize", checkScroll);
-  }, [PROPERTIES]);
+  }, [properties]);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -124,4 +122,4 @@ const NewestHomes = ({ properties }) => {
   );
 };
 
-export default NewestHomes;
+export default FeaturedPropertiesSection;

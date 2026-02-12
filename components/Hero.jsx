@@ -102,7 +102,7 @@ const Hero = () => {
             <Search className="absolute left-6 w-5 h-5 text-white/70" />
             <input
               type="text"
-              placeholder="Enter city, neighborhood, or MLS#"
+              placeholder="Search by MLS® Number or Address"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsExpanded(true)}

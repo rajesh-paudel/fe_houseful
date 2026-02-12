@@ -1,9 +1,6 @@
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
-import Navbar from "@/components/Navbar";
-import MainFooter from "@/components/MainFooter";
-import CTAbanner from "@/components/CTAbanner";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 const geistSans = Geist({
@@ -22,7 +19,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: "Houseful | Find, finance and own your home",
+  title: "Jason Byun | Find, finance and own your home",
   description: "Real estate search and mortgage services",
 };
 

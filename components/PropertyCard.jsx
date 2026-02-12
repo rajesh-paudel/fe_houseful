@@ -27,7 +27,7 @@ export default function PropertyCard({ property }) {
     `${property.StreetNumber} ${property.StreetName}`;
   const city = property.City || "";
   const mls = property.ListingKey;
-  const thumbnail = property.Media?.[0]?.MediaURL || null;
+  const thumbnail = property.thumbnail || property.Media?.[0]?.MediaURL || null;
   const [imageLoadError, setImageLoadError] = React.useState(false);
   const listedDate = property.OriginalEntryTimestamp;
   const agency = property.ListOfficeName || "Real Estate Professionals Inc.";

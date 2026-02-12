@@ -20,6 +20,7 @@ import { fetchMedia, fetchProperty } from "@/lib/api";
 import { slugToCity } from "@/lib/slug";
 import PropertyMediaGallery from "@/components/PropertyMediaGallery";
 import ScrollToTop from "@/components/ScrollToTop";
+import ShareButton from "@/components/ShareButton";
 
 const formatMoney = (value) => {
   if (value === null || value === undefined || value === "") return "-";
@@ -151,13 +152,6 @@ export default async function PropertyDetailPage({ params }) {
       <ScrollToTop />
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
         <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-500">
-          <Link
-            href={`/${city}`}
-            className="flex items-center gap-2 px-2 py-1 rounded-full bg-gray-50 border border-gray-200 hover:bg-gray-100"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>Back</span>
-          </Link>
           <div className="flex items-center gap-2 flex-wrap">
             <Link href="/" className="font-medium hover:text-gray-700">
               Home
@@ -181,12 +175,15 @@ export default async function PropertyDetailPage({ params }) {
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">
-              ${formatMoney(property.price)}
-              <span className="text-sm font-medium text-gray-500 ml-2">
-                {data.TransactionType || "For Sale"}
-              </span>
-            </h1>
+            <div className="flex flex-wrap items-start justify-between gap-3 mb-1">
+              <h1 className="text-3xl font-bold text-gray-900">
+                ${formatMoney(property.price)}
+                <span className="text-sm font-medium text-gray-500 ml-2">
+                  {data.TransactionType || "For Sale"}
+                </span>
+              </h1>
+              <ShareButton />
+            </div>
             <p className="text-lg text-gray-600 mb-2">{property.address}</p>
             <p className="text-sm text-gray-500">
               {property.neighborhood} · {fallbackText(data.CountyOrParish)} ·{" "}
@@ -384,8 +381,8 @@ export default async function PropertyDetailPage({ params }) {
         </div>
 
         <div className="py-5">
-          <div className="sticky x-40 top-22">
-            <GoSeeThisHome cityName={property.city} />
+          <div className="sticky x-40 top-32">
+            <GoSeeThisHome />
           </div>
         </div>
       </main>

@@ -13,14 +13,14 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-
+import { cityToSlug } from "@/lib/slug";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileCommunitiesOpen, setIsMobileCommunitiesOpen] = useState(false);
 
   const communities = [
     "Toronto",
-    "Richmond-Hill",
+    "Richmond Hill",
     "Markham",
     "Bradford",
     "Vaughan",
@@ -108,7 +108,7 @@ const Header = () => {
                       {communities.map((city) => (
                         <Link
                           key={city}
-                          href={`/${city}`}
+                          href={`/${cityToSlug(city)}`}
                           className="px-6 py-3 text-[15px] font-medium text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors border-b last:border-0 border-gray-50"
                         >
                           {city}

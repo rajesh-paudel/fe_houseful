@@ -238,7 +238,7 @@ export default function FilterBar({ onNavigate }) {
                 setPrice={setPrice}
               />
 
-              <DesktopDropdown label="Beds" value={beds ? `${beds}+` : "Any"}>
+              <DesktopDropdown label="Beds" value={beds ? `${beds}+` : null}>
                 {(close) =>
                   BED_OPTIONS.map((b) => (
                     <DropdownItem
@@ -255,10 +255,7 @@ export default function FilterBar({ onNavigate }) {
                 }
               </DesktopDropdown>
 
-              <DesktopDropdown
-                label="Baths"
-                value={baths ? `${baths}+` : "Any"}
-              >
+              <DesktopDropdown label="Baths" value={baths ? `${baths}+` : null}>
                 {(close) =>
                   BATH_OPTIONS.map((b) => (
                     <DropdownItem
@@ -275,7 +272,7 @@ export default function FilterBar({ onNavigate }) {
                 }
               </DesktopDropdown>
 
-              <DesktopDropdown label="Home" value={homeType || "Any"}>
+              <DesktopDropdown label="Home" value={homeType || null}>
                 {(close) =>
                   HOME_TYPES.map((type) => (
                     <DropdownItem
@@ -294,9 +291,9 @@ export default function FilterBar({ onNavigate }) {
 
               <button
                 onClick={clearAll}
-                className="text-sm underline font-medium"
+                className="text-sm underline font-medium text-red-600 inline-flex items-center gap-1 cursor-pointer"
               >
-                Clear All
+                <X size={12} /> Clear all
               </button>
             </div>
 
@@ -397,7 +394,7 @@ export default function FilterBar({ onNavigate }) {
           <PriceValueDropdown
             label="Min Price"
             value={
-              PRICE_OPTIONS.find((o) => o.value === minPrice)?.label || "No Min"
+              PRICE_OPTIONS.find((o) => o.value === minPrice)?.label || null
             }
             noneLabel="No Min"
             options={minPriceOptions}
@@ -408,7 +405,7 @@ export default function FilterBar({ onNavigate }) {
           <PriceValueDropdown
             label="Max Price"
             value={
-              PRICE_OPTIONS.find((o) => o.value === maxPrice)?.label || "No Max"
+              PRICE_OPTIONS.find((o) => o.value === maxPrice)?.label || null
             }
             noneLabel="No Max"
             options={maxPriceOptions}
@@ -431,7 +428,7 @@ export default function FilterBar({ onNavigate }) {
           <h3 className="font-medium mb-2">Home</h3>
           <DesktopDropdown
             label="Home"
-            value={homeType || "Any"}
+            value={homeType || null}
             isMobile={true}
           >
             {(close) =>
@@ -452,9 +449,10 @@ export default function FilterBar({ onNavigate }) {
           <div className="mt-6">
             <button
               onClick={clearAll}
-              className="w-full py-2 rounded-lg bg-gray-100 font-medium"
+              className="w-full py-2 rounded-lg bg-red-50 text-red-600 font-medium inline-flex items-center justify-center gap-1 cursor-pointer"
             >
-              Clear All
+              <X size={12} />
+              Clear all
             </button>
           </div>
         </div>
@@ -480,8 +478,8 @@ function DesktopDropdown({ label, value, children }) {
         onClick={() => setOpen((p) => !p)}
         className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm"
       >
-        <span className="text-gray-600">{label}:</span>
-        <span className="font-semibold">{value}</span>
+        <span className="text-gray-600">{label}</span>
+        {value && <span className="font-semibold">{value}</span>}
         <ChevronDown size={14} />
       </button>
 
@@ -503,10 +501,16 @@ function PricePopover({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
-  const minLabel =
-    PRICE_OPTIONS.find((opt) => opt.value === minPrice)?.label || "No Min";
-  const maxLabel =
-    PRICE_OPTIONS.find((opt) => opt.value === maxPrice)?.label || "No Max";
+  const minLabel = PRICE_OPTIONS.find((opt) => opt.value === minPrice)?.label;
+  const maxLabel = PRICE_OPTIONS.find((opt) => opt.value === maxPrice)?.label;
+  const priceSummary =
+    minLabel && maxLabel
+      ? `${minLabel} - ${maxLabel}`
+      : minLabel
+        ? `From ${minLabel}`
+        : maxLabel
+          ? `Up to ${maxLabel}`
+          : null;
 
   useEffect(() => {
     const handler = (e) =>
@@ -521,10 +525,8 @@ function PricePopover({
         onClick={() => setOpen((prev) => !prev)}
         className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm"
       >
-        <span className="text-gray-600">Price:</span>
-        <span className="font-semibold">
-          {minLabel} - {maxLabel}
-        </span>
+        <span className="text-gray-600">Price</span>
+        {priceSummary && <span className="font-semibold">{priceSummary}</span>}
         <ChevronDown size={14} />
       </button>
 
@@ -570,7 +572,9 @@ function PriceValueDropdown({ label, value, noneLabel, options, onSelect }) {
         onClick={() => setOpen((prev) => !prev)}
         className="w-full border rounded-lg px-2 py-2 text-sm bg-white flex items-center justify-between"
       >
-        <span className="truncate">{value}</span>
+        <span className={`truncate ${value ? "" : "text-gray-500"}`}>
+          {value || label}
+        </span>
         <ChevronDown size={14} />
       </button>
       {open && (
