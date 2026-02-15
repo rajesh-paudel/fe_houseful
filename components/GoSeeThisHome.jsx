@@ -64,8 +64,9 @@ export default function GoSeeThisHome() {
             htmlFor="marketing"
             className="text-xs text-gray-700 leading-snug cursor-pointer"
           >
-            I would like to receive marketing and promotional messages by phone,
-            text message, and email from Jason Byun.
+            I would like to book a tour of this property. I consent to recieve
+            marketing and promotional messages by phone, text message, and email
+            from Jason Byun.
           </label>
         </div>
 

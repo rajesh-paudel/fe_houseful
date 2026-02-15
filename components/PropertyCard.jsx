@@ -101,44 +101,44 @@ export default function PropertyCard({ property }) {
       </div>
 
       {/* Content Section */}
-      <div className="p-3 space-y-2">
+      <div className="p-3.5 space-y-2">
         <div>
-          <h3 className="text-xl font-bold text-gray-900">{formattedPrice}</h3>
-          <p className="text-sm text-gray-600 truncate font-medium">
+          <h3 className="text-xl font-bold text-black">{formattedPrice}</h3>
+          <p className="text-sm text-black truncate font-medium">
             {fullAddress}
           </p>
         </div>
 
         {/* Property Specs */}
-        <div className="flex flex-col gap-2  text-gray-700 border-y border-gray-50 py-2">
-          <div className="flex  gap-1">
-            <div className="flex items-center gap-2">
-              <Bed size={14} className="text-gray-400" />
+        <div className="space-y-2 text-black ">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-1.5">
+              <Bed size={14} className="text-black" />
               <span className="text-xs font-bold">{beds}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Bath size={14} className="text-gray-400" />
+            <div className="flex items-center gap-1.5">
+              <Bath size={14} className="text-black" />
               <span className="text-xs font-bold">{baths}</span>
             </div>
-            <div className="flex items-center gap-1 max-w-[80px]">
-              <Square size={14} className="text-gray-400" />
+            <div className="flex items-center gap-1.5 max-w-[90px]">
+              <Square size={14} className="text-black" />
               <span className="text-xs font-bold truncate">{sqft}</span>
             </div>
           </div>
-          <div className="flex items-center gap-1">
-            <Home size={14} className="text-gray-400" />
+          <div className="flex items-center gap-1.5">
+            <Home size={14} className="text-black" />
             <span className="text-xs font-bold truncate">{propertyType}</span>
           </div>
         </div>
 
         {/* Footer info */}
-        <div className="flex flex-col gap-0.5">
+        <div className="space-y-1">
           <div className="flex justify-between items-center">
-            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
+            <p className="text-[10px] text-black font-bold uppercase tracking-tighter">
               MLS® {mls}
             </p>
           </div>
-          <p className="text-[10px] text-gray-400 truncate italic">{agency}</p>
+          <p className="text-[10px] text-black truncate italic">{agency}</p>
         </div>
       </div>
     </div>

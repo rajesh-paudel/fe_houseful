@@ -1,5 +1,5 @@
 "use client";
-import React, { useTransition } from "react";
+import React, { useEffect, useTransition } from "react";
 import PropertyCard from "./PropertyCard";
 import FilterBar from "./FilterBar";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -20,6 +20,10 @@ const CityComponent = ({ city, properties, pagination }) => {
   const listingLabel =
     listingType === "lease" ? "homes for lease" : "homes for sale";
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [city]);
+
   const goToPage = (page) => {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -33,7 +37,7 @@ const CityComponent = ({ city, properties, pagination }) => {
     <div className="min-h-screen bg-white">
       <FilterBar onNavigate={navigate} />
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 pb-18 pt-5">
+      <main className="w-full px-2 md:px-4 pb-18 pt-5">
         {isPending ? (
           <CitySkeleton contentOnly={true} showFilterBar={false} />
         ) : (
@@ -48,7 +52,7 @@ const CityComponent = ({ city, properties, pagination }) => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 md:gap-2">
               {properties.length > 0 ? (
                 properties.map((property, index) => (
                   <PropertyCard

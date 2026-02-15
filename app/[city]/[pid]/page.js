@@ -168,7 +168,7 @@ export default async function PropertyDetailPage({ params }) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="w-full px-2 md:px-3">
         <PropertyMediaGallery images={property.images} />
       </div>
 
@@ -176,16 +176,18 @@ export default async function PropertyDetailPage({ params }) {
         <div className="lg:col-span-2">
           <div className="mb-6">
             <div className="flex flex-wrap items-start justify-between gap-3 mb-1">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-[#004d4d]">
                 ${formatMoney(property.price)}
-                <span className="text-sm font-medium text-gray-500 ml-2">
+                <span className="text-base font-medium text-gray-500 ml-2">
                   {data.TransactionType || "For Sale"}
                 </span>
               </h1>
               <ShareButton />
             </div>
-            <p className="text-lg text-gray-600 mb-2">{property.address}</p>
-            <p className="text-sm text-gray-500">
+            <p className="text-lg md:text-xl text-gray-600 mb-2">
+              {property.address}
+            </p>
+            <p className="text-base text-gray-500">
               {property.neighborhood} · {fallbackText(data.CountyOrParish)} ·{" "}
               {fallbackText(data.StateOrProvince)}
             </p>
@@ -219,15 +221,15 @@ export default async function PropertyDetailPage({ params }) {
             </div>
           </div>
 
-          <div className="flex sticky top-16 z-40 bg-white gap-8 border-b text-sm font-bold text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide pt-3">
+          <div className="flex sticky top-16 z-40 bg-white gap-8 border-b text-base font-bold text-gray-400 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide pt-3">
             <span className="text-teal-700 border-b-2 border-teal-700 pb-3 cursor-pointer">
               Overview
             </span>
           </div>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-4">Description</h2>
-            <div className="text-gray-700 leading-relaxed space-y-4">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Description</h2>
+            <div className="text-base md:text-lg text-gray-700 leading-7 md:leading-8 space-y-4">
               {descriptionSections.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
@@ -236,7 +238,7 @@ export default async function PropertyDetailPage({ params }) {
                   href={virtualTourUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-teal-600 px-4 py-2 text-sm font-semibold text-teal-700 hover:bg-teal-50"
+                  className="inline-flex items-center gap-2 rounded-full border border-teal-600 px-4 py-2 text-base font-semibold text-teal-700 hover:bg-teal-50"
                 >
                   Virtual Tour
                 </a>
@@ -245,13 +247,13 @@ export default async function PropertyDetailPage({ params }) {
           </section>
 
           <section className="bg-white mb-20">
-            <h2 className="text-2xl font-bold mb-6">Home details</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">Home details</h2>
 
             <div className="border rounded-lg p-6 mb-8">
-              <h3 className="flex items-center gap-2 font-bold mb-4">
+              <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4">
                 <CheckCircle2 size={18} className="text-teal-700" /> Overview
               </h3>
-              <div className="grid grid-cols-2 gap-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-y-4 text-sm md:text-base">
                 {highlights.map((item) => (
                   <div key={item.label} className="flex flex-col">
                     <span className="text-gray-400 uppercase font-bold">
@@ -265,10 +267,10 @@ export default async function PropertyDetailPage({ params }) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
               <div>
-                <h3 className="flex items-center gap-2 font-bold mb-4 border-b pb-2">
+                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
                   <HomeIcon size={18} className="text-gray-500" /> Interior
                 </h3>
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3 text-sm md:text-base">
                   <div className="flex justify-between">
                     <span>Total Bathrooms</span>{" "}
                     <span className="font-bold">
@@ -297,11 +299,11 @@ export default async function PropertyDetailPage({ params }) {
               </div>
 
               <div>
-                <h3 className="flex items-center gap-2 font-bold mb-4 border-b pb-2">
+                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
                   <Wind size={18} className="text-gray-500" /> Amenities &
                   utilities
                 </h3>
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3 text-sm md:text-base">
                   {utilities.map((item) => (
                     <div key={item.label} className="flex justify-between">
                       <span>{item.label}</span>{" "}
@@ -312,10 +314,10 @@ export default async function PropertyDetailPage({ params }) {
               </div>
 
               <div className="md:col-span-1">
-                <h3 className="flex items-center gap-2 font-bold mb-4 border-b pb-2">
+                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
                   <Grid size={18} className="text-gray-500" /> Structure
                 </h3>
-                <div className="space-y-2 text-xs text-gray-500">
+                <div className="space-y-2 text-sm md:text-base text-gray-500">
                   {structure.map((item) => (
                     <div
                       key={item.label}
@@ -331,10 +333,10 @@ export default async function PropertyDetailPage({ params }) {
 
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
               <div>
-                <h3 className="flex items-center gap-2 font-bold mb-4 border-b pb-2">
+                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
                   <Info size={18} className="text-gray-500" /> Lease details
                 </h3>
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3 text-sm md:text-base">
                   {leaseInfo.map((item) => (
                     <div key={item.label} className="flex justify-between">
                       <span>{item.label}</span>{" "}
@@ -344,10 +346,10 @@ export default async function PropertyDetailPage({ params }) {
                 </div>
               </div>
               <div>
-                <h3 className="flex items-center gap-2 font-bold mb-4 border-b pb-2">
+                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
                   <MapPin size={18} className="text-gray-500" /> Location
                 </h3>
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3 text-sm md:text-base">
                   <div className="flex justify-between">
                     <span>Neighbourhood</span>{" "}
                     <span className="font-bold">

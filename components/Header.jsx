@@ -4,10 +4,10 @@ import {
   Menu,
   X,
   Mail,
+  Phone,
   Facebook,
   Instagram,
   Linkedin,
-  User,
   ChevronDown,
 } from "lucide-react";
 import Link from "next/link";
@@ -17,6 +17,8 @@ import { cityToSlug } from "@/lib/slug";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileCommunitiesOpen, setIsMobileCommunitiesOpen] = useState(false);
+  const [isMobileSellersOpen, setIsMobileSellersOpen] = useState(false);
+  const [isMobileBuyersOpen, setIsMobileBuyersOpen] = useState(false);
 
   const communities = [
     "Toronto",
@@ -32,15 +34,36 @@ const Header = () => {
 
   const navLinks = [
     { name: "HOME", href: "/" },
-    { name: "SELLERS", href: "#selling" },
-    { name: "BUYERS", href: "#buying" },
     { name: "ABOUT", href: "/about" },
-    { name: "CONTACT", href: "#contact" },
+    { name: "CONTACT", href: "/contact" },
+  ];
+
+  const sellerLinks = [
+    { name: "Get Your Home Estimate", href: "/get-your-home-estimate" },
+    {
+      name: "Sold Prices In Your Neighbourhood",
+      href: "/sold-prices-in-your-neighbourhood",
+    },
+  ];
+
+  const buyerLinks = [
+    { name: "Mortgage Calculator", href: "/mortgage-calculator" },
+    {
+      name: "Land Transfer Tax Calculator",
+      href: "/land-transfer-tax-calculator",
+    },
+    { name: "CMHC Insurance Calculator", href: "/cmhc-insurance-calculator" },
+    { name: "Credit Scores Affects You", href: "/credit-scores-affects-you" },
+    { name: "Save On Interest", href: "/save-on-interest" },
+    { name: "Avoid Money Pit", href: "/avoid-money-pit" },
+    { name: "5 Costly Mistakes", href: "/5-costly-mistakes" },
   ];
 
   const closeMenu = () => {
     setIsMenuOpen(false);
     setIsMobileCommunitiesOpen(false);
+    setIsMobileSellersOpen(false);
+    setIsMobileBuyersOpen(false);
   };
 
   return (
@@ -61,8 +84,9 @@ const Header = () => {
               <div className="flex items-center gap-3 xl:gap-4 text-sm font-bold tracking-wider text-gray-900">
                 <Link
                   href="tel:647-409-4848"
-                  className="hover:text-blue-600 transition-colors"
+                  className="flex items-center gap-2 hover:text-blue-600 transition-colors"
                 >
+                  <Phone className="w-5 h-5" />
                   647-471-9000
                 </Link>
                 <span className="text-gray-300">|</span>
@@ -78,8 +102,6 @@ const Header = () => {
                     <Instagram className="w-5 h-5 cursor-pointer hover:text-blue-600" />
                   </Link>
                 </div>
-                <span className="text-gray-300">|</span>
-                <User className="w-5 h-5 cursor-pointer hover:text-blue-600" />
               </div>
 
               <div className="w-full h-[1px] bg-gray-300" />
@@ -110,6 +132,48 @@ const Header = () => {
                           className="px-6 py-3 text-[15px] font-medium text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors border-b last:border-0 border-gray-50"
                         >
                           {city}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* SELLERS DROPDOWN */}
+                <div className="relative group py-2">
+                  <button className="flex items-center gap-1 text-sm font-bold tracking-widest text-gray-800 group-hover:text-blue-600 transition-colors">
+                    SELLERS{" "}
+                    <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  </button>
+                  <div className="absolute top-full left-0 w-80 bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
+                    <div className="flex flex-col py-2">
+                      {sellerLinks.map((link) => (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          className="px-6 py-3 text-[15px] font-medium text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors border-b last:border-0 border-gray-50 whitespace-nowrap"
+                        >
+                          {link.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* BUYERS DROPDOWN */}
+                <div className="relative group py-2">
+                  <button className="flex items-center gap-1 text-sm font-bold tracking-widest text-gray-800 group-hover:text-blue-600 transition-colors">
+                    BUYERS{" "}
+                    <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                  </button>
+                  <div className="absolute top-full left-0 w-80 bg-white shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
+                    <div className="flex flex-col py-2">
+                      {buyerLinks.map((link) => (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          className="px-6 py-3 text-[15px] font-medium text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors border-b last:border-0 border-gray-50"
+                        >
+                          {link.name}
                         </Link>
                       ))}
                     </div>
@@ -187,6 +251,66 @@ const Header = () => {
                     className="text-sm text-gray-700 py-1"
                   >
                     {city}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Sellers Accordion */}
+          <div>
+            <button
+              onClick={() => setIsMobileSellersOpen(!isMobileSellersOpen)}
+              className="flex items-center justify-between w-full text-sm font-bold tracking-widest py-2"
+            >
+              SELLERS{" "}
+              <ChevronDown
+                className={cn(
+                  "w-4 h-4 transition-transform",
+                  isMobileSellersOpen && "rotate-180",
+                )}
+              />
+            </button>
+            {isMobileSellersOpen && (
+              <div className="flex flex-col pl-4 mt-2 gap-3 border-l-2 text-gray-700 border-gray-100">
+                {sellerLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={closeMenu}
+                    className="text-sm text-gray-700 py-1"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Buyers Accordion */}
+          <div>
+            <button
+              onClick={() => setIsMobileBuyersOpen(!isMobileBuyersOpen)}
+              className="flex items-center justify-between w-full text-sm font-bold tracking-widest py-2"
+            >
+              BUYERS{" "}
+              <ChevronDown
+                className={cn(
+                  "w-4 h-4 transition-transform",
+                  isMobileBuyersOpen && "rotate-180",
+                )}
+              />
+            </button>
+            {isMobileBuyersOpen && (
+              <div className="flex flex-col pl-4 mt-2 gap-3 border-l-2 text-gray-700 border-gray-100">
+                {buyerLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={closeMenu}
+                    className="text-sm text-gray-700 py-1"
+                  >
+                    {link.name}
                   </Link>
                 ))}
               </div>

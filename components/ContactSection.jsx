@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 
-const ContactSection = () => {
+const ContactSection = ({ header }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,7 +24,7 @@ const ContactSection = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="font-serif text-3xl sm:text-4xl text-gray-900 mb-3 font-bold">
-            Let's Connect
+            {header}
           </h2>
           <div className="w-12 h-0.5 bg-yellow-500 mx-auto mb-4" />
         </div>

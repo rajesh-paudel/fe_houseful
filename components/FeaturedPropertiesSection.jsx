@@ -3,7 +3,14 @@ import React, { useRef, useState, useEffect } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import PropertyCard from "./PropertyCard";
 import Link from "next/link";
-const FeaturedPropertiesSection = ({ properties }) => {
+import { cityToSlug } from "@/lib/slug";
+
+const FeaturedPropertiesSection = ({
+  properties = [],
+  cityName = "Toronto",
+  citySlug,
+  sectionId,
+}) => {
   const scrollRef = useRef(null);
 
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -42,25 +49,31 @@ const FeaturedPropertiesSection = ({ properties }) => {
     }
   };
 
+  if (!properties?.length) return null;
+
+  const targetCitySlug = citySlug || cityToSlug(cityName);
+
   return (
-    <section id="listings" className="py-20 bg-white w-full overflow-hidden">
+    <section
+      id={sectionId}
+      className="pt-12 md:pt-16 bg-white w-full overflow-hidden"
+    >
       <div className="max-w-6xl mx-auto px-2 md:px-6">
-        {/* Title Section */}
-        <div className="mb-14 space-y-2">
-          <div className="flex items-center justify-center gap-3 mb-1">
-            <span className="h-[1px] w-8 bg-amber-600/40"></span>
-            <p className="text-center text-amber-600 font-bold tracking-[0.3em] text-[11px] uppercase">
-              Discover Our
-            </p>
-            <span className="h-[1px] w-8 bg-amber-600/40"></span>
-          </div>
-
-          <h2 className="text-center text-4xl md:text-5xl font-serif text-slate-900 tracking-tight">
-            Featured{" "}
-            <span className="italic font-light text-slate-700">Listings</span>
+        {/* Title Row */}
+        <div className="mb-8 flex items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <h2 className="text-2xl md:text-3xl font-serif text-slate-900 tracking-tight">
+            {cityName} Listings
           </h2>
-
-          <div className="w-12 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+          <Link
+            href={`/${targetCitySlug}`} scroll={true}
+            onClick={() =>
+              window.scrollTo({ top: 0, left: 0, behavior: "auto" })
+            }
+            className="inline-flex items-center gap-2 text-sm md:text-base font-semibold text-slate-700 hover:text-amber-700 transition-colors whitespace-nowrap"
+          >
+            See all
+            <ArrowRight size={16} />
+          </Link>
         </div>
 
         <div className="relative">
@@ -107,19 +120,10 @@ const FeaturedPropertiesSection = ({ properties }) => {
             </button>
           )}
         </div>
-
-        {/* Bottom Action Button */}
-        <div className="mt-4 flex justify-center">
-          <Link
-            href={"/Toronto"}
-            className="px-8 py-3 rounded-full  bg-yellow-500 hover:bg-yellow-300 text-white font-bold cursor-pointer   transition-colors duration-300"
-          >
-            Explore all homes
-          </Link>
-        </div>
       </div>
     </section>
   );
 };
 
 export default FeaturedPropertiesSection;
+

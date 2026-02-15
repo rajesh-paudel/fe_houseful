@@ -5,6 +5,7 @@ import InstagramFeed from "@/components/InstagramFeed";
 import FeaturedPropertiesSection from "@/components/FeaturedPropertiesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { fetchMedia, fetchProperties } from "@/lib/api";
+import { cityToSlug } from "@/lib/slug";
 
 export const metadata = {
   title: "Jason Byun | GTA Real Estate Listings",
@@ -13,31 +14,63 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const data = await fetchProperties({
-    cityToPass: "Toronto",
-    top: 10,
-    skip: 0,
-  });
-  const properties = await Promise.all(
-    (data.items || []).map(async (property) => {
-      const media = await fetchMedia(property.ListingKey, 1);
+  const communityCities = [
+    "Toronto",
+    "Richmond Hill",
+    "Markham",
+    "Vaughan",
+    "Aurora",
+    "Oakville",
+  ];
+
+  const featuredByCity = await Promise.all(
+    communityCities.map(async (cityName) => {
+      const data = await fetchProperties({
+        cityToPass: cityName,
+        top: 8,
+        skip: 0,
+      });
+
+      const properties = await Promise.all(
+        (data.items || []).map(async (property) => {
+          const media = await fetchMedia(property.ListingKey, 1);
+          return {
+            ...property,
+            Media: media,
+            thumbnail: media?.[0]?.MediaURL || null,
+          };
+        }),
+      );
+
       return {
-        ...property,
-        Media: media,
-        thumbnail: media?.[0]?.MediaURL || null,
+        cityName,
+        citySlug: cityToSlug(cityName),
+        properties,
       };
     }),
+  );
+
+  const featuredSections = featuredByCity.filter(
+    (section) => section.properties.length > 0,
   );
 
   return (
     <div className="min-h-screen">
       <main>
         <Hero />
-        <FeaturedPropertiesSection properties={properties} />
-        <CommunitySection />
+        {featuredSections.map((section, index) => (
+          <FeaturedPropertiesSection
+            key={section.citySlug}
+            sectionId={index === 0 ? "listings" : undefined}
+            cityName={section.cityName}
+            citySlug={section.citySlug}
+            properties={section.properties}
+          />
+        ))}
+
         <InstagramFeed />
         <TestimonialsSection />
-        <ContactSection />
+        <ContactSection header="Let's Connect" />
       </main>
     </div>
   );

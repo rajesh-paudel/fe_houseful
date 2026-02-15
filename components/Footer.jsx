@@ -8,6 +8,7 @@ import {
   Linkedin,
   Youtube,
 } from "lucide-react";
+import Link from "next/link";
 
 const AgentFooter = () => {
   return (
@@ -29,49 +30,39 @@ const AgentFooter = () => {
           {/* Right Side: Identity & Contact */}
           <div className="w-full md:w-2/3 flex flex-col items-center md:items-start text-center md:text-left">
             {/* Social Icons - Simple & Clean */}
-            <div className="flex gap-6 mb-8 text-slate-400">
-              <Facebook
-                size={18}
-                className="cursor-pointer hover:text-amber-700 transition-colors"
-              />
-              <Instagram
-                size={18}
-                className="cursor-pointer hover:text-amber-700 transition-colors"
-              />
-              <Linkedin
-                size={18}
-                className="cursor-pointer hover:text-amber-700 transition-colors"
-              />
-              <Youtube
-                size={18}
-                className="cursor-pointer hover:text-amber-700 transition-colors"
-              />
+            <div className="flex gap-6 mb-2 text-slate-900">
+              <Link href="https://www.instagram.com/jasonbyunrealestate/">
+                <Instagram
+                  size={18}
+                  className="cursor-pointer hover:text-amber-700 transition-colors"
+                />
+              </Link>
             </div>
 
             {/* Brokerage Identity */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-serif tracking-tight text-slate-900 uppercase mb-2">
+            <div className="mb-4">
+              <h2 className="text-2xl font-serif tracking-tight text-slate-900 uppercase mb-1">
                 Jason Byun
               </h2>
-              <p className="text-amber-700 font-bold text-xs tracking-[0.2em] uppercase mb-6">
+              <p className="text-amber-700 font-bold text-xs tracking-[0.2em] uppercase mb-1">
                 Broker
               </p>
-              <div className="h-px w-12 bg-slate-200 mx-auto md:mx-0 mb-6" />
+              <div className="h-px w-12 bg-slate-200 mx-auto md:mx-0 mb-4" />
 
               <p className="text-slate-900 font-bold text-sm tracking-wide uppercase">
                 Right At Home Realty
               </p>
-              <p className="text-slate-500 text-xs mt-1">Brokerage</p>
+              <p className="text-slate-900 text-xs mt-1">Brokerage</p>
             </div>
 
             {/* Contact Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-12 text-sm text-slate-600">
+            <div className="w-full space-y-2 text-base text-slate-800">
               <div className="flex items-center gap-3 justify-center md:justify-start">
-                <Phone size={14} className="text-slate-400" />
+                <Phone size={14} className="text-slate-900" />
                 <span>647-471-9000</span>
               </div>
               <div className="flex items-center gap-3 justify-center md:justify-start">
-                <Mail size={14} className="text-slate-400" />
+                <Mail size={14} className="text-slate-900" />
                 <a
                   href="mailto:jasonbyun@realty.com"
                   className="hover:text-amber-700 transition-colors"
@@ -79,9 +70,9 @@ const AgentFooter = () => {
                   jason@jasonbyun.com
                 </a>
               </div>
-              <div className="flex  gap-3 justify-center md:justify-start">
-                <Globe size={14} className="text-slate-400" />
-                <div className="flex flex-col ">
+              <div className="flex gap-3 justify-center md:justify-start">
+                <Globe size={14} className="text-slate-900 mt-1" />
+                <div className="flex flex-col">
                   <span>1550 16th Avenue Bldg B Unit 3 & 4</span>
                   <span>Richmond Hill, Ontario L4B 3K9</span>
                 </div>

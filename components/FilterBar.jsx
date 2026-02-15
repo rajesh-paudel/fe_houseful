@@ -205,7 +205,7 @@ export default function FilterBar({ onNavigate }) {
     <>
       {/* Top Bar */}
       <div className="sticky top-16 lg:top-26 z-40 bg-white border-b w-full py-3 ">
-        <div className="max-w-7xl px-4 md:px-8 mx-auto flex items-center justify-between gap-2">
+        <div className="w-full px-2 md:px-4 flex items-center justify-between gap-2">
           {/* Filters */}
           <div className="flex items-center gap-3">
             {/* Desktop */}
@@ -639,3 +639,4 @@ function FilterGroup({ title, options, value, onChange }) {
     </div>
   );
 }
+

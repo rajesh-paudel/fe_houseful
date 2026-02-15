@@ -259,12 +259,12 @@ export default function PropertyMediaGallery({ images = [] }) {
   return (
     <div className="relative">
       <div
-        className={`grid grid-cols-1 ${gridColsClass} gap-2 h-[340px] sm:h-[420px] md:h-[520px]`}
+        className={`grid grid-cols-1 ${gridColsClass} gap-1.5 h-[340px] sm:h-[420px] md:h-[520px]`}
       >
         <button
           type="button"
           onClick={() => openModal(0)}
-          className="relative col-span-1 row-span-1 rounded-xl overflow-hidden bg-gray-100"
+          className="relative col-span-1 row-span-1 rounded-lg overflow-hidden bg-gray-100"
           aria-label="Open image 1"
         >
           {gridImages[0] && !brokenIndices.has(0) ? (
@@ -285,13 +285,13 @@ export default function PropertyMediaGallery({ images = [] }) {
         </button>
 
         {colTwoImages.length > 0 ? (
-          <div className="hidden sm:flex flex-col gap-2">
+          <div className="hidden sm:flex flex-col gap-1.5">
             {colTwoImages.map((src, i) => (
               <button
                 key={`col2-${i}`}
                 type="button"
                 onClick={() => openModal(i + 1)}
-                className="relative flex-1 rounded-xl overflow-hidden bg-gray-100"
+                className="relative flex-1 rounded-lg overflow-hidden bg-gray-100"
                 aria-label={`Open image ${i + 2}`}
               >
                 {src && !brokenIndices.has(i + 1) ? (
@@ -315,13 +315,13 @@ export default function PropertyMediaGallery({ images = [] }) {
         ) : null}
 
         {colThreeImages.length > 0 ? (
-          <div className="hidden sm:flex flex-col gap-2">
+          <div className="hidden sm:flex flex-col gap-1.5">
             {colThreeImages.map((src, i) => (
               <button
                 key={`col3-${i}`}
                 type="button"
                 onClick={() => openModal(i + 3)}
-                className="relative flex-1 rounded-xl overflow-hidden bg-gray-100"
+                className="relative flex-1 rounded-lg overflow-hidden bg-gray-100"
                 aria-label={`Open image ${i + 4}`}
               >
                 {src && !brokenIndices.has(i + 3) ? (
