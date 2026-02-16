@@ -10,42 +10,49 @@ export default function CitySkeleton({
   contentOnly = false,
 }) {
   const content = (
-    <main className="max-w-7xl mx-auto px-4 md:px-8 pb-6 pt-5">
+    <div className="w-full px-2 md:px-4 pb-18 pt-5">
       <div className="mb-8">
-        <SkeletonBlock className="h-10 w-80 rounded" />
-        <SkeletonBlock className="h-4 w-60 mt-2 rounded" />
+        <SkeletonBlock className="h-10 w-80 max-w-full rounded" />
+        <SkeletonBlock className="h-4 w-64 mt-2 rounded" />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 md:gap-6">
-        {Array.from({ length: 8 }).map((_, i) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 md:gap-2">
+        {Array.from({ length: 12 }).map((_, i) => (
           <div key={i} className="border rounded-xl overflow-hidden bg-white">
             <SkeletonBlock className="h-48 w-full" />
-            <div className="p-4 space-y-2">
-              <SkeletonBlock className="h-4 w-3/4 rounded" />
-              <SkeletonBlock className="h-4 w-1/2 rounded" />
-              <SkeletonBlock className="h-3 w-full rounded" />
+            <div className="p-3.5 space-y-2">
+              <SkeletonBlock className="h-6 w-1/2 rounded" />
+              <SkeletonBlock className="h-4 w-5/6 rounded" />
+              <div className="flex gap-3">
+                <SkeletonBlock className="h-3 w-8 rounded" />
+                <SkeletonBlock className="h-3 w-8 rounded" />
+                <SkeletonBlock className="h-3 w-12 rounded" />
+              </div>
+              <SkeletonBlock className="h-3 w-20 rounded" />
+              <SkeletonBlock className="h-2.5 w-24 rounded mt-2" />
+              <SkeletonBlock className="h-2.5 w-1/2 rounded" />
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex justify-center items-center gap-1 sm:gap-2 mt-12 mb-6 w-full px-2">
+      <div className="flex justify-center items-center gap-1 sm:gap-2 mt-12 mb-20 w-full px-2">
         <SkeletonBlock className="h-8 w-12 rounded" />
         {Array.from({ length: 5 }).map((_, i) => (
           <SkeletonBlock key={i} className="h-8 w-8 rounded" />
         ))}
         <SkeletonBlock className="h-8 w-12 rounded" />
       </div>
-    </main>
+    </div>
   );
 
   if (contentOnly) return content;
 
   return (
-    <div className="h-screen overflow-hidden bg-white">
+    <div className="min-h-screen bg-white">
       {showFilterBar ? (
         <div className="border-b">
-          <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+          <div className="w-full px-2 md:px-4 py-4">
             <div className="flex flex-wrap gap-3">
               <SkeletonBlock className="h-9 w-28 rounded-full" />
               <SkeletonBlock className="h-9 w-32 rounded-full" />

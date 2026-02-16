@@ -5,5 +5,9 @@ export const metadata = {
 };
 
 export default function MortgageCalculatorPage() {
-  return <MortgageCalculatorTool />;
+  return (
+    <div className="min-h-screen pt-10">
+      <MortgageCalculatorTool />
+    </div>
+  );
 }

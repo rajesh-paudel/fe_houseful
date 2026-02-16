@@ -8,7 +8,7 @@ const SkeletonBlock = ({ className }) => (
 
 export default function PropertyDetailSkeleton() {
   return (
-    <div className="h-screen overflow-hidden bg-white">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
         <div className="flex items-center gap-2">
           <SkeletonBlock className="h-7 w-16 rounded-full" />
@@ -17,11 +17,11 @@ export default function PropertyDetailSkeleton() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <SkeletonBlock className="h-[420px] sm:h-[460px] md:h-[520px] w-full rounded-lg" />
+      <div className="w-full px-2 md:px-3">
+        <SkeletonBlock className="h-[420px] sm:h-[500px] md:h-[620px] w-full rounded-lg" />
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2">
           <div className="mb-6 space-y-3">
             <SkeletonBlock className="h-8 w-56 rounded" />
@@ -40,7 +40,7 @@ export default function PropertyDetailSkeleton() {
             </div>
           </div>
 
-          <div className="flex gap-8 border-b text-sm font-bold text-gray-300 mb-8 pt-3">
+          <div className="flex gap-8 border-b text-sm font-bold text-gray-300 mb-8 pt-3 sticky top-16 bg-white z-30">
             <SkeletonBlock className="h-4 w-20 rounded" />
           </div>
 
@@ -51,7 +51,7 @@ export default function PropertyDetailSkeleton() {
             <SkeletonBlock className="h-4 w-5/6 rounded" />
           </section>
 
-          <section className="bg-white mb-10">
+          <section className="bg-white mb-20">
             <SkeletonBlock className="h-6 w-40 rounded mb-6" />
 
             <div className="border rounded-lg p-6 mb-8">
@@ -89,10 +89,21 @@ export default function PropertyDetailSkeleton() {
               ))}
             </div>
           </section>
+
+          <section className="mb-10">
+            <SkeletonBlock className="h-7 w-44 rounded mb-4" />
+            <div className="border rounded-xl p-4 space-y-3">
+              <SkeletonBlock className="h-4 w-3/4 rounded" />
+              <SkeletonBlock className="h-10 w-full rounded" />
+              <SkeletonBlock className="h-10 w-full rounded" />
+              <SkeletonBlock className="h-10 w-full rounded" />
+              <SkeletonBlock className="h-10 w-40 rounded-full" />
+            </div>
+          </section>
         </div>
 
         <div className="py-5">
-          <div className="sticky top-22">
+          <div className="sticky top-32">
             <div className="border rounded-xl p-4 space-y-3">
               <SkeletonBlock className="h-6 w-32 rounded" />
               <SkeletonBlock className="h-4 w-full rounded" />

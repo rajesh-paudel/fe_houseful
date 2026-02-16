@@ -4,9 +4,9 @@ export const metadata = {
 
 export default function CreditScoresAffectsYouPage() {
   return (
-    <main className="min-h-screen bg-white px-4 md:px-8 py-8">
+    <main className="min-h-screen bg-[#efefef] px-4 md:px-8 py-8">
       <div className="max-w-6xl mx-auto text-sm leading-[1.5] text-slate-700">
-        <h1 className="text-[48px] leading-[1.05] font-semibold text-slate-700 mb-4">
+        <h1 className="text-[40px] leading-[1.08] font-semibold text-slate-700 mb-5">
           How Your Credit Score Affects You
         </h1>
 
@@ -42,7 +42,7 @@ export default function CreditScoresAffectsYouPage() {
           </p>
         </div>
 
-        <h2 className="mt-7 mb-3 text-[34px] leading-[1.1] font-semibold text-slate-700 underline decoration-slate-700 underline-offset-4">
+        <h2 className="mt-7 mb-2 text-[34px] leading-[1.1] font-medium text-slate-700">
           Significant Factors Impacting Your Credit Score
         </h2>
 
@@ -97,7 +97,7 @@ export default function CreditScoresAffectsYouPage() {
           </p>
         </div>
 
-        <h2 className="mt-7 mb-3 text-[34px] leading-[1.1] font-semibold text-slate-700 underline decoration-slate-700 underline-offset-4">
+        <h2 className="mt-7 mb-2 text-[34px] leading-[1.1] font-medium text-slate-700">
           Maintaining a Healthy Credit Score
         </h2>
         <p className="mb-2">
@@ -131,7 +131,7 @@ export default function CreditScoresAffectsYouPage() {
           </li>
         </ul>
 
-        <h2 className="mt-7 mb-3 text-[34px] leading-[1.1] font-semibold text-slate-700 underline decoration-slate-700 underline-offset-4">
+        <h2 className="mt-7 mb-2 text-[34px] leading-[1.1] font-medium text-slate-700">
           Building Up Your Credit Score
         </h2>
         <p className="mb-2">

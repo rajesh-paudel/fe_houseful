@@ -11,6 +11,7 @@ const Hero = () => {
   const [query, setQuery] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const containerRef = useRef(null);
 
   const cities = [
@@ -84,7 +85,9 @@ const Hero = () => {
 
     try {
       setIsSearching(true);
-      const res = await fetch(`/api/property-lookup?q=${encodeURIComponent(raw)}`);
+      const res = await fetch(
+        `/api/property-lookup?q=${encodeURIComponent(raw)}`,
+      );
       const data = await res.json();
 
       if (res.ok && data?.found && data?.city && data?.listingKey) {
@@ -114,9 +117,18 @@ const Hero = () => {
   const quickCities = ["Toronto", "Richmond Hill", "Markham", "Bradford"];
 
   return (
-    <section className="relative min-h-[68vh] sm:min-h-[74vh] md:min-h-[80vh] flex items-center justify-center px-4 sm:px-6">
+    <section
+      className="relative min-h-[68vh] sm:min-h-[74vh] md:min-h-[80vh] flex items-center justify-center px-4 sm:px-6 bg-black"
+      style={{
+        backgroundImage: "url('/hero-poster.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* VIDEO BACKGROUND */}
       <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* VIDEO BACKGROUND */}
+
         <video
           autoPlay
           loop
