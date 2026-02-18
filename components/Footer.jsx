@@ -15,10 +15,10 @@ const AgentFooter = () => {
     <footer className="bg-white pt-20 pb-10 px-6 border-t border-slate-300">
       <div className="max-w-6xl mx-auto flex flex-col items-center">
         {/* Main Footer Content */}
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-12 mb-8">
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 mb-8">
           {/* Left Side: Professional Portrait */}
-          <div className="w-full md:w-1/3 flex justify-center md:justify-start">
-            <div className="relative w-64 aspect-[3/4] overflow-hidden grayscale-[0.2]">
+          <div className="w-full md:w-1/3 flex justify-center  md:justify-start">
+            <div className="relative w-80 aspect-[3/4] overflow-hidden grayscale-[0.2]">
               <img
                 src="/profile.png"
                 alt="Jason Byun - Broker"
@@ -52,7 +52,7 @@ const AgentFooter = () => {
               <p className="text-slate-900 font-bold text-sm tracking-wide uppercase">
                 Right At Home Realty
               </p>
-              <p className="text-slate-900 text-xs mt-1">Brokerage</p>
+              <p className="text-slate-900 text-sm mt-1">Brokerage</p>
             </div>
 
             {/* Contact Grid */}

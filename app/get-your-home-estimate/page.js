@@ -15,66 +15,79 @@ export default function GetYourHomeEstimatePage() {
           </h1>
 
           <div className="relative overflow-hidden rounded-2xl border border-white/30 bg-white/12 backdrop-blur-xl shadow-2xl p-7 md:p-10">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/25 via-white/10 to-transparent" />
-          <form className="space-y-6">
-            <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-semibold text-white">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                placeholder="Name"
-                className="w-full h-14 px-4 rounded-xl border border-white/40 bg-white/20 text-white placeholder:text-white/75 outline-none focus:ring-2 focus:ring-white/60"
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="phone" className="text-sm font-semibold text-white">
-                Phone
-              </label>
-              <input
-                id="phone"
-                type="tel"
-                name="phone"
-                placeholder="Phone"
-                className="w-full h-14 px-4 rounded-xl border border-white/40 bg-white/20 text-white placeholder:text-white/75 outline-none focus:ring-2 focus:ring-white/60"
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-semibold text-white">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Email"
-                className="w-full h-14 px-4 rounded-xl border border-white/40 bg-white/20 text-white placeholder:text-white/75 outline-none focus:ring-2 focus:ring-white/60"
-              />
-            </div>
-            <div className="space-y-2">
-              <label
-                htmlFor="homeAddress"
-                className="text-sm font-semibold text-white"
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/25 via-white/10 to-transparent" />
+            <form className="space-y-6">
+              <div className="flex items-center justify-center gap-3 text-left">
+                <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full">
+                  <img
+                    src="/profile.png"
+                    alt="Jason Byun"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-white">Jason Byun</p>
+                  <p className="text-xs text-white/80">Real Estate Broker</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="name" className="text-sm font-semibold text-white">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  className="w-full h-14 px-4 rounded-xl border border-white/40 bg-white/20 text-white placeholder:text-white/75 outline-none focus:ring-2 focus:ring-white/60"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="phone" className="text-sm font-semibold text-white">
+                  Phone
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone"
+                  className="w-full h-14 px-4 rounded-xl border border-white/40 bg-white/20 text-white placeholder:text-white/75 outline-none focus:ring-2 focus:ring-white/60"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-semibold text-white">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  className="w-full h-14 px-4 rounded-xl border border-white/40 bg-white/20 text-white placeholder:text-white/75 outline-none focus:ring-2 focus:ring-white/60"
+                />
+              </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="homeAddress"
+                  className="text-sm font-semibold text-white"
+                >
+                  Home Address
+                </label>
+                <input
+                  id="homeAddress"
+                  type="text"
+                  name="homeAddress"
+                  placeholder="Home Address"
+                  className="w-full h-14 px-4 rounded-xl border border-white/40 bg-white/20 text-white placeholder:text-white/75 outline-none focus:ring-2 focus:ring-white/60"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full h-14 rounded-full border border-white/50 bg-white/25 hover:bg-white/35 text-white font-bold transition-colors"
               >
-                Home Address
-              </label>
-              <input
-                id="homeAddress"
-                type="text"
-                name="homeAddress"
-                placeholder="Home Address"
-                className="w-full h-14 px-4 rounded-xl border border-white/40 bg-white/20 text-white placeholder:text-white/75 outline-none focus:ring-2 focus:ring-white/60"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full h-14 rounded-full border border-white/50 bg-white/25 hover:bg-white/35 text-white font-bold transition-colors"
-            >
-              Get My Home Value
-            </button>
-          </form>
+                Get My Home Value
+              </button>
+            </form>
           </div>
         </div>
       </div>

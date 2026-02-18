@@ -17,6 +17,19 @@ export default function SoldPricesInYourNeighbourhoodPage() {
           <div className="relative overflow-hidden rounded-2xl border border-white/30 bg-white/12 backdrop-blur-xl shadow-2xl p-7 md:p-10">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/25 via-white/10 to-transparent" />
             <form className="space-y-6">
+              <div className="flex items-center justify-center gap-3 text-left">
+                <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full">
+                  <img
+                    src="/profile.png"
+                    alt="Jason Byun"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-white">Jason Byun</p>
+                  <p className="text-xs text-white/80">Real Estate Broker</p>
+                </div>
+              </div>
               <div className="space-y-2">
                 <label
                   htmlFor="name"

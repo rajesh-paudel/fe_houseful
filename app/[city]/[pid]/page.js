@@ -48,6 +48,24 @@ const formatList = (arr) =>
 const fallbackText = (value, fallback = "-") =>
   value === null || value === undefined || value === "" ? fallback : value;
 
+const formatBedroomDisplay = (total, aboveGrade) => {
+  const totalNum = Number(total);
+  const aboveNum = Number(aboveGrade);
+
+  if (
+    Number.isFinite(totalNum) &&
+    Number.isFinite(aboveNum) &&
+    totalNum >= aboveNum
+  ) {
+    const plus = totalNum - aboveNum;
+    return plus > 0 ? `${aboveNum}+${plus}` : `${aboveNum}`;
+  }
+
+  if (Number.isFinite(totalNum)) return String(totalNum);
+  if (Number.isFinite(aboveNum)) return String(aboveNum);
+  return "-";
+};
+
 export async function generateMetadata({ params }) {
   const { city, pid } = await params;
   const data = await fetchProperty(pid);
@@ -87,6 +105,14 @@ export default async function PropertyDetailPage({ params }) {
     description: data.PublicRemarks,
     images: media.map((item) => item.MediaURL).filter(Boolean),
   };
+  const flooringValue =
+    Array.isArray(data.Flooring) && data.Flooring.length > 0
+      ? data.Flooring.join(", ")
+      : fallbackText(data.Flooring);
+  const bedroomDisplay = formatBedroomDisplay(
+    data.BedroomsTotal,
+    data.BedroomsAboveGrade,
+  );
 
   const highlights = [
     {
@@ -96,7 +122,7 @@ export default async function PropertyDetailPage({ params }) {
     { label: "Type", value: fallbackText(data.PropertyType) },
     { label: "Sub Type", value: fallbackText(data.PropertySubType) },
     { label: "Style", value: formatList(data.ArchitecturalStyle) },
-    { label: "Bedrooms", value: fallbackText(data.BedroomsTotal) },
+    { label: "Bedrooms", value: bedroomDisplay },
     { label: "Bathrooms", value: fallbackText(data.BathroomsTotalInteger) },
     { label: "Kitchens", value: fallbackText(data.KitchensTotal) },
     { label: "Living Area", value: fallbackText(data.LivingAreaRange) },
@@ -126,7 +152,7 @@ export default async function PropertyDetailPage({ params }) {
     { label: "Foundation", value: formatList(data.FoundationDetails) },
     { label: "Roof", value: formatList(data.Roof) },
     { label: "Construction", value: formatList(data.ConstructionMaterials) },
-    { label: "Interior", value: formatList(data.InteriorFeatures) },
+    { label: "Interior Features", value: formatList(data.InteriorFeatures) },
   ];
 
   const leaseInfo = [
@@ -176,7 +202,7 @@ export default async function PropertyDetailPage({ params }) {
         <div className="lg:col-span-2">
           <div className="mb-6">
             <div className="flex flex-wrap items-start justify-between gap-3 mb-1">
-              <h1 className="text-3xl font-bold text-[#004d4d]">
+              <h1 className="text-3xl font-bold text-blue-900">
                 ${formatMoney(property.price)}
                 <span className="text-base font-medium text-gray-500 ml-2">
                   {data.TransactionType || "For Sale"}
@@ -196,7 +222,7 @@ export default async function PropertyDetailPage({ params }) {
               <div className="bg-gray-50 px-5 py-4 rounded-md flex justify-start gap-3 items-center">
                 <Bed className="text-gray-400 mb-1" size={24} />
                 <span className="text-sm font-bold">
-                  {fallbackText(property.beds)} Bedrooms
+                  {bedroomDisplay} Bedrooms
                 </span>
               </div>
               <div className="bg-gray-50 px-5 rounded-md flex justify-start gap-3 items-center">
@@ -247,7 +273,9 @@ export default async function PropertyDetailPage({ params }) {
           </section>
 
           <section className="bg-white mb-20">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">Home details</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">
+              Home details
+            </h2>
 
             <div className="border rounded-lg p-6 mb-8">
               <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4">
@@ -271,28 +299,28 @@ export default async function PropertyDetailPage({ params }) {
                   <HomeIcon size={18} className="text-gray-500" /> Interior
                 </h3>
                 <div className="space-y-3 text-sm md:text-base">
-                  <div className="flex justify-between">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
                     <span>Total Bathrooms</span>{" "}
-                    <span className="font-bold">
+                    <span className="font-bold text-right break-words">
                       {fallbackText(data.BathroomsTotalInteger)}
                     </span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
                     <span>Bedrooms Above Grade</span>{" "}
-                    <span className="font-bold">
+                    <span className="font-bold text-right break-words">
                       {fallbackText(data.BedroomsAboveGrade)}
                     </span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
                     <span>Kitchens</span>{" "}
-                    <span className="font-bold">
+                    <span className="font-bold text-right break-words">
                       {fallbackText(data.KitchensTotal)}
                     </span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
                     <span>Flooring</span>{" "}
-                    <span className="font-bold">
-                      {formatList(data.InteriorFeatures)}
+                    <span className="font-bold text-right break-words">
+                      {flooringValue}
                     </span>
                   </div>
                 </div>
@@ -305,9 +333,14 @@ export default async function PropertyDetailPage({ params }) {
                 </h3>
                 <div className="space-y-3 text-sm md:text-base">
                   {utilities.map((item) => (
-                    <div key={item.label} className="flex justify-between">
+                    <div
+                      key={item.label}
+                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4"
+                    >
                       <span>{item.label}</span>{" "}
-                      <span className="font-bold">{item.value}</span>
+                      <span className="font-bold text-right break-words">
+                        {item.value}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -321,10 +354,12 @@ export default async function PropertyDetailPage({ params }) {
                   {structure.map((item) => (
                     <div
                       key={item.label}
-                      className="flex justify-between pb-1 border-b border-gray-50 italic"
+                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4 pb-1 border-b border-gray-50 italic"
                     >
-                      {item.label}:{" "}
-                      <span className="text-black font-bold">{item.value}</span>
+                      <span>{item.label}:</span>
+                      <span className="text-black font-bold text-right break-words">
+                        {item.value}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -338,9 +373,14 @@ export default async function PropertyDetailPage({ params }) {
                 </h3>
                 <div className="space-y-3 text-sm md:text-base">
                   {leaseInfo.map((item) => (
-                    <div key={item.label} className="flex justify-between">
+                    <div
+                      key={item.label}
+                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4"
+                    >
                       <span>{item.label}</span>{" "}
-                      <span className="font-bold">{item.value}</span>
+                      <span className="font-bold text-right break-words">
+                        {item.value}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -350,27 +390,27 @@ export default async function PropertyDetailPage({ params }) {
                   <MapPin size={18} className="text-gray-500" /> Location
                 </h3>
                 <div className="space-y-3 text-sm md:text-base">
-                  <div className="flex justify-between">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
                     <span>Neighbourhood</span>{" "}
-                    <span className="font-bold">
+                    <span className="font-bold text-right break-words">
                       {fallbackText(property.neighborhood)}
                     </span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
                     <span>Municipality</span>{" "}
-                    <span className="font-bold">
+                    <span className="font-bold text-right break-words">
                       {fallbackText(data.CountyOrParish)}
                     </span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
                     <span>Postal Code</span>{" "}
-                    <span className="font-bold">
+                    <span className="font-bold text-right break-words">
                       {fallbackText(data.PostalCode)}
                     </span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
                     <span>Cross Street</span>{" "}
-                    <span className="font-bold">
+                    <span className="font-bold text-right break-words">
                       {fallbackText(data.CrossStreet)}
                     </span>
                   </div>

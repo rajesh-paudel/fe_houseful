@@ -1,10 +1,32 @@
 "use client";
 
 import React from "react";
-import { Bed, Bath, Square, Home, Heart, Map } from "lucide-react";
+import { Bed, Bath, Square, Home, Heart } from "lucide-react";
 import nProgress from "nprogress";
 import { useRouter } from "next/navigation";
 import { cityToSlug } from "@/lib/slug";
+
+function getTimeAgo(dateString) {
+  if (!dateString) return "New";
+  const now = new Date();
+  const listed = new Date(dateString);
+  const diff = now - listed;
+
+  const minutes = Math.floor(diff / 1000 / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days}d ago`;
+
+  const months = Math.floor(days / 30.44);
+  if (months < 12) return `${months}mo ago`;
+
+  const years = Math.floor(days / 365.25);
+  return `${years}y ago`;
+}
 
 export default function PropertyCard({ property }) {
   const router = useRouter();
@@ -31,34 +53,15 @@ export default function PropertyCard({ property }) {
   const [imageLoadError, setImageLoadError] = React.useState(false);
   const listedDate = property.OriginalEntryTimestamp;
   const agency = property.ListOfficeName || "Real Estate Professionals Inc.";
+  const [timeAgoLabel, setTimeAgoLabel] = React.useState("Listed");
 
   React.useEffect(() => {
     setImageLoadError(false);
   }, [thumbnail]);
 
-  //function to show how long ago property was listed
-  const getTimeAgo = (dateString) => {
-    if (!dateString) return "New";
-    const now = new Date();
-    const listed = new Date(dateString);
-    const diff = now - listed;
-
-    // Calculate time units
-    const minutes = Math.floor(diff / 1000 / 60);
-    if (minutes < 60) return `${minutes}m ago`;
-
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours}h ago`;
-
-    const days = Math.floor(hours / 24);
-    if (days < 30) return `${days}d ago`;
-
-    const months = Math.floor(days / 30.44);
-    if (months < 12) return `${months}mo ago`;
-
-    const years = Math.floor(days / 365.25);
-    return `${years}y ago`;
-  };
+  React.useEffect(() => {
+    setTimeAgoLabel(getTimeAgo(listedDate));
+  }, [listedDate]);
 
   return (
     <div
@@ -69,15 +72,15 @@ export default function PropertyCard({ property }) {
         }
         router.push(`/${cityToSlug(city)}/${mls}`, { scroll: true });
       }}
-      className="w-full bg-white rounded-xl overflow-hidden cursor-pointer  border border-gray-100"
+      className="group w-full bg-white rounded-xl overflow-hidden cursor-pointer border border-gray-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-slate-300"
     >
       {/* Image Section */}
-      <div className="relative h-48 w-full bg-gray-100">
+      <div className="relative h-56 w-full bg-gray-100">
         {thumbnail && !imageLoadError ? (
           <img
             src={thumbnail}
             alt={fullAddress}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             onError={() => setImageLoadError(true)}
           />
@@ -92,7 +95,7 @@ export default function PropertyCard({ property }) {
 
         {/* Status Badge */}
         <div className="absolute top-3 left-3 bg-[#38003c] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
-          {getTimeAgo(listedDate)}
+          {timeAgoLabel}
         </div>
 
         <button className="absolute top-3 right-3 p-2 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full transition-colors">
@@ -103,7 +106,7 @@ export default function PropertyCard({ property }) {
       {/* Content Section */}
       <div className="p-3.5 space-y-2">
         <div>
-          <h3 className="text-xl font-bold text-black">{formattedPrice}</h3>
+          <h3 className="text-2xl font-bold text-blue-950">{formattedPrice}</h3>
           <p className="text-sm text-black truncate font-medium">
             {fullAddress}
           </p>
@@ -127,18 +130,20 @@ export default function PropertyCard({ property }) {
           </div>
           <div className="flex items-center gap-1.5">
             <Home size={14} className="text-black" />
-            <span className="text-xs font-bold truncate">{propertyType}</span>
+            <span className="text-sm font-semibold truncate">
+              {propertyType}
+            </span>
           </div>
         </div>
 
         {/* Footer info */}
         <div className="space-y-1">
           <div className="flex justify-between items-center">
-            <p className="text-[10px] text-black font-bold uppercase tracking-tighter">
+            <p className="text-[12px] text-black font-semibold uppercase tracking-tighter">
               MLS® {mls}
             </p>
           </div>
-          <p className="text-[10px] text-black truncate italic">{agency}</p>
+          <p className="text-[12px] text-black truncate italic">{agency}</p>
         </div>
       </div>
     </div>

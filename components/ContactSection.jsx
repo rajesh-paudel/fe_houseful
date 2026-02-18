@@ -22,7 +22,16 @@ const ContactSection = ({ header }) => {
     <section id="contact" className="py-16 sm:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10">
+        <div className="text-center max-w-2xl mx-auto mb-6">
+          <div className="mb-4 flex justify-center">
+            <div className="h-16 w-16 overflow-hidden rounded-full border border-gray-200 ring-2 ring-white shadow-sm">
+              <img
+                src="/profile.png"
+                alt="Jason Byun"
+                className="h-full w-full object-contain"
+              />
+            </div>
+          </div>
           <h2 className="font-serif text-3xl sm:text-4xl text-gray-900 mb-3 font-bold">
             {header}
           </h2>

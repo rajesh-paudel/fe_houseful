@@ -30,8 +30,8 @@ const HOME_TYPES = [
 ];
 
 const LISTING_TYPE_MAP = {
-  sale: "For Sale",
-  lease: "For Lease",
+  sale: "Sale",
+  lease: "Lease",
 };
 
 const PRICE_VALUES = [
@@ -200,6 +200,14 @@ export default function FilterBar({ onNavigate }) {
   const maxPriceOptions = PRICE_OPTIONS.filter(
     (opt) => !minPriceNum || Number(opt.value) >= minPriceNum,
   );
+  const hasActiveFilters = Boolean(
+    listingType !== "sale" ||
+      beds ||
+      baths ||
+      homeType ||
+      minPrice ||
+      maxPrice,
+  );
 
   return (
     <>
@@ -212,7 +220,7 @@ export default function FilterBar({ onNavigate }) {
             <div className="hidden lg:flex items-center gap-3">
               <DesktopDropdown
                 label="Listing"
-                value={LISTING_TYPE_MAP[listingType] || "For Sale"}
+                value={LISTING_TYPE_MAP[listingType] || "Sale"}
               >
                 {(close) =>
                   Object.entries(LISTING_TYPE_MAP).map(([key, label]) => (
@@ -289,12 +297,14 @@ export default function FilterBar({ onNavigate }) {
                 }
               </DesktopDropdown>
 
-              <button
-                onClick={clearAll}
-                className="text-sm underline font-medium text-red-600 inline-flex items-center gap-1 cursor-pointer"
-              >
-                <X size={12} /> Clear all
-              </button>
+              {hasActiveFilters && (
+                <button
+                  onClick={clearAll}
+                  className="text-sm underline font-medium text-red-600 inline-flex items-center gap-1 cursor-pointer"
+                >
+                  <X size={12} /> Clear all
+                </button>
+              )}
             </div>
 
             {/* Mobile */}
@@ -371,7 +381,7 @@ export default function FilterBar({ onNavigate }) {
           <h3 className="font-medium mb-2">Listing</h3>
           <DesktopDropdown
             label="Listing"
-            value={LISTING_TYPE_MAP[listingType] || "For Sale"}
+            value={LISTING_TYPE_MAP[listingType] || "Sale"}
             isMobile={true}
           >
             {(close) =>
@@ -446,15 +456,17 @@ export default function FilterBar({ onNavigate }) {
               ))
             }
           </DesktopDropdown>
-          <div className="mt-6">
-            <button
-              onClick={clearAll}
-              className="w-full py-2 rounded-lg bg-red-50 text-red-600 font-medium inline-flex items-center justify-center gap-1 cursor-pointer"
-            >
-              <X size={12} />
-              Clear all
-            </button>
-          </div>
+          {hasActiveFilters && (
+            <div className="mt-6">
+              <button
+                onClick={clearAll}
+                className="w-full py-2 rounded-lg bg-red-50 text-red-600 font-medium inline-flex items-center justify-center gap-1 cursor-pointer"
+              >
+                <X size={12} />
+                Clear all
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -478,8 +490,8 @@ function DesktopDropdown({ label, value, children }) {
         onClick={() => setOpen((p) => !p)}
         className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm"
       >
-        <span className="text-gray-600">{label}</span>
-        {value && <span className="font-semibold">{value}</span>}
+        <span className="text-gray-700">{label}</span>
+        {value && <span className="font-semibold">: {value}</span>}
         <ChevronDown size={14} />
       </button>
 
@@ -525,8 +537,8 @@ function PricePopover({
         onClick={() => setOpen((prev) => !prev)}
         className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm"
       >
-        <span className="text-gray-600">Price</span>
-        {priceSummary && <span className="font-semibold">{priceSummary}</span>}
+        <span className="text-gray-700">Price</span>
+        {priceSummary && <span className="font-semibold">: {priceSummary}</span>}
         <ChevronDown size={14} />
       </button>
 
@@ -567,7 +579,7 @@ function PriceValueDropdown({ label, value, noneLabel, options, onSelect }) {
 
   return (
     <div ref={ref} className="relative">
-      <p className="text-xs text-gray-600 mb-1">{label}</p>
+      <p className="text-xs text-gray-700 mb-1">{label}</p>
       <button
         onClick={() => setOpen((prev) => !prev)}
         className="w-full border rounded-lg px-2 py-2 text-sm bg-white flex items-center justify-between"

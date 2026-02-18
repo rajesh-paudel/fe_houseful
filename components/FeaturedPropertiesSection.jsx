@@ -58,14 +58,15 @@ const FeaturedPropertiesSection = ({
       id={sectionId}
       className="pt-12 md:pt-16 bg-white w-full overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto px-2 md:px-6">
+      <div className="max-w-7xl mx-auto px-2 md:px-6">
         {/* Title Row */}
         <div className="mb-8 flex items-center justify-between gap-4 border-b border-slate-200 pb-4">
           <h2 className="text-2xl md:text-3xl font-serif text-slate-900 tracking-tight">
             {cityName} Listings
           </h2>
           <Link
-            href={`/${targetCitySlug}`} scroll={true}
+            href={`/${targetCitySlug}`}
+            scroll={true}
             onClick={() =>
               window.scrollTo({ top: 0, left: 0, behavior: "auto" })
             }
@@ -126,4 +127,3 @@ const FeaturedPropertiesSection = ({
 };
 
 export default FeaturedPropertiesSection;
-

@@ -5,16 +5,26 @@ import {
   X,
   Mail,
   Phone,
-  Facebook,
   Instagram,
-  Linkedin,
   ChevronDown,
+  Search,
+  MapPin,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { cityToSlug } from "@/lib/slug";
+import { usePathname, useRouter } from "next/navigation";
+import nProgress from "nprogress";
 const Header = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const showHeaderSearch = pathname !== "/";
+  const [query, setQuery] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const desktopSearchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileCommunitiesOpen, setIsMobileCommunitiesOpen] = useState(false);
   const [isMobileSellersOpen, setIsMobileSellersOpen] = useState(false);
@@ -66,18 +76,167 @@ const Header = () => {
     setIsMobileBuyersOpen(false);
   };
 
+  const suggestions =
+    query.trim() === ""
+      ? []
+      : communities.filter((city) =>
+          city.toLowerCase().includes(query.toLowerCase()),
+        );
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const clickedDesktop =
+        desktopSearchRef.current &&
+        desktopSearchRef.current.contains(event.target);
+      const clickedMobile =
+        mobileSearchRef.current && mobileSearchRef.current.contains(event.target);
+      if (!clickedDesktop && !clickedMobile) setIsExpanded(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    setQuery("");
+    setIsExpanded(false);
+    setIsSearching(false);
+  }, [pathname]);
+
+  const handleSelect = (city) => {
+    setQuery(city);
+    setIsExpanded(false);
+    nProgress.start();
+    router.push(`/${cityToSlug(city)}`);
+  };
+
+  const looksLikeListingInput = (value) => {
+    const trimmed = value.trim();
+    if (!trimmed) return false;
+    if (/\d/.test(trimmed)) return true;
+    return /^[A-Za-z0-9-]{6,}$/.test(trimmed);
+  };
+
+  const handleSearch = async () => {
+    const raw = query.trim();
+    if (!raw || isSearching) return;
+
+    const exactCity = communities.find(
+      (city) => city.toLowerCase() === raw.toLowerCase(),
+    );
+    if (exactCity) {
+      handleSelect(exactCity);
+      return;
+    }
+
+    const firstPartialCity = communities.find((city) =>
+      city.toLowerCase().includes(raw.toLowerCase()),
+    );
+    const shouldLookupListingFirst = looksLikeListingInput(raw);
+
+    if (!shouldLookupListingFirst && firstPartialCity) {
+      handleSelect(firstPartialCity);
+      return;
+    }
+
+    try {
+      setIsSearching(true);
+      const res = await fetch(
+        `/api/property-lookup?q=${encodeURIComponent(raw)}`,
+      );
+      const data = await res.json();
+
+      if (res.ok && data?.found && data?.city && data?.listingKey) {
+        setIsExpanded(false);
+        nProgress.start();
+        router.push(`/${cityToSlug(data.city)}/${data.listingKey}`);
+        return;
+      }
+    } catch {
+      // Ignore lookup errors and fallback to city behavior.
+    } finally {
+      setIsSearching(false);
+    }
+
+    if (firstPartialCity) {
+      handleSelect(firstPartialCity);
+      return;
+    }
+
+    if (!looksLikeListingInput(raw)) {
+      setIsExpanded(false);
+      nProgress.start();
+      router.push(`/${cityToSlug(raw)}`);
+    }
+  };
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white text-black border-b border-gray-200 ">
-        <div className="max-w-7xl mx-auto px-4 lg:px-6 py-3 lg:py-4">
+        <div className="w-full mx-auto px-2 lg:px-6 py-2.5 sm:py-3 lg:py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex shrink-0">
               <img
                 src="/homeReality.svg"
-                className="h-9 w-auto md:h-11 lg:h-12 object-contain"
+                className="h-8 w-auto sm:h-9 md:h-11 lg:h-12 object-contain"
                 alt="Jasin Buyn Realtor"
               />
             </Link>
+
+            {showHeaderSearch && (
+              <div
+                ref={desktopSearchRef}
+                className="relative hidden md:block flex-1 max-w-xl mx-4"
+              >
+                <div
+                  className={cn(
+                    "relative flex items-center bg-white border border-gray-300 shadow-sm transition-all duration-200",
+                    isExpanded && suggestions.length > 0 ? "rounded-t-2xl" : "rounded-full",
+                  )}
+                >
+                  <Search className="absolute left-4 w-4 h-4 text-gray-500" />
+                  <input
+                    type="text"
+                    placeholder="Search by MLS number or city"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onFocus={() => setIsExpanded(true)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleSearch();
+                      }
+                    }}
+                    className="w-full h-11 bg-transparent pl-11 pr-24 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none"
+                  />
+                  <button
+                    onClick={handleSearch}
+                    disabled={isSearching}
+                    className="absolute right-1.5 bg-[#38003c] hover:bg-[#2b002f] disabled:opacity-70 disabled:cursor-not-allowed text-white px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide"
+                  >
+                    {isSearching ? (
+                      <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                    ) : (
+                      "SEARCH"
+                    )}
+                  </button>
+                </div>
+
+                {isExpanded && suggestions.length > 0 && (
+                  <div className="absolute left-0 right-0 bg-white rounded-b-2xl shadow-xl border border-t-0 border-gray-200 overflow-hidden z-[120]">
+                    {suggestions.map((city) => (
+                      <button
+                        key={city}
+                        onClick={() => handleSelect(city)}
+                        className="w-full px-4 py-2.5 text-left text-gray-900 hover:bg-gray-50 transition flex items-center gap-2 border-b border-gray-100 last:border-0"
+                      >
+                        <MapPin className="w-4 h-4 text-[#38003c]" />
+                        <span className="text-sm font-medium">{city}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="hidden lg:flex flex-col items-end gap-2 ml-4">
               {/* Top Row */}
@@ -193,12 +352,65 @@ const Header = () => {
             </div>
 
             <button
-              className="lg:hidden p-2 text-black"
+              className="lg:hidden p-1.5 sm:p-2 text-black"
               onClick={() => setIsMenuOpen(true)}
             >
-              <Menu className="w-7 h-7" />
+              <Menu className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
           </div>
+
+          {showHeaderSearch && (
+            <div ref={mobileSearchRef} className="relative mt-2.5 md:hidden">
+              <div
+                className={cn(
+                  "relative flex items-center bg-white border border-gray-300 shadow-sm transition-all duration-200",
+                  isExpanded && suggestions.length > 0 ? "rounded-t-2xl" : "rounded-full",
+                )}
+              >
+                <Search className="absolute left-3.5 w-4 h-4 text-gray-500" />
+                <input
+                  type="text"
+                  placeholder="Search by MLS or city"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onFocus={() => setIsExpanded(true)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleSearch();
+                    }
+                  }}
+                  className="w-full h-10 bg-transparent pl-10 pr-20 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none"
+                />
+                <button
+                  onClick={handleSearch}
+                  disabled={isSearching}
+                  className="absolute right-1.5 bg-[#38003c] hover:bg-[#2b002f] disabled:opacity-70 disabled:cursor-not-allowed text-white px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wide"
+                >
+                  {isSearching ? (
+                    <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  ) : (
+                    "SEARCH"
+                  )}
+                </button>
+              </div>
+
+              {isExpanded && suggestions.length > 0 && (
+                <div className="absolute left-0 right-0 bg-white rounded-b-2xl shadow-xl border border-t-0 border-gray-200 overflow-hidden z-[120]">
+                  {suggestions.map((city) => (
+                    <button
+                      key={city}
+                      onClick={() => handleSelect(city)}
+                      className="w-full px-4 py-2.5 text-left text-gray-900 hover:bg-gray-50 transition flex items-center gap-2 border-b border-gray-100 last:border-0"
+                    >
+                      <MapPin className="w-4 h-4 text-[#38003c]" />
+                      <span className="text-sm font-medium">{city}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </header>
 
@@ -352,7 +564,7 @@ const Header = () => {
         />
       )}
 
-      <div className=" h-16 lg:h-26 "></div>
+      <div className={cn(showHeaderSearch ? "h-28 md:h-16 lg:h-26" : "h-16 lg:h-26")} />
     </>
   );
 };
