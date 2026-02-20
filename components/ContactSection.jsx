@@ -24,7 +24,7 @@ const ContactSection = ({ header }) => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-6">
           <div className="mb-4 flex justify-center">
-            <div className="h-16 w-16 overflow-hidden rounded-full border border-gray-200 ring-2 ring-white shadow-sm">
+            <div className="h-26 w-26 overflow-hidden rounded-full border border-gray-200 ring-2 ring-white shadow-sm">
               <img
                 src="/profile.png"
                 alt="Jason Byun"

@@ -9,7 +9,7 @@ const SkeletonBlock = ({ className }) => (
 export default function PropertyDetailSkeleton() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+      <div className="w-full mx-auto px-4 md:px-8 py-4">
         <div className="flex items-center gap-2">
           <SkeletonBlock className="h-7 w-16 rounded-full" />
           <SkeletonBlock className="h-4 w-32 rounded" />
@@ -17,7 +17,7 @@ export default function PropertyDetailSkeleton() {
         </div>
       </div>
 
-      <div className="w-full px-2 md:px-3">
+      <div className="w-full px-4 md:px-8">
         <SkeletonBlock className="h-[420px] sm:h-[500px] md:h-[620px] w-full rounded-lg" />
       </div>
 
@@ -27,6 +27,7 @@ export default function PropertyDetailSkeleton() {
             <SkeletonBlock className="h-8 w-56 rounded" />
             <SkeletonBlock className="h-5 w-80 rounded" />
             <SkeletonBlock className="h-4 w-64 rounded" />
+            <SkeletonBlock className="h-4 w-56 rounded" />
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4">
               {Array.from({ length: 4 }).map((_, i) => (

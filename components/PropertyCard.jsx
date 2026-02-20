@@ -28,6 +28,48 @@ function getTimeAgo(dateString) {
   return `${years}y ago`;
 }
 
+function formatBedroomDisplay(aboveGrade, belowGrade, total) {
+  const aboveNum = Number(aboveGrade);
+  const belowNum = Number(belowGrade);
+  const totalNum = Number(total);
+
+  if (Number.isFinite(aboveNum) && Number.isFinite(belowNum)) {
+    if (aboveNum === 0 && belowNum === 0) return "0";
+    if (belowNum === 0) return String(aboveNum);
+    if (aboveNum === 0) return String(belowNum);
+    return `${aboveNum}+${belowNum}`;
+  }
+
+  if (
+    Number.isFinite(aboveNum) &&
+    Number.isFinite(totalNum) &&
+    totalNum >= aboveNum
+  ) {
+    const belowFromTotal = totalNum - aboveNum;
+    if (aboveNum === 0 && belowFromTotal === 0) return "0";
+    if (belowFromTotal === 0) return String(aboveNum);
+    if (aboveNum === 0) return String(belowFromTotal);
+    return `${aboveNum}+${belowFromTotal}`;
+  }
+
+  if (
+    Number.isFinite(belowNum) &&
+    Number.isFinite(totalNum) &&
+    totalNum >= belowNum
+  ) {
+    const aboveFromTotal = totalNum - belowNum;
+    if (aboveFromTotal === 0 && belowNum === 0) return "0";
+    if (belowNum === 0) return String(aboveFromTotal);
+    if (aboveFromTotal === 0) return String(belowNum);
+    return `${aboveFromTotal}+${belowNum}`;
+  }
+
+  if (Number.isFinite(totalNum)) return String(totalNum);
+  if (Number.isFinite(aboveNum)) return String(aboveNum);
+  if (Number.isFinite(belowNum)) return String(belowNum);
+  return "-";
+}
+
 export default function PropertyCard({ property }) {
   const router = useRouter();
 
@@ -40,7 +82,11 @@ export default function PropertyCard({ property }) {
 
   //map and handle the fields
 
-  const beds = property.BedroomsTotal || 0;
+  const beds = formatBedroomDisplay(
+    property.BedroomsAboveGrade,
+    property.BedroomsBelowGrade,
+    property.BedroomsTotal,
+  );
   const baths = property.BathroomsTotalInteger || 0;
   const sqft = property.BuildingAreaTotal || property.LivingAreaRange || null;
   const propertyType = property.PropertySubType || "Property";
@@ -72,7 +118,7 @@ export default function PropertyCard({ property }) {
         }
         router.push(`/${cityToSlug(city)}/${mls}`, { scroll: true });
       }}
-      className="group w-full bg-white rounded-xl overflow-hidden cursor-pointer border border-gray-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-slate-300"
+      className="group w-full bg-white rounded-xl overflow-hidden cursor-pointer shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-slate-300"
     >
       {/* Image Section */}
       <div className="relative h-56 w-full bg-gray-100">
@@ -94,7 +140,7 @@ export default function PropertyCard({ property }) {
         )}
 
         {/* Status Badge */}
-        <div className="absolute top-3 left-3 bg-[#38003c] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
+        <div className="absolute top-3 left-3 bg-blue-700 text-white text-xs font-semibold px-2 py-1 rounded ">
           {timeAgoLabel}
         </div>
 
@@ -104,46 +150,44 @@ export default function PropertyCard({ property }) {
       </div>
 
       {/* Content Section */}
-      <div className="p-3.5 space-y-2">
+      <div className="px-3.5 pt-2 pb-4 space-y-1">
         <div>
           <h3 className="text-2xl font-bold text-blue-950">{formattedPrice}</h3>
-          <p className="text-sm text-black truncate font-medium">
+          <p className="text-sm text-gray-700 truncate font-medium">
             {fullAddress}
           </p>
         </div>
 
         {/* Property Specs */}
-        <div className="space-y-2 text-black ">
+        <div className="space-y-1 text-gray-700">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-1.5">
-              <Bed size={14} className="text-black" />
-              <span className="text-xs font-bold">{beds}</span>
+              <Bed size={14} className="text-gray-700" />
+              <span className="text-xs font-medium text-gray-700">{beds}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Bath size={14} className="text-black" />
-              <span className="text-xs font-bold">{baths}</span>
+              <Bath size={14} className="text-gray-700" />
+              <span className="text-xs font-medium text-gray-700">{baths}</span>
             </div>
             <div className="flex items-center gap-1.5 max-w-[90px]">
-              <Square size={14} className="text-black" />
-              <span className="text-xs font-bold truncate">{sqft}</span>
+              <Square size={14} className="text-gray-700" />
+              <span className="text-xs font-medium truncate">{sqft}</span>
             </div>
           </div>
           <div className="flex items-center gap-1.5">
-            <Home size={14} className="text-black" />
-            <span className="text-sm font-semibold truncate">
+            <Home size={14} className="text-gray-700" />
+            <span className="text-xs font-medium text-gray-700 truncate">
               {propertyType}
             </span>
           </div>
-        </div>
-
-        {/* Footer info */}
-        <div className="space-y-1">
           <div className="flex justify-between items-center">
-            <p className="text-[12px] text-black font-semibold uppercase tracking-tighter">
+            <p className="text-xs text-gray-700 font-medium uppercase tracking-tighter">
               MLS® {mls}
             </p>
           </div>
-          <p className="text-[12px] text-black truncate italic">{agency}</p>
+          <p className="text-xs text-gray-700 truncate font-medium">
+            Listing Brokerage : {agency}
+          </p>
         </div>
       </div>
     </div>

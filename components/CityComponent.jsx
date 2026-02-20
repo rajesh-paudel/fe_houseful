@@ -44,7 +44,7 @@ const CityComponent = ({ city, properties, pagination }) => {
           <>
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-slate-800 capitalize">
-                {cityName}, {listingLabel}
+                {cityName} {listingLabel}
               </h1>
               <p className="text-gray-700 text-base  mt-1">
                 Total {totalCount} homes found • Page {currentPage} of{" "}

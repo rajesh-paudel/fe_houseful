@@ -212,7 +212,7 @@ export default function FilterBar({ onNavigate }) {
   return (
     <>
       {/* Top Bar */}
-      <div className="sticky top-16 lg:top-26 z-40 bg-white border-b w-full py-3 ">
+      <div className="sticky top-16 lg:top-26 z-40 -mt-px bg-white border-b border-gray-200 w-full py-3 ">
         <div className="w-full px-2 md:px-4 flex items-center justify-between gap-2">
           {/* Filters */}
           <div className="flex items-center gap-3">
@@ -310,7 +310,7 @@ export default function FilterBar({ onNavigate }) {
             {/* Mobile */}
             <button
               onClick={() => setPanelOpen(true)}
-              className="lg:hidden flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-semibold"
+              className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-300 hover:border-gray-800 transition-colors rounded-full text-sm font-semibold cursor-pointer"
             >
               <SlidersHorizontal size={16} />
               Filters
@@ -321,7 +321,7 @@ export default function FilterBar({ onNavigate }) {
           <div className="relative" ref={sortRef}>
             <button
               onClick={() => setOpenSort((p) => !p)}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 hover:border-gray-800 hover:bg-gray-50 transition-colors cursor-pointer"
             >
               {sortLabel}
               {openSort ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -488,7 +488,7 @@ function DesktopDropdown({ label, value, children }) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((p) => !p)}
-        className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm"
+        className="flex items-center gap-2 px-4 py-2 border border-gray-300 hover:border-gray-800 transition-colors rounded-full text-sm cursor-pointer"
       >
         <span className="text-gray-700">{label}</span>
         {value && <span className="font-semibold">: {value}</span>}
@@ -535,7 +535,7 @@ function PricePopover({
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm"
+        className="flex items-center gap-2 px-4 py-2 border border-gray-300 hover:border-gray-800 transition-colors rounded-full text-sm cursor-pointer"
       >
         <span className="text-gray-700">Price</span>
         {priceSummary && <span className="font-semibold">: {priceSummary}</span>}

@@ -48,21 +48,37 @@ const formatList = (arr) =>
 const fallbackText = (value, fallback = "-") =>
   value === null || value === undefined || value === "" ? fallback : value;
 
-const formatBedroomDisplay = (total, aboveGrade) => {
-  const totalNum = Number(total);
+const formatBedroomDisplay = (aboveGrade, belowGrade, total) => {
   const aboveNum = Number(aboveGrade);
+  const belowNum = Number(belowGrade);
+  const totalNum = Number(total);
 
-  if (
-    Number.isFinite(totalNum) &&
-    Number.isFinite(aboveNum) &&
-    totalNum >= aboveNum
-  ) {
-    const plus = totalNum - aboveNum;
-    return plus > 0 ? `${aboveNum}+${plus}` : `${aboveNum}`;
+  if (Number.isFinite(aboveNum) && Number.isFinite(belowNum)) {
+    if (aboveNum === 0 && belowNum === 0) return "0";
+    if (belowNum === 0) return String(aboveNum);
+    if (aboveNum === 0) return String(belowNum);
+    return `${aboveNum}+${belowNum}`;
+  }
+
+  if (Number.isFinite(aboveNum) && Number.isFinite(totalNum) && totalNum >= aboveNum) {
+    const belowFromTotal = totalNum - aboveNum;
+    if (aboveNum === 0 && belowFromTotal === 0) return "0";
+    if (belowFromTotal === 0) return String(aboveNum);
+    if (aboveNum === 0) return String(belowFromTotal);
+    return `${aboveNum}+${belowFromTotal}`;
+  }
+
+  if (Number.isFinite(belowNum) && Number.isFinite(totalNum) && totalNum >= belowNum) {
+    const aboveFromTotal = totalNum - belowNum;
+    if (aboveFromTotal === 0 && belowNum === 0) return "0";
+    if (belowNum === 0) return String(aboveFromTotal);
+    if (aboveFromTotal === 0) return String(belowNum);
+    return `${aboveFromTotal}+${belowNum}`;
   }
 
   if (Number.isFinite(totalNum)) return String(totalNum);
   if (Number.isFinite(aboveNum)) return String(aboveNum);
+  if (Number.isFinite(belowNum)) return String(belowNum);
   return "-";
 };
 
@@ -110,8 +126,9 @@ export default async function PropertyDetailPage({ params }) {
       ? data.Flooring.join(", ")
       : fallbackText(data.Flooring);
   const bedroomDisplay = formatBedroomDisplay(
-    data.BedroomsTotal,
     data.BedroomsAboveGrade,
+    data.BedroomsBelowGrade,
+    data.BedroomsTotal,
   );
 
   const highlights = [
@@ -176,25 +193,31 @@ export default async function PropertyDetailPage({ params }) {
   return (
     <div className="min-h-screen bg-white">
       <ScrollToTop />
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
-        <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-500">
+      <div className="w-full mx-auto px-4 md:px-8 py-4">
+        <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-600">
           <div className="flex items-center gap-2 flex-wrap">
-            <Link href="/" className="font-medium hover:text-gray-700">
+            <Link
+              href="/"
+              className="font-medium hover:text-gray-900 cursor-pointer"
+            >
               Home
             </Link>
             <ChevronRight size={12} />
-            <Link className="hover:text-gray-700" href={`/${city}`}>
+            <Link
+              className="hover:text-gray-900 cursor-pointer "
+              href={`/${city}`}
+            >
               {slugToCity(city)}
             </Link>
             <ChevronRight size={12} />
-            <span className="text-gray-900 font-medium truncate max-w-[200px] md:max-w-none">
+            <span className="text-gray-900 font-medium truncate max-w-[200px] md:max-w-none ">
               {property.address}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="w-full px-2 md:px-3">
+      <div className="w-full px-4 md:px-8">
         <PropertyMediaGallery images={property.images} />
       </div>
 
@@ -216,6 +239,13 @@ export default async function PropertyDetailPage({ params }) {
             <p className="text-base text-gray-500">
               {property.neighborhood} · {fallbackText(data.CountyOrParish)} ·{" "}
               {fallbackText(data.StateOrProvince)}
+            </p>
+
+            <p className="text-sm text-gray-600 mt-1">
+              <span className="font-semibold text-gray-800">
+                Listing Brokerage:
+              </span>{" "}
+              {fallbackText(data.ListOfficeName)}
             </p>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4">
