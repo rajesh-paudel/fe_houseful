@@ -34,20 +34,28 @@ const LISTING_TYPE_MAP = {
   lease: "Lease",
 };
 
-const PRICE_VALUES = [
-  25000, 50000, 75000, 100000, 125000, 150000, 200000, 250000, 300000, 400000,
-  500000, 600000, 700000, 800000, 900000, 1000000, 1250000, 1500000, 1750000,
-  2000000, 2500000, 3000000, 3500000, 4000000, 4500000, 5000000,
-];
+const PRICE_MIN = 200000;
+const PRICE_MAX = 5000000;
+const PRICE_STEP = 50000;
 const moneyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
   maximumFractionDigits: 0,
 });
-const PRICE_OPTIONS = PRICE_VALUES.map((value) => ({
-  value: String(value),
-  label: moneyFormatter.format(value),
-}));
+const formatPrice = (value) => moneyFormatter.format(value);
+
+const toPriceValue = (value, fallback) => {
+  const num = Number(value);
+  if (!Number.isFinite(num) || num <= 0) return fallback;
+  return Math.max(PRICE_MIN, Math.min(PRICE_MAX, num));
+};
+
+const summarizePriceRange = (min, max) => {
+  const minNum = toPriceValue(min, PRICE_MIN);
+  const maxNum = toPriceValue(max, PRICE_MAX);
+  if (minNum === PRICE_MIN && maxNum === PRICE_MAX) return null;
+  return `${formatPrice(minNum)} - ${formatPrice(maxNum)}`;
+};
 
 function useUrlFilters(onNavigate) {
   const router = useRouter();
@@ -99,33 +107,15 @@ function useUrlFilters(onNavigate) {
   };
   const set = (key, value) => setMany({ [key]: value });
 
-  const setPrice = (key, value) => {
-    const currentMin = get("minPrice");
-    const currentMax = get("maxPrice") || get("priceMax");
-    const nextValue = value ? String(value) : null;
-    const nextMin =
-      key === "minPrice"
-        ? nextValue
-          ? Number(nextValue)
-          : null
-        : currentMin
-          ? Number(currentMin)
-          : null;
-    const nextMax =
-      key === "maxPrice"
-        ? nextValue
-          ? Number(nextValue)
-          : null
-        : currentMax
-          ? Number(currentMax)
-          : null;
-
-    const updates = { [key]: nextValue };
-    if (nextMin && nextMax && nextMin > nextMax) {
-      if (key === "minPrice") updates.maxPrice = null;
-      if (key === "maxPrice") updates.minPrice = null;
-    }
-    setMany(updates);
+  const setPriceRange = (minValue, maxValue) => {
+    const min = toPriceValue(minValue, PRICE_MIN);
+    const max = toPriceValue(maxValue, PRICE_MAX);
+    const normalizedMin = Math.min(min, max);
+    const normalizedMax = Math.max(min, max);
+    setMany({
+      minPrice: normalizedMin <= PRICE_MIN ? null : String(normalizedMin),
+      maxPrice: normalizedMax >= PRICE_MAX ? null : String(normalizedMax),
+    });
   };
 
   const clearAll = () => {
@@ -160,7 +150,7 @@ function useUrlFilters(onNavigate) {
     sortKey: local.sortKey,
     sortLabel: SORT_MAP[local.sortKey],
     set,
-    setPrice,
+    setPriceRange,
     clearAll,
   };
 }
@@ -189,17 +179,9 @@ export default function FilterBar({ onNavigate }) {
     sortKey,
     sortLabel,
     set,
-    setPrice,
+    setPriceRange,
     clearAll,
   } = useUrlFilters(onNavigate);
-  const minPriceNum = minPrice ? Number(minPrice) : null;
-  const maxPriceNum = maxPrice ? Number(maxPrice) : null;
-  const minPriceOptions = PRICE_OPTIONS.filter(
-    (opt) => !maxPriceNum || Number(opt.value) <= maxPriceNum,
-  );
-  const maxPriceOptions = PRICE_OPTIONS.filter(
-    (opt) => !minPriceNum || Number(opt.value) >= minPriceNum,
-  );
   const hasActiveFilters = Boolean(
     listingType !== "sale" ||
       beds ||
@@ -241,9 +223,7 @@ export default function FilterBar({ onNavigate }) {
               <PricePopover
                 minPrice={minPrice}
                 maxPrice={maxPrice}
-                minPriceOptions={minPriceOptions}
-                maxPriceOptions={maxPriceOptions}
-                setPrice={setPrice}
+                setPriceRange={setPriceRange}
               />
 
               <DesktopDropdown label="Beds" value={beds ? `${beds}+` : null}>
@@ -401,25 +381,10 @@ export default function FilterBar({ onNavigate }) {
           </DesktopDropdown>
 
           <h3 className="font-medium mt-4 mb-2">Price</h3>
-          <PriceValueDropdown
-            label="Min Price"
-            value={
-              PRICE_OPTIONS.find((o) => o.value === minPrice)?.label || null
-            }
-            noneLabel="No Min"
-            options={minPriceOptions}
-            onSelect={(value) => setPrice("minPrice", value)}
-          />
-
-          <h3 className="font-medium mt-4 mb-2">Max Price</h3>
-          <PriceValueDropdown
-            label="Max Price"
-            value={
-              PRICE_OPTIONS.find((o) => o.value === maxPrice)?.label || null
-            }
-            noneLabel="No Max"
-            options={maxPriceOptions}
-            onSelect={(value) => setPrice("maxPrice", value)}
+          <PriceRangeSlider
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            onCommit={setPriceRange}
           />
 
           <FilterGroup
@@ -507,22 +472,11 @@ function DesktopDropdown({ label, value, children }) {
 function PricePopover({
   minPrice,
   maxPrice,
-  minPriceOptions,
-  maxPriceOptions,
-  setPrice,
+  setPriceRange,
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
-  const minLabel = PRICE_OPTIONS.find((opt) => opt.value === minPrice)?.label;
-  const maxLabel = PRICE_OPTIONS.find((opt) => opt.value === maxPrice)?.label;
-  const priceSummary =
-    minLabel && maxLabel
-      ? `${minLabel} - ${maxLabel}`
-      : minLabel
-        ? `From ${minLabel}`
-        : maxLabel
-          ? `Up to ${maxLabel}`
-          : null;
+  const priceSummary = summarizePriceRange(minPrice, maxPrice);
 
   useEffect(() => {
     const handler = (e) =>
@@ -544,76 +498,131 @@ function PricePopover({
 
       {open && (
         <div className="absolute left-0 mt-2 w-[360px] bg-white border rounded-xl shadow-lg p-4 z-50">
-          <div className="grid grid-cols-2 gap-3">
-            <PriceValueDropdown
-              label="Min Price"
-              value={minLabel}
-              noneLabel="No Min"
-              options={minPriceOptions}
-              onSelect={(value) => setPrice("minPrice", value)}
-            />
-            <PriceValueDropdown
-              label="Max Price"
-              value={maxLabel}
-              noneLabel="No Max"
-              options={maxPriceOptions}
-              onSelect={(value) => setPrice("maxPrice", value)}
-            />
-          </div>
+          <PriceRangeSlider
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            onCommit={setPriceRange}
+          />
         </div>
       )}
     </div>
   );
 }
 
-function PriceValueDropdown({ label, value, noneLabel, options, onSelect }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
+function PriceRangeSlider({ minPrice, maxPrice, onCommit }) {
+  const [minDraft, setMinDraft] = useState(toPriceValue(minPrice, PRICE_MIN));
+  const [maxDraft, setMaxDraft] = useState(toPriceValue(maxPrice, PRICE_MAX));
 
   useEffect(() => {
-    const handler = (e) =>
-      ref.current && !ref.current.contains(e.target) && setOpen(false);
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
+    setMinDraft(toPriceValue(minPrice, PRICE_MIN));
+    setMaxDraft(toPriceValue(maxPrice, PRICE_MAX));
+  }, [minPrice, maxPrice]);
+
+  const toPercent = (value) =>
+    ((value - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100;
+
+  const minPercent = toPercent(minDraft);
+  const maxPercent = toPercent(maxDraft);
+
+  const commit = (nextMin, nextMax) => {
+    onCommit(nextMin, nextMax);
+  };
+
+  const handleMin = (value) => {
+    const raw = Number(value);
+    const next = Math.min(raw, maxDraft - PRICE_STEP);
+    setMinDraft(next);
+  };
+
+  const handleMax = (value) => {
+    const raw = Number(value);
+    const next = Math.max(raw, minDraft + PRICE_STEP);
+    setMaxDraft(next);
+  };
+
+  const trackStyle = {
+    background: `linear-gradient(to right, #e5e7eb ${minPercent}%, #1d4ed8 ${minPercent}%, #1d4ed8 ${maxPercent}%, #e5e7eb ${maxPercent}%)`,
+  };
 
   return (
-    <div ref={ref} className="relative">
-      <p className="text-xs text-gray-700 mb-1">{label}</p>
-      <button
-        onClick={() => setOpen((prev) => !prev)}
-        className="w-full border rounded-lg px-2 py-2 text-sm bg-white flex items-center justify-between"
-      >
-        <span className={`truncate ${value ? "" : "text-gray-500"}`}>
-          {value || label}
-        </span>
-        <ChevronDown size={14} />
-      </button>
-      {open && (
-        <div className="absolute left-0 mt-1 w-full bg-white border rounded-lg shadow-lg p-1 z-50 max-h-56 overflow-auto">
-          <DropdownItem
-            active={value === noneLabel}
-            onClick={() => {
-              onSelect(null);
-              setOpen(false);
-            }}
-          >
-            {noneLabel}
-          </DropdownItem>
-          {options.map((opt) => (
-            <DropdownItem
-              key={opt.value}
-              active={value === opt.label}
-              onClick={() => {
-                onSelect(opt.value);
-                setOpen(false);
-              }}
-            >
-              {opt.label}
-            </DropdownItem>
-          ))}
-        </div>
-      )}
+    <div>
+      <div className="mb-3 flex items-center justify-between text-sm font-medium text-gray-800">
+        <span>{formatPrice(minDraft)}</span>
+        <span>{formatPrice(maxDraft)}</span>
+      </div>
+
+      <div className="relative h-7">
+        <div className="absolute top-1/2 -translate-y-1/2 h-1.5 w-full rounded-full" style={trackStyle} />
+        <input
+          type="range"
+          min={PRICE_MIN}
+          max={PRICE_MAX}
+          step={PRICE_STEP}
+          value={minDraft}
+          onChange={(e) => handleMin(e.target.value)}
+          onMouseUp={() => commit(minDraft, maxDraft)}
+          onTouchEnd={() => commit(minDraft, maxDraft)}
+          className="price-range-input absolute inset-0 w-full appearance-none bg-transparent pointer-events-none"
+        />
+        <input
+          type="range"
+          min={PRICE_MIN}
+          max={PRICE_MAX}
+          step={PRICE_STEP}
+          value={maxDraft}
+          onChange={(e) => handleMax(e.target.value)}
+          onMouseUp={() => commit(minDraft, maxDraft)}
+          onTouchEnd={() => commit(minDraft, maxDraft)}
+          className="price-range-input absolute inset-0 w-full appearance-none bg-transparent pointer-events-none"
+        />
+      </div>
+
+      <div className="mt-3 flex items-center justify-between">
+        <span className="text-xs text-gray-500">Min: {formatPrice(PRICE_MIN)}</span>
+        <button
+          onClick={() => {
+            setMinDraft(PRICE_MIN);
+            setMaxDraft(PRICE_MAX);
+            commit(PRICE_MIN, PRICE_MAX);
+          }}
+          className="text-xs font-semibold text-blue-700 hover:text-blue-800"
+        >
+          Reset
+        </button>
+        <span className="text-xs text-gray-500">Max: {formatPrice(PRICE_MAX)}</span>
+      </div>
+      <style jsx>{`
+        .price-range-input::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          height: 16px;
+          width: 16px;
+          border-radius: 999px;
+          background: #1d4ed8;
+          border: 2px solid #ffffff;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+          cursor: pointer;
+          pointer-events: auto;
+          margin-top: -6px;
+        }
+        .price-range-input::-webkit-slider-runnable-track {
+          height: 4px;
+          background: transparent;
+        }
+        .price-range-input::-moz-range-thumb {
+          height: 16px;
+          width: 16px;
+          border-radius: 999px;
+          background: #1d4ed8;
+          border: 2px solid #ffffff;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+          cursor: pointer;
+          pointer-events: auto;
+        }
+        .price-range-input::-moz-range-track {
+          height: 4px;
+          background: transparent;
+        }
+      `}</style>
     </div>
   );
 }

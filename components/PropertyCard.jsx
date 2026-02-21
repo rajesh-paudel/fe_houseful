@@ -140,7 +140,7 @@ export default function PropertyCard({ property }) {
         )}
 
         {/* Status Badge */}
-        <div className="absolute top-3 left-3 bg-blue-700 text-white text-xs font-semibold px-2 py-1 rounded ">
+        <div className="absolute bottom-3 right-3 bg-blue-700 text-white text-xs font-semibold px-2 py-1 rounded ">
           {timeAgoLabel}
         </div>
 
@@ -174,16 +174,18 @@ export default function PropertyCard({ property }) {
               <span className="text-xs font-medium truncate">{sqft}</span>
             </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Home size={14} className="text-gray-700" />
-            <span className="text-xs font-medium text-gray-700 truncate">
-              {propertyType}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <p className="text-xs text-gray-700 font-medium uppercase tracking-tighter">
-              MLS® {mls}
-            </p>
+          <div className="flex items-center justify-start gap-4">
+            <div className="flex items-center gap-1.5">
+              <Home size={14} className="text-gray-700" />
+              <span className="text-xs font-medium text-gray-700 truncate">
+                {propertyType}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <p className="text-xs text-gray-700 font-medium uppercase tracking-tighter">
+                MLS® {mls}
+              </p>
+            </div>
           </div>
           <p className="text-xs text-gray-700 truncate font-medium">
             Listing Brokerage : {agency}

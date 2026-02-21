@@ -1,5 +1,5 @@
-import CitySkeleton from "@/components/CitySkeleton";
+import PageSpinner from "@/components/PageSpinner";
 
 export default function Loading() {
-  return <CitySkeleton />;
+  return <PageSpinner />;
 }

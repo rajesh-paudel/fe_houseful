@@ -24,7 +24,7 @@ const ContactSection = ({ header }) => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-6">
           <div className="mb-4 flex justify-center">
-            <div className="h-26 w-26 overflow-hidden rounded-full border border-gray-200 ring-2 ring-white shadow-sm">
+            <div className="h-44 w-44 overflow-hidden rounded-full border border-gray-200 ring-2 ring-white shadow-sm">
               <img
                 src="/profile.png"
                 alt="Jason Byun"
@@ -64,7 +64,7 @@ const ContactSection = ({ header }) => {
         <div className="max-w-2xl mx-auto">
           <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-300">
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-900 mb-1.5">
                     Name
@@ -121,14 +121,16 @@ const ContactSection = ({ header }) => {
                   className="min-h-24 text-sm bg-gray-50 resize-none"
                 />
               </div>
-              <Button
-                size="lg"
-                type="submit"
-                className="w-full bg-yellow-500 text-white hover:bg-yellow-600 flex items-center justify-center gap-2"
-              >
-                Send Message
-                <Send className="w-4 h-4" />
-              </Button>
+              <div className="flex justify-center items-center">
+                <Button
+                  size="lg"
+                  type="submit"
+                  className="w-auto px-6 rounded-full bg-blue-700 text-white hover:bg-blue-800 inline-flex items-center justify-center gap-2 font-semibold"
+                >
+                  Send Message
+                  <Send className="w-4 h-4" />
+                </Button>
+              </div>
             </form>
           </div>
         </div>

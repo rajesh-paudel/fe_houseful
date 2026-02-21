@@ -36,7 +36,8 @@ const Header = () => {
     "5-costly-mistakes",
   ]);
   const firstPathSegment = pathname.split("/").filter(Boolean)[0] || "";
-  const isCityRoute = Boolean(firstPathSegment) && !nonCityRoots.has(firstPathSegment);
+  const isCityRoute =
+    Boolean(firstPathSegment) && !nonCityRoots.has(firstPathSegment);
   const showHeaderSearch = pathname !== "/";
   const [query, setQuery] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
@@ -225,7 +226,7 @@ const Header = () => {
                 >
                   <div
                     className={cn(
-                      "relative flex items-center bg-gray-100 transition-all duration-200",
+                      "relative flex items-center bg-gray-100 border border-transparent transform-gpu transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.01] hover:border-gray-200  hover:shadow-lg focus-within:-translate-y-0.5 focus-within:scale-[1.01] focus-within:border-gray-200 focus-within:bg-white focus-within:shadow-lg",
                       isExpanded && suggestions.length > 0
                         ? "rounded-t-2xl"
                         : "rounded-full",
@@ -401,7 +402,7 @@ const Header = () => {
             <div ref={mobileSearchRef} className="relative mt-2.5 md:hidden">
               <div
                 className={cn(
-                  "relative flex items-center bg-gray-100 transition-all duration-200",
+                  "relative flex items-center bg-gray-100 border border-transparent transform-gpu transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.01] hover:border-gray-200 hover:bg-white hover:shadow-lg focus-within:-translate-y-0.5 focus-within:scale-[1.01] focus-within:border-gray-200 focus-within:bg-white focus-within:shadow-lg",
                   isExpanded && suggestions.length > 0
                     ? "rounded-t-2xl"
                     : "rounded-full",

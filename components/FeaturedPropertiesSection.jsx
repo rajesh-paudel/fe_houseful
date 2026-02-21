@@ -52,13 +52,12 @@ const FeaturedPropertiesSection = ({
   if (!properties?.length) return null;
 
   const targetCitySlug = citySlug || cityToSlug(cityName);
-
   return (
     <section
       id={sectionId}
       className="pt-12 md:pt-16 bg-white w-full overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-2 md:px-6">
+      <div className="w-full mx-auto px-2 md:px-6">
         {/* Title Row */}
         <div className="mb-8 flex items-center justify-between gap-4 border-b border-slate-200 pb-4">
           <h2 className="text-2xl md:text-3xl font-serif text-slate-900 tracking-tight">
@@ -97,14 +96,7 @@ const FeaturedPropertiesSection = ({
             {properties?.map((property) => (
               <div
                 key={property.ListingKey || property.id}
-                className="
-    
-    w-[80%]
-    sm:w-[70%]
-    md:w-[320px]
-    lg:w-[360px]
-    snap-start
-  "
+                className="w-[70%] sm:w-[56%] md:w-[260px] lg:w-[285px] snap-start"
               >
                 <PropertyCard property={property} />
               </div>

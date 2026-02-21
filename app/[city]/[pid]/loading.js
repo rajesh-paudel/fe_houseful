@@ -1,5 +1,5 @@
-import PropertyDetailSkeleton from "@/components/PropertyDetailSkeleton";
+import PageSpinner from "@/components/PageSpinner";
 
 export default function Loading() {
-  return <PropertyDetailSkeleton />;
+  return <PageSpinner />;
 }

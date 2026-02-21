@@ -18,11 +18,11 @@ const AgentFooter = () => {
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 mb-8">
           {/* Left Side: Professional Portrait */}
           <div className="w-full md:w-1/3 flex justify-center  md:justify-start">
-            <div className="relative w-80 aspect-[3/4] overflow-hidden grayscale-[0.2]">
+            <div className="relative w-96 aspect-square rounded-full overflow-hidden grayscale-[0.2] border border-gray-200">
               <img
                 src="/profile.png"
                 alt="Jason Byun - Broker"
-                className="w-full h-full object-cover"
+                className="block w-full h-full rounded-full object-contain"
               />
             </div>
           </div>
@@ -40,23 +40,23 @@ const AgentFooter = () => {
             </div>
 
             {/* Brokerage Identity */}
-            <div className="mb-4">
-              <h2 className="text-2xl font-serif tracking-tight text-slate-900 uppercase mb-1">
+            <div className="mb-2">
+              <h2 className="text-2xl font-serif tracking-tight text-slate-900 uppercase ">
                 Jason Byun
               </h2>
-              <p className="text-amber-700 font-bold text-xs tracking-[0.2em] uppercase mb-1">
+              <p className="text-amber-700 font-bold text-xs tracking-[0.2em] uppercase mb-0.5">
                 Broker
               </p>
-              <div className="h-px w-12 bg-slate-200 mx-auto md:mx-0 mb-4" />
+              <div className="h-px w-12 bg-slate-200 mx-auto md:mx-0 mb-2" />
 
               <p className="text-slate-900 font-bold text-sm tracking-wide uppercase">
                 Right At Home Realty
               </p>
-              <p className="text-slate-900 text-sm mt-1">Brokerage</p>
+              <p className="text-slate-900 text-sm ">Brokerage</p>
             </div>
 
             {/* Contact Grid */}
-            <div className="w-full space-y-2 text-base text-slate-800">
+            <div className="w-full text-base text-slate-800">
               <div className="flex items-center gap-3 justify-center md:justify-start">
                 <Phone size={14} className="text-slate-900" />
                 <span>647-471-9000</span>
