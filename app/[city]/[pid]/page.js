@@ -5,13 +5,7 @@ import {
   Bath,
   Square,
   Car,
-  MapPin,
   ChevronRight,
-  Info,
-  Home as HomeIcon,
-  Wind,
-  Grid,
-  CheckCircle2,
 } from "lucide-react";
 import GoSeeThisHome from "@/components/GoSeeThisHome";
 import ScheduleViewing from "@/components/ScheduleViewing";
@@ -20,6 +14,7 @@ import { slugToCity } from "@/lib/slug";
 import PropertyMediaGallery from "@/components/PropertyMediaGallery";
 import ScrollToTop from "@/components/ScrollToTop";
 import ShareButton from "@/components/ShareButton";
+import HomeDetailsTabs from "@/components/HomeDetailsTabs";
 
 const formatMoney = (value) => {
   if (value === null || value === undefined || value === "") return "-";
@@ -219,6 +214,24 @@ export default async function PropertyDetailPage({ params }) {
   ].filter(Boolean);
   const virtualTourUrl = data.VirtualTourURLUnbranded;
   const timeAgoLabel = getTimeAgo(data.OriginalEntryTimestamp);
+  const interior = [
+    {
+      label: "Total Bathrooms",
+      value: fallbackText(data.BathroomsTotalInteger),
+    },
+    {
+      label: "Bedrooms Above Grade",
+      value: fallbackText(data.BedroomsAboveGrade),
+    },
+    { label: "Kitchens", value: fallbackText(data.KitchensTotal) },
+    { label: "Flooring", value: flooringValue },
+  ];
+  const location = [
+    { label: "Neighbourhood", value: fallbackText(property.neighborhood) },
+    { label: "Municipality", value: fallbackText(data.CountyOrParish) },
+    { label: "Postal Code", value: fallbackText(data.PostalCode) },
+    { label: "Cross Street", value: fallbackText(data.CrossStreet) },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -341,147 +354,14 @@ export default async function PropertyDetailPage({ params }) {
             <h2 className="text-2xl md:text-3xl font-bold mb-6">
               Home details
             </h2>
-
-            <div className="border rounded-lg p-6 mb-8">
-              <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4">
-                <CheckCircle2 size={18} className="text-teal-700" /> Overview
-              </h3>
-              <div className="grid grid-cols-2 gap-y-4 text-sm md:text-base">
-                {highlights.map((item) => (
-                  <div key={item.label} className="flex flex-col">
-                    <span className="text-gray-400 uppercase font-bold">
-                      {item.label}
-                    </span>{" "}
-                    <span className="font-bold">{item.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
-              <div>
-                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
-                  <HomeIcon size={18} className="text-gray-500" /> Interior
-                </h3>
-                <div className="space-y-3 text-sm md:text-base">
-                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
-                    <span>Total Bathrooms</span>{" "}
-                    <span className="font-bold text-right break-words">
-                      {fallbackText(data.BathroomsTotalInteger)}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
-                    <span>Bedrooms Above Grade</span>{" "}
-                    <span className="font-bold text-right break-words">
-                      {fallbackText(data.BedroomsAboveGrade)}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
-                    <span>Kitchens</span>{" "}
-                    <span className="font-bold text-right break-words">
-                      {fallbackText(data.KitchensTotal)}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
-                    <span>Flooring</span>{" "}
-                    <span className="font-bold text-right break-words">
-                      {flooringValue}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
-                  <Wind size={18} className="text-gray-500" /> Amenities &
-                  utilities
-                </h3>
-                <div className="space-y-3 text-sm md:text-base">
-                  {utilities.map((item) => (
-                    <div
-                      key={item.label}
-                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4"
-                    >
-                      <span>{item.label}</span>{" "}
-                      <span className="font-bold text-right break-words">
-                        {item.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="md:col-span-1">
-                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
-                  <Grid size={18} className="text-gray-500" /> Structure
-                </h3>
-                <div className="space-y-2 text-sm md:text-base text-gray-500">
-                  {structure.map((item) => (
-                    <div
-                      key={item.label}
-                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4 pb-1 border-b border-gray-50 italic"
-                    >
-                      <span>{item.label}:</span>
-                      <span className="text-black font-bold text-right break-words">
-                        {item.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-              <div>
-                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
-                  <Info size={18} className="text-gray-500" /> Lease details
-                </h3>
-                <div className="space-y-3 text-sm md:text-base">
-                  {leaseInfo.map((item) => (
-                    <div
-                      key={item.label}
-                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4"
-                    >
-                      <span>{item.label}</span>{" "}
-                      <span className="font-bold text-right break-words">
-                        {item.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="flex items-center gap-2 text-base md:text-lg font-bold mb-4 border-b pb-2">
-                  <MapPin size={18} className="text-gray-500" /> Location
-                </h3>
-                <div className="space-y-3 text-sm md:text-base">
-                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
-                    <span>Neighbourhood</span>{" "}
-                    <span className="font-bold text-right break-words">
-                      {fallbackText(property.neighborhood)}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
-                    <span>Municipality</span>{" "}
-                    <span className="font-bold text-right break-words">
-                      {fallbackText(data.CountyOrParish)}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
-                    <span>Postal Code</span>{" "}
-                    <span className="font-bold text-right break-words">
-                      {fallbackText(data.PostalCode)}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-x-4">
-                    <span>Cross Street</span>{" "}
-                    <span className="font-bold text-right break-words">
-                      {fallbackText(data.CrossStreet)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <HomeDetailsTabs
+              highlights={highlights}
+              interior={interior}
+              utilities={utilities}
+              structure={structure}
+              leaseInfo={leaseInfo}
+              location={location}
+            />
           </section>
 
           <ScheduleViewing property={property} />

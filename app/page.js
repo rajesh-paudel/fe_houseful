@@ -27,6 +27,7 @@ export default async function Home() {
     communityCities.map(async (cityName) => {
       const data = await fetchProperties({
         cityToPass: cityName,
+        listingType: "sale",
         top: 8,
         skip: 0,
       });
