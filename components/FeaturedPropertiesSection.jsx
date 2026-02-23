@@ -10,6 +10,7 @@ const FeaturedPropertiesSection = ({
   cityName = "Toronto",
   citySlug,
   sectionId,
+  totalCount,
 }) => {
   const scrollRef = useRef(null);
 
@@ -52,6 +53,10 @@ const FeaturedPropertiesSection = ({
   if (!properties?.length) return null;
 
   const targetCitySlug = citySlug || cityToSlug(cityName);
+  const listingCount = Number(totalCount) || properties.length;
+  const formattedListingCount = new Intl.NumberFormat("en-CA").format(
+    listingCount,
+  );
   return (
     <section
       id={sectionId}
@@ -59,9 +64,12 @@ const FeaturedPropertiesSection = ({
     >
       <div className="w-full mx-auto px-2 md:px-6">
         {/* Title Row */}
-        <div className="mb-8 flex items-center justify-between gap-4 border-b border-slate-200 pb-4">
+        <div className="mb-8 flex items-center justify-between gap-4  ">
           <h2 className="text-2xl md:text-3xl font-serif text-slate-900 tracking-tight">
-            {cityName} Listings
+            {cityName} Listings{" "}
+            <span className="text-lg md:text-xl text-slate-900 font-medium ml-1">
+              ({formattedListingCount}+ homes for sale)
+            </span>
           </h2>
           <Link
             href={`/${targetCitySlug}`}
@@ -81,7 +89,7 @@ const FeaturedPropertiesSection = ({
           {showLeftArrow && (
             <button
               onClick={() => scroll("left")}
-              className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white shadow-md border border-gray-100 p-2 rounded-full hidden md:flex items-center justify-center hover:bg-gray-50 active:scale-90 transition-all text-gray-700 cursor-pointer"
+              className="absolute -left-4 top-[27%] -translate-y-1/2 z-20 bg-white shadow-md border border-gray-500 p-2 rounded-full hidden md:flex items-center justify-center hover:bg-gray-50 active:scale-90 transition-all text-gray-700 cursor-pointer"
             >
               <ChevronLeft size={20} />
             </button>
@@ -107,7 +115,7 @@ const FeaturedPropertiesSection = ({
           {showRightArrow && (
             <button
               onClick={() => scroll("right")}
-              className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white shadow-md border border-gray-100 p-2 rounded-full hidden md:flex items-center justify-center hover:bg-gray-50 active:scale-90 transition-all text-gray-700 cursor-pointer"
+              className="absolute -right-4 top-[27%] -translate-y-1/2 z-20 bg-white shadow-md border border-gray-500 p-2 rounded-full hidden md:flex items-center justify-center hover:bg-gray-50 active:scale-90 transition-all text-gray-700 cursor-pointer"
             >
               <ChevronRight size={20} />
             </button>

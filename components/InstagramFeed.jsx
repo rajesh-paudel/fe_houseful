@@ -64,7 +64,7 @@ const InstagramFeed = () => {
           <h2 className="text-3xl font-bold text-gray-900">
             Follow me on Instagram
           </h2>
-          <p className="text-gray-500 mt-2">@jasonbyun</p>
+          <p className="text-gray-500 mt-2">@jasonbyunrealestate</p>
         </div>
 
         {/* Grid Section */}
@@ -153,7 +153,7 @@ const InstagramFeed = () => {
         <div className="mt-12 text-center">
           <Link
             href="https://www.instagram.com/jasonbyunrealestate/"
-            className="inline-block bg-white border border-gray-300 px-8 py-3 rounded-full font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm"
+            className="inline-block bg-blue-700 hover:bg-blue-600 text-white border border-gray-300 px-8 py-3 rounded-full font-semibold  transition-colors shadow-sm"
           >
             View More on Instagram
           </Link>

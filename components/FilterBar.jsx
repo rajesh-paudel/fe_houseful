@@ -194,7 +194,7 @@ export default function FilterBar({ onNavigate }) {
   return (
     <>
       {/* Top Bar */}
-      <div className="sticky top-16 lg:top-26 z-40 -mt-px bg-white border-b border-gray-200 w-full py-3 ">
+      <div className="sticky top-0 z-40 -mt-px bg-white border-b border-gray-200 w-full py-3 ">
         <div className="w-full px-2 md:px-4 flex items-center justify-between gap-2">
           {/* Filters */}
           <div className="flex items-center gap-3">

@@ -46,6 +46,7 @@ export default async function Home() {
         cityName,
         citySlug: cityToSlug(cityName),
         properties,
+        totalCount: Number(data.totalCount) || properties.length,
       };
     }),
   );
@@ -65,6 +66,7 @@ export default async function Home() {
             cityName={section.cityName}
             citySlug={section.citySlug}
             properties={section.properties}
+            totalCount={section.totalCount}
           />
         ))}
 

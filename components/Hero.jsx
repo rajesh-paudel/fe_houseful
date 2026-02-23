@@ -156,17 +156,14 @@ const Hero = () => {
         {/* SEARCH BAR CONTAINER */}
         <div
           ref={containerRef}
-          className="relative max-w-xl mx-auto w-full group"
+          className="relative max-w-xl mx-auto w-full group "
         >
           <div
             className={cn(
-              "relative flex items-center bg-white/10 backdrop-blur-md border border-white/20 transition-all duration-300 shadow-2xl",
-              isExpanded && suggestions.length > 0
-                ? "rounded-t-3xl"
-                : "rounded-full",
+              "relative flex items-center bg-slate-50/95 backdrop-blur-md border border-slate-300 rounded-full shadow-[0_16px_40px_rgba(15,23,42,0.3)] transition-all duration-200  hover:scale-105 ",
             )}
           >
-            <Search className="absolute left-4 sm:left-6 w-4 h-4 sm:w-5 sm:h-5 text-white/70" />
+            <Search className="absolute left-4 sm:left-6 w-4 h-4 sm:w-5 sm:h-5 text-slate-500" />
             <input
               type="text"
               placeholder="Search by MLS® Number or Address"
@@ -179,35 +176,32 @@ const Hero = () => {
                   handleSearch();
                 }
               }}
-              className="w-full h-14 sm:h-16 bg-transparent pl-12 sm:pl-16 pr-4 sm:pr-8 text-white placeholder:text-white/60 focus:outline-none text-base sm:text-lg"
+              className="w-full h-14 sm:h-16 bg-transparent pl-12 sm:pl-16 pr-14 sm:pr-16 text-slate-900 placeholder:text-slate-600 focus:outline-none text-base sm:text-lg"
             />
             <button
               onClick={handleSearch}
               disabled={isSearching}
-              className="absolute hidden sm:block right-2 bg-gray-600 hover:bg-gray-700 disabled:opacity-70 disabled:cursor-not-allowed text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold text-sm md:text-base transition-all"
-            >
-              {isSearching ? "SEARCHING..." : "SEARCH"}
-            </button>
-            <button
-              onClick={handleSearch}
-              disabled={isSearching}
               aria-label="Search"
-              className="absolute sm:hidden right-2 bg-gray-600 hover:bg-gray-700 disabled:opacity-70 disabled:cursor-not-allowed text-white px-3 py-2 rounded-full font-bold text-xs transition-all"
+              className="absolute right-2 sm:right-3 p-2 sm:p-2.5 rounded-full bg-[#0f4c81] cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed text-white transition-transform duration-200 hover:scale-110"
             >
-              GO
+              {isSearching ? (
+                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/35 border-t-white" />
+              ) : (
+                <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+              )}
             </button>
           </div>
 
           {/* AUTOCOMPLETE SUGGESTIONS */}
           {isExpanded && suggestions.length > 0 && (
-            <div className="absolute left-0 right-0 bg-white rounded-b-2xl sm:rounded-b-3xl shadow-2xl overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
+            <div className="absolute top-full mt-2 left-0 right-0 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden z-50">
               {suggestions.map((city) => (
                 <button
                   key={city}
                   onClick={() => handleSelect(city)}
-                  className="w-full px-5 sm:px-8 py-3 sm:py-4 text-left text-gray-900 hover:bg-blue-50 transition flex items-center gap-3 border-b border-gray-100 last:border-0"
+                  className="w-full px-5 sm:px-8 py-3 sm:py-4 text-left text-gray-900 hover:bg-slate-50 transition flex items-center gap-3 border-b border-gray-100 last:border-0"
                 >
-                  <MapPin className="w-4 h-4 text-blue-600" />
+                  <MapPin className="w-4 h-4 text-[#0f4c81]" />
                   <span className="font-medium">{city}</span>
                 </button>
               ))}
@@ -217,14 +211,14 @@ const Hero = () => {
 
         {/* QUICK LINKS / TRENDING */}
         <div className="flex flex-wrap justify-center items-center gap-2.5 sm:gap-4 pt-2 sm:pt-4 animate-in fade-in duration-1000 delay-300">
-          <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] sm:tracking-widest text-white/60">
+          <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] sm:tracking-widest text-white">
             Trending:
           </span>
           {quickCities.map((city) => (
             <button
               key={city}
               onClick={() => handleSelect(city)}
-              className="text-xs sm:text-sm font-medium border border-white/30 hover:bg-white hover:text-black px-3 sm:px-4 py-1.5 rounded-full transition-all"
+              className="text-xs sm:text-sm font-medium border border-white/80  hover:bg-white hover:text-black px-3 sm:px-4 py-1.5 rounded-full transition-all"
             >
               {city}
             </button>

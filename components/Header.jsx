@@ -204,13 +204,13 @@ const Header = () => {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 bg-white text-black",
+          "overflow-x-clip overflow-y-visible relative w-full z-50 bg-white text-black",
           isCityRoute ? "" : "border-b border-gray-200",
         )}
       >
         <div className="w-full mx-auto px-2 lg:px-6 py-2.5 sm:py-3 lg:py-4">
           <div className="flex items-center justify-between">
-            <div className="w-full flex items-center justify-start gap-6">
+            <div className="flex-1 min-w-0 flex items-center justify-start gap-6">
               <Link href="/" className="flex shrink-0">
                 <img
                   src="/homeReality.svg"
@@ -222,11 +222,11 @@ const Header = () => {
               {showHeaderSearch && (
                 <div
                   ref={desktopSearchRef}
-                  className="relative hidden md:block flex-1 max-w-md ml-1 mr-3"
+                  className="relative hidden md:block flex-1 min-w-0 max-w-md ml-1 mr-3"
                 >
                   <div
                     className={cn(
-                      "relative flex items-center bg-gray-100 border border-transparent transform-gpu transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.01] hover:border-gray-200  hover:shadow-lg focus-within:-translate-y-0.5 focus-within:scale-[1.01] focus-within:border-gray-200 focus-within:bg-white focus-within:shadow-lg",
+                      "relative flex items-center bg-gray-100 border border-transparent transition-all duration-200 hover:border-gray-200 hover:shadow-lg focus-within:border-gray-200 focus-within:bg-white focus-within:shadow-lg",
                       isExpanded && suggestions.length > 0
                         ? "rounded-t-2xl"
                         : "rounded-full",
@@ -289,10 +289,10 @@ const Header = () => {
                 </Link>
                 <span className="text-gray-300">|</span>
                 <Link
-                  href="mailto:jasin.buyn@gmail.com"
+                  href="mailto:info@jasonbyun.com"
                   className="flex items-center gap-2 hover:text-blue-600"
                 >
-                  <Mail className="w-5 h-5" /> jason@jasonbyun.com
+                  <Mail className="w-5 h-5" /> info@jasonbyun.com
                 </Link>
                 <span className="text-gray-300">|</span>
                 <div className="flex items-center gap-3">
@@ -402,7 +402,7 @@ const Header = () => {
             <div ref={mobileSearchRef} className="relative mt-2.5 md:hidden">
               <div
                 className={cn(
-                  "relative flex items-center bg-gray-100 border border-transparent transform-gpu transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.01] hover:border-gray-200 hover:bg-white hover:shadow-lg focus-within:-translate-y-0.5 focus-within:scale-[1.01] focus-within:border-gray-200 focus-within:bg-white focus-within:shadow-lg",
+                  "relative flex items-center bg-gray-100 border border-transparent transition-all duration-200 hover:border-gray-200 hover:bg-white hover:shadow-lg focus-within:border-gray-200 focus-within:bg-white focus-within:shadow-lg",
                   isExpanded && suggestions.length > 0
                     ? "rounded-t-2xl"
                     : "rounded-full",
@@ -469,7 +469,7 @@ const Header = () => {
           </button>
         </div>
 
-        <nav className="flex flex-col px-6 py-8 gap-4 overflow-y-auto h-[calc(100%-80px)]">
+        <nav className="flex flex-col px-6 py-8 gap-4 overflow-y-auto scrollbar-hide h-[calc(100%-80px)]">
           <Link
             href="/"
             onClick={closeMenu}
@@ -604,12 +604,6 @@ const Header = () => {
           onClick={closeMenu}
         />
       )}
-
-      <div
-        className={cn(
-          showHeaderSearch ? "h-28 md:h-16 lg:h-26" : "h-16 lg:h-26",
-        )}
-      />
     </>
   );
 };

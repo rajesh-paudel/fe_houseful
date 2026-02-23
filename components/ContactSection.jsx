@@ -24,15 +24,15 @@ const ContactSection = ({ header }) => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-6">
           <div className="mb-4 flex justify-center">
-            <div className="h-44 w-44 overflow-hidden rounded-full border border-gray-200 ring-2 ring-white shadow-sm">
+            <div className="h-56 w-56 overflow-hidden rounded-full border border-gray-200 ring-2 ring-white shadow-sm">
               <img
-                src="/profile.png"
+                src="/profile2.png"
                 alt="Jason Byun"
-                className="h-full w-full object-contain"
+                className="h-full w-full object-cover"
               />
             </div>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900 mb-3 font-bold">
+          <h2 className="font-serif text-2xl sm:text-3xl text-gray-900 mb-3 font-bold">
             {header}
           </h2>
           <div className="w-12 h-0.5 bg-yellow-500 mx-auto mb-4" />
@@ -48,11 +48,11 @@ const ContactSection = ({ header }) => {
             <span className="text-xs">(647) 555-1234</span>
           </a>
           <a
-            href="mailto:jason@jasonbyun.com"
+            href="mailto:info@jasonbyun.com"
             className="flex items-center gap-2 text-gray-700 hover:text-yellow-500 transition-colors"
           >
             <Mail className="w-4 h-4" />
-            <span className="text-xs">jason@jasonbyun.com</span>
+            <span className="text-xs">info@jasonbyun.com</span>
           </a>
           <span className="flex items-center gap-2 text-gray-700">
             <MapPin className="w-4 h-4" />
@@ -125,7 +125,7 @@ const ContactSection = ({ header }) => {
                 <Button
                   size="lg"
                   type="submit"
-                  className="w-auto px-6 rounded-full bg-blue-700 text-white hover:bg-blue-800 inline-flex items-center justify-center gap-2 font-semibold"
+                  className="w-auto px-6 rounded-full bg-blue-700 cursor-pointer text-white hover:bg-blue-600 inline-flex items-center justify-center gap-2 font-semibold"
                 >
                   Send Message
                   <Send className="w-4 h-4" />

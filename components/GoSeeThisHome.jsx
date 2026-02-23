@@ -73,7 +73,7 @@ export default function GoSeeThisHome() {
         {/* Primary Action */}
         <button
           type="submit"
-          className="w-full bg-[#004d4d] hover:bg-[#003d3d] text-white text-base font-bold py-3 rounded-full mt-2 transition-colors duration-200"
+          className="w-full bg-blue-700 cursor-pointer hover:bg-blue-600 text-white text-base font-bold py-3 rounded-full mt-2 transition-colors duration-200"
         >
           Contact agent
         </button>

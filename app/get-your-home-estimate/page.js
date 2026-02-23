@@ -18,20 +18,23 @@ export default function GetYourHomeEstimatePage() {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/25 via-white/10 to-transparent" />
             <form className="space-y-6">
               <div className="flex items-center justify-center gap-3 text-left">
-                <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full">
+                <div className="h-26 w-26 shrink-0 overflow-hidden rounded-full">
                   <img
-                    src="/profile.png"
+                    src="/profile2.png"
                     alt="Jason Byun"
-                    className="h-full w-full object-contain"
+                    className="h-full w-full object-cover"
                   />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-bold text-white">Jason Byun</p>
-                  <p className="text-xs text-white/80">Real Estate Broker</p>
+                  <p className="text-lg font-bold text-white">Jason Byun</p>
+                  <p className="text-md text-white/80">Real Estate Broker</p>
                 </div>
               </div>
               <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-semibold text-white">
+                <label
+                  htmlFor="name"
+                  className="text-sm font-semibold text-white"
+                >
                   Name
                 </label>
                 <input
@@ -43,7 +46,10 @@ export default function GetYourHomeEstimatePage() {
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="phone" className="text-sm font-semibold text-white">
+                <label
+                  htmlFor="phone"
+                  className="text-sm font-semibold text-white"
+                >
                   Phone
                 </label>
                 <input
@@ -55,7 +61,10 @@ export default function GetYourHomeEstimatePage() {
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-semibold text-white">
+                <label
+                  htmlFor="email"
+                  className="text-sm font-semibold text-white"
+                >
                   Email
                 </label>
                 <input
@@ -83,7 +92,7 @@ export default function GetYourHomeEstimatePage() {
               </div>
               <button
                 type="submit"
-                className="w-full h-14 rounded-full border border-white/50 bg-white/25 hover:bg-white/35 text-white font-bold transition-colors"
+                className="w-full h-14 rounded-full bg-blue-700 cursor-pointer hover:bg-blue-600 text-white font-bold transition-colors"
               >
                 Get My Home Value
               </button>

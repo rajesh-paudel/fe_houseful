@@ -16,7 +16,7 @@ export const metadata = {
 
 const AboutPage = () => {
   const contactInfo = {
-    email: "jason@jasonbyun.com",
+    email: "info@jasonbyun.com",
     cell: "647-471-9000",
     location: "Richmond Hill, Ontario L4B 3K9",
   };
@@ -31,7 +31,7 @@ const AboutPage = () => {
     <main className="bg-white text-gray-900">
       <section className="px-4 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl bg-gray-100 ">
+          <div className="mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl bg-gray-100 ">
             <img
               src="/profile.png"
               alt="Jason Byun"

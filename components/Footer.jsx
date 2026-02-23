@@ -18,11 +18,11 @@ const AgentFooter = () => {
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 mb-8">
           {/* Left Side: Professional Portrait */}
           <div className="w-full md:w-1/3 flex justify-center  md:justify-start">
-            <div className="relative w-96 aspect-square rounded-full overflow-hidden grayscale-[0.2] border border-gray-200">
+            <div className="relative w-full max-w-[24rem] aspect-square rounded-full overflow-hidden grayscale-[0.2] border border-gray-200">
               <img
-                src="/profile.png"
+                src="/profile2.png"
                 alt="Jason Byun - Broker"
-                className="block w-full h-full rounded-full object-contain"
+                className="block w-full h-full rounded-full object-cover"
               />
             </div>
           </div>
@@ -64,10 +64,10 @@ const AgentFooter = () => {
               <div className="flex items-center gap-3 justify-center md:justify-start">
                 <Mail size={14} className="text-slate-900" />
                 <a
-                  href="mailto:jasonbyun@realty.com"
+                  href="mailto:info@jasonbyun.com"
                   className="hover:text-amber-700 transition-colors"
                 >
-                  jason@jasonbyun.com
+                  info@jasonbyun.com
                 </a>
               </div>
               <div className="flex gap-3 justify-center md:justify-start">

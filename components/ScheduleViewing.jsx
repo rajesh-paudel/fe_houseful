@@ -96,7 +96,7 @@ export default function ScheduleViewing({ property }) {
 
         <button
           onClick={handleSchedule}
-          className="bg-[#0a4f4f] text-white py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:opacity-90"
+          className="bg-blue-700 cursor-pointer hover:bg-blue-600 text-white py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold transition-colors"
         >
           Schedule tour
         </button>
