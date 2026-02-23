@@ -592,7 +592,7 @@ const Header = () => {
               href="mailto:jasin.buyn@gmail.com"
               className="text-xs text-gray-500"
             >
-              jasin.buyn@gmail.com
+              info@jasonbyun.com
             </Link>
           </div>
         </nav>
