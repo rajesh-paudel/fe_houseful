@@ -183,12 +183,7 @@ export default function FilterBar({ onNavigate }) {
     clearAll,
   } = useUrlFilters(onNavigate);
   const hasActiveFilters = Boolean(
-    listingType !== "sale" ||
-      beds ||
-      baths ||
-      homeType ||
-      minPrice ||
-      maxPrice,
+    listingType !== "sale" || beds || baths || homeType || minPrice || maxPrice,
   );
 
   return (
@@ -469,11 +464,7 @@ function DesktopDropdown({ label, value, children }) {
   );
 }
 
-function PricePopover({
-  minPrice,
-  maxPrice,
-  setPriceRange,
-}) {
+function PricePopover({ minPrice, maxPrice, setPriceRange }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const priceSummary = summarizePriceRange(minPrice, maxPrice);
@@ -492,7 +483,9 @@ function PricePopover({
         className="flex items-center gap-2 px-4 py-2 border border-gray-300 hover:border-gray-800 transition-colors rounded-full text-sm cursor-pointer"
       >
         <span className="text-gray-700">Price</span>
-        {priceSummary && <span className="font-semibold">: {priceSummary}</span>}
+        {priceSummary && (
+          <span className="font-semibold">: {priceSummary}</span>
+        )}
         <ChevronDown size={14} />
       </button>
 
@@ -552,7 +545,10 @@ function PriceRangeSlider({ minPrice, maxPrice, onCommit }) {
       </div>
 
       <div className="relative h-7">
-        <div className="absolute top-1/2 -translate-y-1/2 h-1.5 w-full rounded-full" style={trackStyle} />
+        <div
+          className="absolute top-1/2 -translate-y-1/2 h-1.5 w-full rounded-full"
+          style={trackStyle}
+        />
         <input
           type="range"
           min={PRICE_MIN}
@@ -578,7 +574,9 @@ function PriceRangeSlider({ minPrice, maxPrice, onCommit }) {
       </div>
 
       <div className="mt-3 flex items-center justify-between">
-        <span className="text-xs text-gray-500">Min: {formatPrice(PRICE_MIN)}</span>
+        <span className="text-xs text-gray-500">
+          Min: {formatPrice(PRICE_MIN)}
+        </span>
         <button
           onClick={() => {
             setMinDraft(PRICE_MIN);
@@ -589,7 +587,9 @@ function PriceRangeSlider({ minPrice, maxPrice, onCommit }) {
         >
           Reset
         </button>
-        <span className="text-xs text-gray-500">Max: {formatPrice(PRICE_MAX)}</span>
+        <span className="text-xs text-gray-500">
+          Max: {formatPrice(PRICE_MAX)}
+        </span>
       </div>
       <style jsx>{`
         .price-range-input::-webkit-slider-thumb {
@@ -660,4 +660,3 @@ function FilterGroup({ title, options, value, onChange }) {
     </div>
   );
 }
-

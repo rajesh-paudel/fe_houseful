@@ -488,7 +488,7 @@ export default async function PropertyDetailPage({ params }) {
         </div>
 
         <div className="py-5">
-          <div className="sticky x-40 top-32">
+          <div className="sticky  top-32">
             <GoSeeThisHome />
           </div>
         </div>
