@@ -155,7 +155,7 @@ export default async function PropertyDetailPage({ params }) {
       value: fallbackText(data.StandardStatus || data.MlsStatus),
     },
     { label: "Type", value: fallbackText(data.PropertyType) },
-    { label: "Sub Type", value: fallbackText(data.PropertySubType) },
+    { label: "Property Type", value: fallbackText(data.PropertySubType) },
     { label: "Style", value: formatList(data.ArchitecturalStyle) },
     { label: "Bedrooms", value: bedroomDisplay },
     { label: "Bathrooms", value: fallbackText(data.BathroomsTotalInteger) },
