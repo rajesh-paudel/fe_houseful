@@ -44,7 +44,7 @@ const AgentFooter = () => {
               <h2 className="text-2xl font-serif tracking-tight text-slate-900 uppercase ">
                 Jason Byun
               </h2>
-              <p className="text-amber-700 font-bold text-xs tracking-[0.2em] uppercase mb-0.5">
+              <p className="text-slate-900 font-bold text-xs tracking-[0.2em] uppercase mb-0.5">
                 Broker
               </p>
               <div className="h-px w-12 bg-slate-200 mx-auto md:mx-0 mb-2" />

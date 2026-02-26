@@ -1,12 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import {
-  Bed,
-  Bath,
-  Square,
-  Car,
-  ChevronRight,
-} from "lucide-react";
+import { Bed, Bath, Square, Car, ChevronRight } from "lucide-react";
 import GoSeeThisHome from "@/components/GoSeeThisHome";
 import ScheduleViewing from "@/components/ScheduleViewing";
 import { fetchMedia, fetchProperty } from "@/lib/api";
@@ -266,14 +260,14 @@ export default async function PropertyDetailPage({ params }) {
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2">
-          <div className="mb-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-5 md:p-6">
+          <div className="mb-8   ">
             <div className="mb-2">
               <span className="inline-block rounded-sm bg-gray-500 px-2 py-1 text-xs font-semibold text-white">
                 {timeAgoLabel}
               </span>
             </div>
             <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
+              <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900">
                 ${formatMoney(property.price)}
                 <span className="ml-2 text-sm md:text-base font-semibold text-teal-700">
                   {data.TransactionType || "For Sale"}
@@ -281,48 +275,56 @@ export default async function PropertyDetailPage({ params }) {
               </h1>
               <ShareButton />
             </div>
-            <p className="text-lg md:text-xl font-medium text-slate-700">
+            <p className="text-lg md:text-xl font-medium text-slate-900">
               {property.address}
             </p>
-            <p className="text-sm md:text-base font-medium text-slate-700 mb-1">
+            <p className="text-sm md:text-base font-medium text-slate-900 mb-1">
               {property.neighborhood} · {fallbackText(data.CountyOrParish)} ·{" "}
               {fallbackText(data.StateOrProvince)}
             </p>
 
             <div className="  ">
-              <p className="font-medium text-sm md:text-base text-slate-700 mb-1">
+              <p className="font-medium text-sm md:text-base text-slate-900 mb-1">
                 <span>MLS&reg; Number:</span>{" "}
                 {fallbackText(data.ListingKey, pid)}
               </p>
-              <p className="font-medium text-sm md:text-base text-slate-700">
+              <p className="font-medium text-sm md:text-base text-slate-900">
                 <span>Listing Brokerage:</span>{" "}
                 {fallbackText(data.ListOfficeName)}
               </p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-3 mt-5">
-              <div className="bg-white border border-slate-200 px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
-                <Bed className="text-slate-800" size={22} />
-                <span className="text-sm font-semibold text-slate-800">
+              <div className="bg-white pr-4 py-3 rounded-lg flex justify-start gap-3 items-center">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-rose-100">
+                  <Bed className="text-rose-600" size={20} />
+                </span>
+                <span className="text-sm font-semibold text-slate-900">
                   {bedroomDisplay} Bedrooms
                 </span>
               </div>
-              <div className="bg-white border border-slate-200 px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
-                <Bath className="text-slate-800" size={22} />
-                <span className="text-sm font-semibold text-slate-800">
+              <div className="bg-white px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-100">
+                  <Bath className="text-sky-600" size={20} />
+                </span>
+                <span className="text-sm font-semibold text-slate-900">
                   {fallbackText(property.baths)} Bathrooms
                 </span>
               </div>
-              <div className="bg-white border border-slate-200 px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
-                <Square className="text-slate-800" size={22} />
-                <span className="text-sm font-semibold text-slate-800">
+              <div className="bg-white px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100">
+                  <Square className="text-emerald-600" size={20} />
+                </span>
+                <span className="text-sm font-semibold text-slate-900">
                   {fallbackText(property.sqft)}{" "}
                   {data.LivingAreaUnits || "sq. ft."}
                 </span>
               </div>
-              <div className="bg-white border border-slate-200 px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
-                <Car className="text-slate-800" size={20} />
-                <span className="text-sm font-semibold text-slate-800">
+              <div className="bg-white px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-amber-100">
+                  <Car className="text-amber-600" size={20} />
+                </span>
+                <span className="text-sm font-semibold text-slate-900">
                   {fallbackText(property.parking)} Parking
                 </span>
               </div>

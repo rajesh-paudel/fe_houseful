@@ -22,7 +22,7 @@ const ContactSection = ({ header }) => {
     <section id="contact" className="py-16 sm:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-6">
+        <div className="text-center max-w-2xl mx-auto mb-3">
           <div className="mb-4 flex justify-center">
             <div className="h-56 w-56 overflow-hidden rounded-full border border-gray-200 ring-2 ring-white shadow-sm">
               <img
@@ -35,21 +35,20 @@ const ContactSection = ({ header }) => {
           <h2 className="font-serif text-2xl sm:text-3xl text-gray-900 mb-3 font-bold">
             {header}
           </h2>
-          <div className="w-12 h-0.5 bg-yellow-500 mx-auto mb-4" />
         </div>
 
         {/* Contact Info */}
-        <div className="flex flex-wrap justify-center gap-6 sm:gap-10 mb-10">
+        <div className="flex flex-col  items-center justify-center gap-5 mb-5">
           <a
             href="tel:+16475551234"
-            className="flex items-center gap-2 text-gray-700 hover:text-yellow-500 transition-colors"
+            className="flex items-center gap-2 text-gray-700 "
           >
             <Phone className="w-4 h-4" />
             <span className="text-xs">(647) 555-1234</span>
           </a>
           <a
             href="mailto:info@jasonbyun.com"
-            className="flex items-center gap-2 text-gray-700 hover:text-yellow-500 transition-colors"
+            className="flex items-center gap-2 text-gray-700 "
           >
             <Mail className="w-4 h-4" />
             <span className="text-xs">info@jasonbyun.com</span>
@@ -65,7 +64,7 @@ const ContactSection = ({ header }) => {
           <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-300">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 gap-4">
-                <div>
+                <div className="w-lg mx-auto">
                   <label className="block text-xs font-medium text-gray-900 mb-1.5">
                     Name
                   </label>
@@ -79,7 +78,7 @@ const ContactSection = ({ header }) => {
                     className="h-10 text-sm bg-gray-50"
                   />
                 </div>
-                <div>
+                <div className="w-lg mx-auto">
                   <label className="block text-xs font-medium text-gray-900 mb-1.5">
                     Email
                   </label>
@@ -94,7 +93,7 @@ const ContactSection = ({ header }) => {
                   />
                 </div>
               </div>
-              <div>
+              <div className="w-lg mx-auto">
                 <label className="block text-xs font-medium text-gray-900 mb-1.5">
                   Phone
                 </label>
@@ -108,8 +107,8 @@ const ContactSection = ({ header }) => {
                   className="h-10 text-sm bg-gray-50"
                 />
               </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-900 mb-1.5">
+              <div className="w-lg mx-auto">
+                <label className="block text-xs  font-medium text-gray-900 mb-1.5">
                   Message
                 </label>
                 <Textarea

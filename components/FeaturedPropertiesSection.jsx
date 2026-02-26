@@ -65,12 +65,19 @@ const FeaturedPropertiesSection = ({
       <div className="w-full mx-auto px-2 md:px-6">
         {/* Title Row */}
         <div className="mb-8 flex items-center justify-between gap-4  ">
-          <h2 className="text-2xl md:text-3xl font-serif text-slate-900 tracking-tight">
+          <Link
+            scroll={true}
+            onClick={() =>
+              window.scrollTo({ top: 0, left: 0, behavior: "auto" })
+            }
+            href={`/${targetCitySlug}`}
+            className="text-2xl md:text-3xl font-serif text-slate-900 tracking-tight hover:underline"
+          >
             {cityName} Listings{" "}
             <span className="text-lg md:text-xl text-slate-900 font-medium ml-1">
               ({formattedListingCount}+ homes for sale)
             </span>
-          </h2>
+          </Link>
           <Link
             href={`/${targetCitySlug}`}
             scroll={true}
