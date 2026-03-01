@@ -73,7 +73,7 @@ export default function HomeDetailsTabs({
   return (
     <div>
       <div className="mb-5 overflow-x-auto scrollbar-hide border-b border-slate-200">
-        <div className="relative flex min-w-max gap-6">
+        <div className="relative flex min-w-max gap-3">
           {TABS.map((tab) => {
             const isActive = tab.key === activeTab;
             return (
@@ -84,10 +84,10 @@ export default function HomeDetailsTabs({
                   tabRefs.current[tab.key] = el;
                 }}
                 onClick={() => setActiveTab(tab.key)}
-                className={`pb-3 text-sm font-semibold transition-colors duration-300 md:text-base ${
+                className={`mb-2 cursor-pointer rounded-full px-3 py-1.5 text-base font-semibold transition-colors duration-300 md:text-lg ${
                   isActive
-                    ? "text-blue-700"
-                    : "text-slate-600 hover:text-slate-900"
+                    ? "text-blue-700 bg-blue-50"
+                    : "text-slate-900 hover:bg-slate-100"
                 }`}
               >
                 {tab.label}

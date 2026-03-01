@@ -135,97 +135,134 @@ export default function CMHCCalculatorTool() {
   }, [priceInput, downPaymentInput, province]);
 
   return (
-    <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-6">
-      <h2 className="text-xl font-semibold mb-6">Mortgage CMHC Calculator</h2>
+    <div className="mx-auto mb-10 max-w-6xl p-4 sm:p-5 md:p-6">
+      <h2 className="mb-4 text-2xl font-semibold tracking-tight text-slate-900">
+        Mortgage CMHC Calculator
+      </h2>
 
-      <div>
-        <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4 items-center border-b border-slate-200 pb-4">
-          <p className="text-sm text-slate-800">Asking price</p>
-          <input
-            type="number"
+      <div className="grid gap-3 lg:grid-cols-[1.05fr_1fr]">
+        <div className="space-y-3">
+          <Field
+            label="Asking price"
             value={priceInput}
-            onChange={(e) => setPriceInput(e.target.value)}
-            className="h-12 border border-slate-300 px-3 text-base text-slate-900 rounded-xl"
+            onChange={setPriceInput}
+            elevated
           />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4 items-center py-4 border-b border-slate-200">
-          <p className="text-sm text-slate-800">Down payment</p>
-          <input
-            type="number"
+          <Field
+            label="Down payment"
             value={downPaymentInput}
-            onChange={(e) => setDownPaymentInput(e.target.value)}
-            className="h-12 border border-slate-300 px-3 text-base text-slate-900 rounded-xl"
+            onChange={setDownPaymentInput}
           />
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4 items-center py-4 border-b border-slate-200">
-          <p className="text-sm text-slate-800">Province</p>
-          <ProvinceDropdown
-            value={province}
-            options={PROVINCES}
-            onChange={setProvince}
-          />
-        </div>
-
-        {!result.valid ? (
-          <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {result.message}
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-slate-900">
+              Province
+            </label>
+            <ProvinceDropdown
+              value={province}
+              options={PROVINCES}
+              onChange={setProvince}
+            />
           </div>
-        ) : (
-          <div className="mt-5 bg-gray-50 rounded-xl p-3">
-            <SummaryRow
-              label="Down payment percent"
-              value={formatPercent(result.downPercent)}
-            />
-            <SummaryRow
-              label="CMHC insurance"
-              value={formatCurrency(result.cmhcInsurance)}
-            />
-            <SummaryRow
-              label="Premium rate"
-              value={result.highRatio ? formatPercent(result.premiumRate * 100) : "0.00%"}
-            />
-            <SummaryRow
-              label="Insurance premium tax"
-              value={`${formatCurrency(result.premiumTax)} (${formatPercent(
-                result.premiumTaxRate * 100,
-              )})`}
-            />
-            <SummaryRow
-              label="Minimum down payment"
-              value={formatCurrency(result.minDownPayment)}
-            />
-            <SummaryRow
-              label="Total mortgage"
-              value={formatCurrency(result.totalMortgage)}
-              highlight
-            />
+        </div>
+
+        <div className="space-y-2.5">
+          <div className="rounded-[1.4rem] border border-[#c7dded] bg-gradient-to-br from-[#d8eaf7] to-[#c5ddf0] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]">
+            {!result.valid ? (
+              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {result.message}
+              </div>
+            ) : (
+              <>
+                <SummaryRow
+                  label="Down payment percent"
+                  value={formatPercent(result.downPercent)}
+                />
+                <SummaryRow
+                  label="CMHC insurance"
+                  value={formatCurrency(result.cmhcInsurance)}
+                />
+                <SummaryRow
+                  label="Premium rate"
+                  value={
+                    result.highRatio
+                      ? formatPercent(result.premiumRate * 100)
+                      : "0.00%"
+                  }
+                />
+                <SummaryRow
+                  label="Insurance premium tax"
+                  value={`${formatCurrency(result.premiumTax)} (${formatPercent(
+                    result.premiumTaxRate * 100,
+                  )})`}
+                />
+                <SummaryRow
+                  label="Minimum down payment"
+                  value={formatCurrency(result.minDownPayment)}
+                />
+              </>
+            )}
+          </div>
+
+          <div className="rounded-[1.4rem] border-2 border-[#2f74a7] bg-gradient-to-r from-[#d8eaf7] to-[#c4dcf0] p-4 shadow-[0_8px_18px_rgba(47,116,167,0.16)]">
+            <p className="text-xl font-medium leading-none text-slate-900 sm:text-2xl">
+              Total Mortgage
+            </p>
+            <p className="mt-2 text-4xl font-extrabold tracking-tight text-[#0d3f79] sm:text-[2.6rem]">
+              {result.valid ? formatCurrency(result.totalMortgage) : "$0"}
+            </p>
+          </div>
+
+          <div className="rounded-[1.4rem] border border-[#c7dded] bg-gradient-to-r from-[#d8eaf7] to-[#c5ddf0] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]">
             <SummaryRow
               label="Cash needed (down payment + premium tax)"
-              value={formatCurrency(result.cashNeeded)}
+              value={result.valid ? formatCurrency(result.cashNeeded) : "$0"}
+              noBorder
             />
           </div>
-        )}
-
-        <p className="mt-5 text-xs text-slate-500">
-          Estimate only. CMHC/insurer eligibility rules, debt-service qualification, and
-          lender-specific policies can change and may affect final results.
-        </p>
+        </div>
       </div>
+
+      <p className="mt-10 text-center text-xs text-slate-500 sm:text-sm">
+        Estimate only. CMHC/insurer eligibility rules, debt-service
+        qualification, and lender-specific policies can change and may affect
+        final results.
+      </p>
     </div>
   );
 }
 
-function SummaryRow({ label, value, highlight = false }) {
+function Field({ label, value, onChange, elevated = false }) {
+  return (
+    <div>
+      <label className="mb-2 block text-sm font-semibold text-slate-900">
+        {label}
+      </label>
+      <input
+        type="number"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`h-14 w-full rounded-2xl border-2 bg-white px-4 text-xl text-slate-900 outline-none transition sm:text-2xl ${
+          elevated
+            ? "border-[#a8c8df] shadow-[0_0_18px_rgba(37,113,185,0.2)] focus:ring-4 focus:ring-[#d9eaf7]"
+            : "border-[#b5ccdc] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] focus:ring-4 focus:ring-[#d9eaf7]"
+        }`}
+      />
+    </div>
+  );
+}
+
+function SummaryRow({ label, value, noBorder = false }) {
   return (
     <div
-      className={`grid grid-cols-1 md:grid-cols-[220px_1fr] items-center px-2 py-2 border-b border-slate-200 last:border-b-0 ${
-        highlight ? "bg-[#e8f5fb]" : ""
-      }`}
+      className={`mb-1 flex items-start justify-between gap-3 pb-1.5 ${
+        noBorder ? "" : "border-b border-[#b7cfe2]"
+      } last:mb-0 last:border-b-0 last:pb-0`}
     >
-      <span className="text-sm text-slate-700">{label}</span>
-      <span className="text-lg font-semibold text-slate-900">{value}</span>
+      <span className="text-base text-slate-800 sm:text-xl">{label}</span>
+      <span className="text-right text-base font-semibold text-slate-900 sm:text-xl">
+        {value}
+      </span>
     </div>
   );
 }
@@ -251,14 +288,14 @@ function ProvinceDropdown({ value, options, onChange }) {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className="w-full h-12 border border-slate-300 px-3 text-left text-base text-slate-900 rounded-xl bg-white flex items-center justify-between"
+        className="flex h-14 w-full items-center justify-between rounded-2xl border-2 border-[#b5ccdc] bg-white px-4 text-left text-lg text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] outline-none transition focus:ring-4 focus:ring-[#d9eaf7]"
       >
         <span>{selected.name}</span>
-        <span className="text-slate-500">▼</span>
+        <span className="text-slate-500">v</span>
       </button>
 
       {open ? (
-        <div className="absolute top-full left-0 mt-1 z-20 w-full border border-slate-300 rounded-xl bg-white shadow-lg max-h-60 overflow-y-auto">
+        <div className="absolute top-full left-0 z-20 mt-1 max-h-60 w-full overflow-y-auto rounded-2xl border border-[#b5ccdc] bg-white shadow-lg">
           {options.map((item) => (
             <button
               type="button"
@@ -268,7 +305,7 @@ function ProvinceDropdown({ value, options, onChange }) {
                 onChange(item.code);
                 setOpen(false);
               }}
-              className="w-full text-left px-3 py-2 text-sm hover:bg-slate-100"
+              className="w-full px-4 py-3 text-left text-sm text-slate-800 hover:bg-slate-100"
             >
               {item.name}
             </button>

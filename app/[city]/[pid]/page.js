@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Bed, Bath, Square, Car, ChevronRight } from "lucide-react";
 import GoSeeThisHome from "@/components/GoSeeThisHome";
 import ScheduleViewing from "@/components/ScheduleViewing";
-import { fetchMedia, fetchProperty } from "@/lib/api";
+import FeaturedPropertiesSection from "@/components/FeaturedPropertiesSection";
+import { fetchMedia, fetchProperties, fetchProperty } from "@/lib/api";
 import { slugToCity } from "@/lib/slug";
 import PropertyMediaGallery from "@/components/PropertyMediaGallery";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -139,6 +140,24 @@ export default async function PropertyDetailPage({ params }) {
     description: data.PublicRemarks,
     images: media.map((item) => item.MediaURL).filter(Boolean),
   };
+
+  const listingType = data.TransactionType === "For Lease" ? "lease" : "sale";
+  const nearbyData = await fetchProperties({
+    cityToPass: data.City || slugToCity(city),
+    top: 14,
+    skip: 0,
+    listingType,
+    sort: "newest",
+  });
+  const nearbyCandidates = (nearbyData.items || [])
+    .filter((item) => item.ListingKey !== pid)
+    .slice(0, 7);
+  const nearbyProperties = await Promise.all(
+    nearbyCandidates.map(async (item) => {
+      const itemMedia = await fetchMedia(item.ListingKey, 1);
+      return { ...item, Media: itemMedia };
+    }),
+  );
   const flooringValue =
     Array.isArray(data.Flooring) && data.Flooring.length > 0
       ? data.Flooring.join(", ")
@@ -294,37 +313,38 @@ export default async function PropertyDetailPage({ params }) {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-3 mt-5">
-              <div className="bg-white pr-4 py-3 rounded-lg flex justify-start gap-3 items-center">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-rose-100">
-                  <Bed className="text-rose-600" size={20} />
+            <div className="mt-5 grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
+              <div className="flex min-h-[50px] items-center gap-1.5 rounded-lg bg-white px-2 py-2 sm:min-h-[56px] sm:gap-2.5 sm:px-4 sm:py-3">
+                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rose-100 sm:h-9 sm:w-9">
+                  <Bed className="text-rose-600" size={16} />
                 </span>
-                <span className="text-sm font-semibold text-slate-900">
+                <span className="whitespace-nowrap text-[10px] font-semibold leading-tight text-slate-900 sm:text-sm">
                   {bedroomDisplay} Bedrooms
                 </span>
               </div>
-              <div className="bg-white px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-100">
-                  <Bath className="text-sky-600" size={20} />
+              <div className="flex min-h-[50px] items-center gap-1.5 rounded-lg bg-white px-2 py-2 sm:min-h-[56px] sm:gap-2.5 sm:px-4 sm:py-3">
+                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sky-100 sm:h-9 sm:w-9">
+                  <Bath className="text-sky-600" size={16} />
                 </span>
-                <span className="text-sm font-semibold text-slate-900">
+                <span className="whitespace-nowrap text-[10px] font-semibold leading-tight text-slate-900 sm:text-sm">
                   {fallbackText(property.baths)} Bathrooms
                 </span>
               </div>
-              <div className="bg-white px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100">
-                  <Square className="text-emerald-600" size={20} />
+              <div className="flex min-h-[50px] items-center gap-1.5 rounded-lg bg-white px-2 py-2 sm:min-h-[56px] sm:gap-2.5 sm:px-4 sm:py-3">
+                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:h-9 sm:w-9">
+                  <Square className="text-emerald-600" size={16} />
                 </span>
-                <span className="text-sm font-semibold text-slate-900">
-                  {fallbackText(property.sqft)}{" "}
+                <span className="whitespace-nowrap text-[10px] font-semibold leading-tight text-slate-900 sm:text-sm">
+                  {fallbackText(property.sqft)}
+                  &nbsp;
                   {data.LivingAreaUnits || "sq. ft."}
                 </span>
               </div>
-              <div className="bg-white px-4 py-3 rounded-lg flex justify-start gap-3 items-center">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-amber-100">
-                  <Car className="text-amber-600" size={20} />
+              <div className="flex min-h-[50px] items-center gap-1.5 rounded-lg bg-white px-2 py-2 sm:min-h-[56px] sm:gap-2.5 sm:px-4 sm:py-3">
+                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-100 sm:h-9 sm:w-9">
+                  <Car className="text-amber-600" size={16} />
                 </span>
-                <span className="text-sm font-semibold text-slate-900">
+                <span className="whitespace-nowrap text-[10px] font-semibold leading-tight text-slate-900 sm:text-sm">
                   {fallbackText(property.parking)} Parking
                 </span>
               </div>
@@ -367,6 +387,21 @@ export default async function PropertyDetailPage({ params }) {
           </section>
 
           <ScheduleViewing property={property} />
+
+          {nearbyProperties.length > 0 ? (
+            <div className="mt-10">
+              <h2 className=" text-xl font-bold md:text-3xl">
+                Similar Properties Nearby
+              </h2>
+              <FeaturedPropertiesSection
+                cityName={data.City || slugToCity(city)}
+                citySlug={city}
+                properties={nearbyProperties}
+                totalCount={nearbyProperties.length}
+                hideHeader
+              />
+            </div>
+          ) : null}
         </div>
 
         <div className="py-5">

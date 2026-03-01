@@ -68,61 +68,74 @@ export default function LandTransferCalculator({ defaultPrice = 500000 }) {
   }, [priceInput, city, firstTime]);
 
   return (
-    <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-6">
-      <h2 className="text-xl font-semibold mb-6">
+    <div className="mx-auto mb-10 max-w-6xl p-4 sm:p-5 md:p-6">
+      <h2 className="mb-4 text-2xl font-semibold tracking-tight text-slate-900">
         Land Transfer Tax Calculator
       </h2>
 
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <div className="flex-1">
-          <label className="block text-sm mb-1">Purchase Price</label>
-          <input
-            type="number"
-            value={priceInput}
-            onChange={(e) => setPriceInput(e.target.value)}
-            className="w-full border p-3 rounded-xl"
-          />
+      <div className="grid gap-3 lg:grid-cols-[1.05fr_1fr]">
+        <div className="space-y-3">
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-slate-900">
+              Purchase Price
+            </label>
+            <input
+              type="number"
+              value={priceInput}
+              onChange={(e) => setPriceInput(e.target.value)}
+              className="h-14 w-full rounded-2xl border-2 border-[#b5ccdc] bg-white px-4 text-xl text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] outline-none transition focus:ring-4 focus:ring-[#d9eaf7] sm:text-2xl"
+            />
+          </div>
+
+          <div className="rounded-[1.3rem] border border-[#a8c8df] bg-gradient-to-br from-[#dcedf9] via-[#cae1f3] to-[#bed9ef] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+            <label className="mb-2 block text-sm font-semibold text-slate-900">
+              Location
+            </label>
+            <LocationSearch
+              cities={ONTARIO_CITIES}
+              value={city}
+              onSelect={setCity}
+            />
+          </div>
+
+          <label className="inline-flex w-fit items-center gap-2 rounded-full border border-[#9fbed6] bg-gradient-to-b from-[#b8d4ea] to-[#9fc2de] px-3 py-1 text-xs font-medium text-[#1f4f78] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+            <input
+              type="checkbox"
+              checked={firstTime}
+              onChange={(e) => setFirstTime(e.target.checked)}
+              className="h-4 w-4 rounded border-[#7ea6c6] text-[#1f5f94] focus:ring-[#9fc2de]"
+            />
+            I&apos;m a first-time home buyer
+          </label>
         </div>
 
-        <div className="flex-1">
-          <label className="block text-sm mb-1">Location</label>
-          <LocationSearch
-            cities={ONTARIO_CITIES}
-            value={city}
-            onSelect={setCity}
-          />
+        <div className="space-y-2.5">
+          <div className="rounded-[1.4rem] border border-[#c7dded] bg-gradient-to-br from-[#d8eaf7] to-[#c5ddf0] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]">
+            {!result.valid ? (
+              <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                {result.message}
+              </p>
+            ) : null}
+
+            <Row label="Provincial tax" value={result.provincialTax} />
+            <Row label="Municipal tax" value={result.municipalTax} />
+            <Row label="Provincial rebate" value={-result.provincialRebate} />
+            <Row label="Municipal rebate" value={-result.municipalRebate} />
+            <Row label="Total rebate" value={-result.totalRebate} />
+          </div>
+
+          <div className="rounded-[1.4rem] border-2 border-[#2f74a7] bg-gradient-to-r from-[#d8eaf7] to-[#c4dcf0] p-4 shadow-[0_8px_18px_rgba(47,116,167,0.16)]">
+            <p className="text-xl font-medium leading-none text-slate-900 sm:text-2xl">
+              Total Land Transfer Tax
+            </p>
+            <p className="mt-2 text-4xl font-extrabold tracking-tight text-[#0d3f79] sm:text-[2.6rem]">
+              {formatCurrency(result.totalTax)}
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="mb-6 flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={firstTime}
-          onChange={(e) => setFirstTime(e.target.checked)}
-        />
-        <span>I&apos;m a first-time home buyer</span>
-      </div>
-
-      <div className="bg-gray-50 rounded-xl p-5 space-y-3">
-        {!result.valid ? (
-          <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-            {result.message}
-          </p>
-        ) : null}
-
-        <Row label="Provincial tax" value={result.provincialTax} />
-        <Row label="Municipal tax" value={result.municipalTax} />
-        <Row label="Provincial rebate" value={-result.provincialRebate} />
-        <Row label="Municipal rebate" value={-result.municipalRebate} />
-        <Row label="Total rebate" value={-result.totalRebate} />
-
-        <div className="border-t pt-4 mt-4 flex justify-between font-bold text-lg">
-          <span>Total Land Transfer Tax</span>
-          <span>{formatCurrency(result.totalTax)}</span>
-        </div>
-      </div>
-
-      <p className="text-xs text-gray-400 mt-4">
+      <p className="mt-10 text-center text-xs text-slate-500 sm:text-sm">
         Estimate only. Ontario and Toronto eligibility requirements can affect
         rebates.
       </p>
@@ -164,11 +177,11 @@ function LocationSearch({ cities, value, onSelect }) {
           setOpen(true);
         }}
         onFocus={() => setOpen(true)}
-        className="w-full border p-3 rounded-xl"
+        className="h-14 w-full rounded-2xl border-2 border-[#b5ccdc] bg-white px-4 text-lg text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] outline-none transition focus:ring-4 focus:ring-[#d9eaf7]"
       />
 
       {open && filtered.length > 0 && (
-        <div className="absolute z-10 bg-white border rounded-xl mt-1 w-full max-h-60 overflow-y-auto shadow-lg">
+        <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-2xl border border-[#b5ccdc] bg-white shadow-lg">
           {filtered.map((city) => (
             <div
               key={city}
@@ -178,7 +191,7 @@ function LocationSearch({ cities, value, onSelect }) {
                 onSelect(city);
                 setOpen(false);
               }}
-              className="p-3 hover:bg-gray-100 cursor-pointer"
+              className="cursor-pointer px-4 py-3 text-sm text-slate-800 transition hover:bg-slate-100"
             >
               {city}
             </div>
@@ -191,9 +204,11 @@ function LocationSearch({ cities, value, onSelect }) {
 
 function Row({ label, value }) {
   return (
-    <div className="flex justify-between">
-      <span>{label}</span>
-      <span>{formatCurrency(value)}</span>
+    <div className="mb-1 flex items-start justify-between gap-3 border-b border-[#b7cfe2] pb-1.5 last:mb-0 last:border-b-0 last:pb-0">
+      <span className="text-base text-slate-800 sm:text-xl">{label}</span>
+      <span className="text-right text-base font-semibold text-slate-900 sm:text-xl">
+        {formatCurrency(value)}
+      </span>
     </div>
   );
 }

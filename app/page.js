@@ -61,14 +61,16 @@ export default async function Home() {
       <main>
         <Hero />
         {featuredSections.map((section, index) => (
-          <FeaturedPropertiesSection
-            key={section.citySlug}
-            sectionId={index === 0 ? "listings" : undefined}
-            cityName={section.cityName}
-            citySlug={section.citySlug}
-            properties={section.properties}
-            totalCount={section.totalCount}
-          />
+          <div key={section.citySlug} className="w-full px-2 md:px-6">
+            <FeaturedPropertiesSection
+              key={section.citySlug}
+              sectionId={index === 0 ? "listings" : undefined}
+              cityName={section.cityName}
+              citySlug={section.citySlug}
+              properties={section.properties}
+              totalCount={section.totalCount}
+            />
+          </div>
         ))}
 
         <InstagramFeed />

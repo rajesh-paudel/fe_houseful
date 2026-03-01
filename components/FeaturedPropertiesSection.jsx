@@ -11,6 +11,7 @@ const FeaturedPropertiesSection = ({
   citySlug,
   sectionId,
   totalCount,
+  hideHeader = false,
 }) => {
   const scrollRef = useRef(null);
 
@@ -60,36 +61,37 @@ const FeaturedPropertiesSection = ({
   return (
     <section
       id={sectionId}
-      className="pt-12 md:pt-16 bg-white w-full overflow-hidden"
+      className={`  bg-white w-full   ${hideHeader ? "pt-5" : "pt-12"}`}
     >
-      <div className="w-full mx-auto px-2 md:px-6">
-        {/* Title Row */}
-        <div className="mb-8 flex items-center justify-between gap-4  ">
-          <Link
-            scroll={true}
-            onClick={() =>
-              window.scrollTo({ top: 0, left: 0, behavior: "auto" })
-            }
-            href={`/${targetCitySlug}`}
-            className="text-2xl md:text-3xl font-serif text-slate-900 tracking-tight hover:underline"
-          >
-            {cityName} Listings{" "}
-            <span className="text-lg md:text-xl text-slate-900 font-medium ml-1">
-              ({formattedListingCount}+ homes for sale)
-            </span>
-          </Link>
-          <Link
-            href={`/${targetCitySlug}`}
-            scroll={true}
-            onClick={() =>
-              window.scrollTo({ top: 0, left: 0, behavior: "auto" })
-            }
-            className="inline-flex items-center gap-2 text-sm md:text-base font-semibold text-slate-700 hover:text-amber-700 transition-colors whitespace-nowrap"
-          >
-            See all
-            <ArrowRight size={16} />
-          </Link>
-        </div>
+      <div className="w-full mx-auto ">
+        {!hideHeader ? (
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <Link
+              scroll={true}
+              onClick={() =>
+                window.scrollTo({ top: 0, left: 0, behavior: "auto" })
+              }
+              href={`/${targetCitySlug}`}
+              className="text-2xl md:text-3xl font-serif text-slate-900 tracking-tight hover:underline"
+            >
+              {cityName} Listings{" "}
+              <span className="text-lg md:text-xl text-slate-900 font-medium ml-1">
+                ({formattedListingCount}+ homes for sale)
+              </span>
+            </Link>
+            <Link
+              href={`/${targetCitySlug}`}
+              scroll={true}
+              onClick={() =>
+                window.scrollTo({ top: 0, left: 0, behavior: "auto" })
+              }
+              className="inline-flex items-center gap-2 text-sm md:text-base font-semibold text-slate-700 hover:text-amber-700 transition-colors whitespace-nowrap"
+            >
+              See all
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        ) : null}
 
         <div className="relative">
           {/* Left Arrow */}

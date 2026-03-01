@@ -64,7 +64,7 @@ const ContactSection = ({ header }) => {
           <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-300">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 gap-4">
-                <div className="w-lg mx-auto">
+                <div className="max-w-lg w-full mx-auto">
                   <label className="block text-xs font-medium text-gray-900 mb-1.5">
                     Name
                   </label>
@@ -78,7 +78,7 @@ const ContactSection = ({ header }) => {
                     className="h-10 text-sm bg-gray-50"
                   />
                 </div>
-                <div className="w-lg mx-auto">
+                <div className="max-w-lg w-full mx-auto">
                   <label className="block text-xs font-medium text-gray-900 mb-1.5">
                     Email
                   </label>
@@ -93,7 +93,7 @@ const ContactSection = ({ header }) => {
                   />
                 </div>
               </div>
-              <div className="w-lg mx-auto">
+              <div className="max-w-lg w-full mx-auto">
                 <label className="block text-xs font-medium text-gray-900 mb-1.5">
                   Phone
                 </label>
@@ -107,7 +107,7 @@ const ContactSection = ({ header }) => {
                   className="h-10 text-sm bg-gray-50"
                 />
               </div>
-              <div className="w-lg mx-auto">
+              <div className="max-w-lg w-full mx-auto">
                 <label className="block text-xs  font-medium text-gray-900 mb-1.5">
                   Message
                 </label>

@@ -120,7 +120,7 @@ const Hero = () => {
     <section
       className="relative min-h-[68vh] sm:min-h-[74vh] md:min-h-[80vh] flex items-center justify-center px-4 sm:px-6 bg-black"
       style={{
-        backgroundImage: "url('/hero-poster.png')",
+        backgroundImage: "url('/heroPoster.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -135,10 +135,10 @@ const Hero = () => {
           muted
           playsInline
           preload="metadata"
-          poster="/hero-poster.png"
+          poster="/heroPoster.png"
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/heroVideo.mp4" type="video/mp4" />
+          <source src="/heroVideo2.mp4" type="video/mp4" />
         </video>
 
         {/* Overlay */}
